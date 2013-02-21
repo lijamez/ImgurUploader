@@ -1,39 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-
-  <Identity Name="758d7cdc-13ef-4a47-b29d-ce2ae88ce7e5"
-            Publisher="CN=lijam_000"
-            Version="1.0.0.0" />
-
+  <Identity Name="758d7cdc-13ef-4a47-b29d-ce2ae88ce7e5" Publisher="CN=lijam_000" Version="1.0.0.0" />
   <Properties>
     <DisplayName>ImgurUploader</DisplayName>
-    <PublisherDisplayName>lijam_000</PublisherDisplayName>
+    <PublisherDisplayName>James Li</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
-
   <Prerequisites>
     <OSMinVersion>6.2.1</OSMinVersion>
     <OSMaxVersionTested>6.2.1</OSMaxVersionTested>
   </Prerequisites>
-
   <Resources>
-    <Resource Language="x-generate"/>
+    <Resource Language="x-generate" />
   </Resources>
-
   <Applications>
-    <Application Id="App"
-        Executable="$targetnametoken$.exe"
-        EntryPoint="ImgurUploader.App">
-        <VisualElements
-            DisplayName="ImgurUploader"
-            Logo="Assets\Logo.png"
-            SmallLogo="Assets\SmallLogo.png"
-            Description="ImgurUploader"
-            ForegroundText="light"
-            BackgroundColor="#464646">
-            <DefaultTile ShowName="allLogos" />
-            <SplashScreen Image="Assets\SplashScreen.png" />
-        </VisualElements>
+    <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="ImgurUploader.App">
+      <VisualElements DisplayName="Imgur Uploader" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Upload images to imgur.com" ForegroundText="light" BackgroundColor="#464646">
+        <DefaultTile ShowName="noLogos" WideLogo="Assets\WideLogo.png" ShortName="imgur uploader" />
+        <SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#121211" />
+      </VisualElements>
+      <Extensions>
+        <Extension Category="windows.shareTarget">
+          <ShareTarget>
+            <SupportedFileTypes>
+              <FileType>.jpeg</FileType>
+              <FileType>.png</FileType>
+              <FileType>.gif</FileType>
+              <FileType>.apng</FileType>
+              <FileType>.tiff</FileType>
+              <FileType>.tif</FileType>
+              <FileType>.bmp</FileType>
+              <FileType>.pdf</FileType>
+              <FileType>.xcf</FileType>
+              <FileType>.jpg</FileType>
+            </SupportedFileTypes>
+            <DataFormat>Bitmap</DataFormat>
+          </ShareTarget>
+        </Extension>
+      </Extensions>
     </Application>
   </Applications>
   <Capabilities>
