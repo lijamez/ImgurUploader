@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -140,6 +141,13 @@ namespace ImgurUploader
         private void ImageUrl_GotFocus(object sender, RoutedEventArgs e)
         {
             ImageUrl.SelectAll();
+        }
+
+        private async void ShinyButton_Click(object sender, RoutedEventArgs e)
+        {
+            await _api.CreateAlbum(null, "title", "desc", null);
+            
+
         }
 
 

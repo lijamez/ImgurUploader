@@ -66,55 +66,113 @@ namespace ImgurUploader
 
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
+                    bool operationSuccess = false;
+                    string link = String.Empty;
 
-                    Basic<UploadData> uploadResult = null;
+                    UploadProgressRing.IsActive = true;
+                    UploadStatus.Visibility = Windows.UI.Xaml.Visibility.Visible;
+
 
                     if (_sharedBitmapStreamRef != null)
                     {
-
                         IRandomAccessStreamWithContentType stream = await _sharedBitmapStreamRef.OpenReadAsync();
                         Stream imageStream = stream.AsStreamForRead();
 
-                        UploadStatus.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                        UploadProgressRing.IsActive = true;
-                        uploadResult = await _api.Upload(imageStream, null, null, null, null);
-                        UploadProgressRing.IsActive = false;
+                        UploadStatus.Text = "Uploading image...";
+
+                        Basic<UploadData> uploadResult = await _api.Upload(imageStream, null, null, null, null);
+
+                        if (uploadResult != null && uploadResult.Success)
+                        {
+                            operationSuccess = true;
+                            link = uploadResult.Data.Link;
+                        }
+                        else
+                        {
+                            UploadStatus.Text = "Failed to upload image.";
+                        }
 
                     }
                     else if (_sharedStorageItems != null)
                     {
-                        IStorageItem item = _sharedStorageItems[0];
-                        if (item.IsOfType(StorageItemTypes.File))
+                        if (_sharedStorageItems.Count > 1)
                         {
-                            StorageFile file = (StorageFile)item;
 
-                            UploadStatus.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                            UploadProgressRing.IsActive = true;
-                            uploadResult = await _api.Upload(file, null, null, null);
-                            UploadProgressRing.IsActive = false;
+                            List<string> uploadedImageIDs = new List<string>();
 
+                            int currentImageCount = 0;
+                            foreach (IStorageItem item in _sharedStorageItems)
+                            {
+                                currentImageCount++;
+                                UploadStatus.Text = String.Format("Uploading image {0} of {1}...", currentImageCount, _sharedStorageItems.Count);
+
+                                if (item.IsOfType(StorageItemTypes.File))
+                                {
+                                    StorageFile file = (StorageFile)item;
+                                    Basic<UploadData> uploadResult = await _api.Upload(file, null, null, null);
+
+                                    if (uploadResult != null && uploadResult.Success)
+                                    {
+                                        uploadedImageIDs.Add(uploadResult.Data.ID);
+                                    }
+                                    else
+                                    {
+                                        //TODO: Log this error.
+                                    }
+                                }
+                            }
+
+                            UploadStatus.Text = "Creating album...";
+                            Basic<AlbumCreateData> albumCreationResult = await _api.CreateAlbum(uploadedImageIDs.ToArray(), null, null, null);
+                            if (albumCreationResult != null && albumCreationResult.Success)
+                            {
+                                operationSuccess = true;
+                                link = String.Format("http://imgur.com/a/{0}", albumCreationResult.Data.ID);
+                            }
+                            else
+                            {
+                                UploadStatus.Text = "Failed to create album.";
+                            }
                         }
+                        else if (_sharedStorageItems.Count == 1)
+                        {
+                            IStorageItem item = _sharedStorageItems[0];
+
+                            if (item.IsOfType(StorageItemTypes.File))
+                            {
+                                UploadStatus.Text = "Uploading image...";
+
+                                StorageFile file = (StorageFile)item;
+                                Basic<UploadData> uploadResult = await _api.Upload(file, null, null, null);
+
+                                if (uploadResult != null && uploadResult.Success)
+                                {
+                                    operationSuccess = true;
+                                    link = uploadResult.Data.Link;
+                                }
+                                else
+                                {
+                                    UploadStatus.Text = "Failed to upload image.";
+                                }
+                            }
+                        }
+
+                        
                     }
 
-                    if (uploadResult == null)
+                    UploadProgressRing.IsActive = false;
+
+                    if (operationSuccess)
                     {
-                        UploadStatus.Text = "Something terrible has happened.\nOh noes :(";
-                        UploadStatus.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                        UploadStatus.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                        ImgurURL.Text = link;
+                        ImgurURL.Visibility = Windows.UI.Xaml.Visibility.Visible;
                     }
                     else
                     {
-                        if (uploadResult.Success)
-                        {
-                            UploadStatus.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                            ImgurURL.Text = uploadResult.Data.Link;
-                            ImgurURL.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                        }
-                        else
-                        {
-                            UploadStatus.Text = "Upload failed.";
-                            UploadStatus.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                        }
+                        UploadStatus.Visibility = Windows.UI.Xaml.Visibility.Visible;
                     }
+
                 });
             });
 
