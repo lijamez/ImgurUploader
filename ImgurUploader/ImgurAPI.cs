@@ -23,6 +23,53 @@ namespace ImgurUploader
 
         }
 
+        private async void RefreshAccessToken()
+        {
+            try
+            {
+                ImgurHttpClient client = ImgurHttpClient.Instance;
+
+                using (MultipartFormDataContent fullContent = new MultipartFormDataContent())
+                {
+                    fullContent.Add(new StringContent(client.RefreshToken), "refresh_token");
+                    fullContent.Add(new StringContent(client.ClientID), "client_id");
+                    fullContent.Add(new StringContent(client.ClientSecret), "client_secret");
+                    fullContent.Add(new StringContent("refresh_token"), "grant_type");
+
+                    System.Diagnostics.Debug.WriteLine("Getting a new access token...");
+                    using (HttpResponseMessage response = await client.Client.PostAsync("https://api.imgur.com/oauth2/token", fullContent))
+                    {
+                        RefreshedAccessToken result = JSONHelper.Deserialize<RefreshedAccessToken>(await response.Content.ReadAsStringAsync());
+
+                        if (result != null)
+                        {
+                            client.LogIn(result.AccessToken, result.TokenType, DateTime.UtcNow.AddSeconds(result.ExpiresIn), result.RefreshToken, client.AccountUsername);
+                            System.Diagnostics.Debug.WriteLine("Successfully received new access token.");
+                        }
+                        else
+                        {
+                            System.Diagnostics.Debug.WriteLine("Failed to get new access token.");
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+        }
+
+        private HttpClient GetImgurHttpClient()
+        {
+            if (ImgurHttpClient.Instance.LoggedIn && !ImgurHttpClient.Instance.TokensValid())
+            {
+                RefreshAccessToken();
+            }
+
+            return ImgurHttpClient.Instance.Client;
+        }
+
         /// <summary>
         /// For some reason, imgur requires a cookie to create albums. If there is no cookie, then this will fail with a 405 error. (Imgur didn't document this!!!)
         /// Simply upload some images prior to calling this method.
@@ -36,7 +83,8 @@ namespace ImgurUploader
         {
             try
             {
-                HttpClient client = ImgurHttpClient.Instance;
+
+                HttpClient client = GetImgurHttpClient();
 
 
                 using (MultipartFormDataContent fullContent = new MultipartFormDataContent())
@@ -79,7 +127,7 @@ namespace ImgurUploader
         {
             try
             {
-                HttpClient client = ImgurHttpClient.Instance;
+                HttpClient client = GetImgurHttpClient();
 
                 using (HttpContent imageContent = new StreamContent(imageStream))
                 {

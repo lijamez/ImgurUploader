@@ -108,11 +108,19 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AccountFlyout.xaml.cs">
+      <DependentUpon>AccountFlyout.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AuthenticationPane.xaml.cs">
+      <DependentUpon>AuthenticationPane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HashQueryParser.cs" />
     <Compile Include="ImgurHttpClient.cs" />
     <Compile Include="JSONHelper.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\RefreshedAccessToken.cs" />
     <Compile Include="Model\Basic.cs" />
     <Compile Include="Model\AlbumCreateData.cs" />
     <Compile Include="Model\UploadData.cs" />
@@ -145,6 +153,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="AccountFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AuthenticationPane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Common\StandardStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
