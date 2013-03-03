@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -53,6 +54,7 @@ namespace ImgurUploader
                 {
                     System.Diagnostics.Debug.WriteLine(String.Format("Imgur has returned access_token '{0}' for user {1}", token, accountUserName));
                     ImgurHttpClient.Instance.LogIn(token, tokenType, DateTime.UtcNow.AddSeconds(Convert.ToDouble(expiryTime)), refreshToken, accountUserName);
+
 
                     ClosePopup();
                 }

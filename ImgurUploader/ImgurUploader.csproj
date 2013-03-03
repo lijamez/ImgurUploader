@@ -117,6 +117,7 @@
     <Compile Include="HashQueryParser.cs" />
     <Compile Include="ImgurHttpClient.cs" />
     <Compile Include="JSONHelper.cs" />
+    <Compile Include="LogInState.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

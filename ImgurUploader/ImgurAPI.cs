@@ -31,7 +31,7 @@ namespace ImgurUploader
 
                 using (MultipartFormDataContent fullContent = new MultipartFormDataContent())
                 {
-                    fullContent.Add(new StringContent(client.RefreshToken), "refresh_token");
+                    fullContent.Add(new StringContent(client.LogInState.RefreshToken), "refresh_token");
                     fullContent.Add(new StringContent(client.ClientID), "client_id");
                     fullContent.Add(new StringContent(client.ClientSecret), "client_secret");
                     fullContent.Add(new StringContent("refresh_token"), "grant_type");
@@ -43,7 +43,7 @@ namespace ImgurUploader
 
                         if (result != null)
                         {
-                            client.LogIn(result.AccessToken, result.TokenType, DateTime.UtcNow.AddSeconds(result.ExpiresIn), result.RefreshToken, client.AccountUsername);
+                            client.LogIn(result.AccessToken, result.TokenType, DateTime.UtcNow.AddSeconds(result.ExpiresIn), result.RefreshToken, client.LogInState.AccountUsername);
                             System.Diagnostics.Debug.WriteLine("Successfully received new access token.");
                         }
                         else
@@ -62,7 +62,7 @@ namespace ImgurUploader
 
         private HttpClient GetImgurHttpClient()
         {
-            if (ImgurHttpClient.Instance.LoggedIn && !ImgurHttpClient.Instance.TokensValid())
+            if (ImgurHttpClient.Instance.LogInState.LoggedIn && !ImgurHttpClient.Instance.TokensValid())
             {
                 RefreshAccessToken();
             }

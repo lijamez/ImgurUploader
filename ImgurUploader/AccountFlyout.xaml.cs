@@ -29,7 +29,7 @@ namespace ImgurUploader
         {
             this.InitializeComponent();
 
-            LoggedIn.DataContext = _imgurHttpClient;
+            LoggedIn.DataContext = _imgurHttpClient.LogInState;
             _imgurHttpClient.LogInStatusChanged += new ImgurHttpClient.LogInStatusChangedHandler(LogInStatusChanged);
             RefreshUI();
 
@@ -52,7 +52,7 @@ namespace ImgurUploader
 
         private void RefreshUI()
         {
-            if (_imgurHttpClient.LoggedIn)
+            if (_imgurHttpClient.LogInState.LoggedIn)
             {
                 LoggedIn.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 LoggedOut.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
@@ -62,6 +62,7 @@ namespace ImgurUploader
                 LoggedIn.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                 LoggedOut.Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
+
         }
 
         /// <summary>

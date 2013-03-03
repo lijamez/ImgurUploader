@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace ImgurUploader
 {
+
     class ImgurHttpClient
     {
         private static ImgurHttpClient _instance;
@@ -28,48 +32,25 @@ namespace ImgurUploader
 
         }
 
-        public bool LoggedIn
+        private LogInState _logInState;
+        public LogInState LogInState
         {
-            get;
-            private set;
-        }
+            get
+            {
+                if (_logInState == null)
+                {
+                    _logInState = new LogInState();
+                }
 
-        public string AccessToken
-        {
-            get;
-            private set;
-        }
-        public string TokenType
-        {
-            get;
-            private set;
-        }
-        public DateTime TokenAcquireTime
-        {
-            get;
-            private set;
-        }
-        public DateTime ExpireTime
-        {
-            get;
-            private set;
-        }
-        public string RefreshToken
-        {
-            get;
-            private set;
-        }
-        public string AccountUsername
-        {
-            get;
-            set;
+                return _logInState;
+            }
         }
 
 
         private bool _requiresNewAuthorization = true;
 
-        public string ClientID = "Client ID Goes HERE!";
-        public string ClientSecret = "Secret goes THERE!";
+        public string ClientID = "";
+        public string ClientSecret = "";
 
         private HttpClient _clientInstance;
         public HttpClient Client
@@ -83,9 +64,9 @@ namespace ImgurUploader
 
                 if (_requiresNewAuthorization)
                 {
-                    if (LoggedIn && TokensValid())
+                    if (LogInState.LoggedIn && TokensValid())
                     {
-                        _clientInstance.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", AccessToken);
+                        _clientInstance.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", LogInState.AccessToken);
                         System.Diagnostics.Debug.WriteLine("Got an authorized client.");
                     }
                     else
@@ -112,36 +93,37 @@ namespace ImgurUploader
 
         public void LogIn(string accessToken, string tokenType, DateTime expireTime, string refreshToken, string accountUsername)
         {
-            AccessToken = accessToken;
-            TokenType = tokenType; 
-            ExpireTime = expireTime;
-            RefreshToken = refreshToken;
-            AccountUsername = accountUsername;
+            LogInState.AccessToken = accessToken;
+            LogInState.TokenType = tokenType;
+            LogInState.ExpireTime = expireTime;
+            LogInState.RefreshToken = refreshToken;
+            LogInState.AccountUsername = accountUsername;
 
-            LoggedIn = true;
+            LogInState.LoggedIn = true;
             _requiresNewAuthorization = true;
-            System.Diagnostics.Debug.WriteLine(String.Format("Now logged in as {0}", AccountUsername));
+
+            System.Diagnostics.Debug.WriteLine(String.Format("Now logged in as {0}", LogInState.AccountUsername));
             OnLogInStatusChanged(EventArgs.Empty);
         }
 
         public void LogOut()
         {
-            AccessToken = null;
-            TokenType = null;
-            RefreshToken = null;
+            LogInState.AccessToken = null;
+            LogInState.TokenType = null;
+            LogInState.RefreshToken = null;
 
             _requiresNewAuthorization = true;
-            LoggedIn = false;
+            LogInState.LoggedIn = false;
 
-            System.Diagnostics.Debug.WriteLine(String.Format("Logged out of {0}.", AccountUsername));
+            System.Diagnostics.Debug.WriteLine(String.Format("Logged out of {0}.", LogInState.AccountUsername));
             OnLogInStatusChanged(EventArgs.Empty);
         }
 
         public bool TokensValid()
         {
-            if (String.IsNullOrEmpty(AccessToken) || String.IsNullOrEmpty(TokenType) || TokenAcquireTime == null) return false;
+            if (String.IsNullOrEmpty(LogInState.AccessToken) || String.IsNullOrEmpty(LogInState.TokenType) || LogInState.TokenAcquireTime == null) return false;
 
-            if (DateTime.UtcNow.CompareTo(ExpireTime) >= 0) //If the current time is after expiration time.
+            if (DateTime.UtcNow.CompareTo(LogInState.ExpireTime) >= 0) //If the current time is after expiration time.
             {
                 return false;
             }
@@ -149,5 +131,8 @@ namespace ImgurUploader
             return true;
             
         }
+
+
+
     }
 }
