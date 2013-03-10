@@ -116,7 +116,27 @@ namespace ImgurUploader.ImgurUploader_XamlTypeInfo
 
         private object Activate_2_MainPage() { return new global::ImgurUploader.MainPage(); }
 
-        private object Activate_3_SharePage() { return new global::ImgurUploader.SharePage(); }
+        private object Activate_3_MainPage2() { return new global::ImgurUploader.MainPage2(); }
+
+        private object Activate_4_ObservableCollection() { return new global::System.Collections.ObjectModel.ObservableCollection<global::ImgurUploader.QueuedImage>(); }
+
+        private object Activate_5_Collection() { return new global::System.Collections.ObjectModel.Collection<global::ImgurUploader.QueuedImage>(); }
+
+        private object Activate_9_SharePage() { return new global::ImgurUploader.SharePage(); }
+
+        private void VectorAdd_4_ObservableCollection(object instance, object item)
+        {
+            var collection = (global::System.Collections.Generic.ICollection<global::ImgurUploader.QueuedImage>)instance;
+            var newItem = (global::ImgurUploader.QueuedImage)item;
+            collection.Add(newItem);
+        }
+
+        private void VectorAdd_5_Collection(object instance, object item)
+        {
+            var collection = (global::System.Collections.Generic.ICollection<global::ImgurUploader.QueuedImage>)instance;
+            var newItem = (global::ImgurUploader.QueuedImage)item;
+            collection.Add(newItem);
+        }
 
 
         private global::Windows.UI.Xaml.Markup.IXamlType CreateXamlType(string typeName)
@@ -132,6 +152,18 @@ namespace ImgurUploader.ImgurUploader_XamlTypeInfo
 
             case "Windows.UI.Xaml.Controls.UserControl":
                 xamlType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlSystemBaseType(typeName, typeof(global::Windows.UI.Xaml.Controls.UserControl));
+                break;
+
+            case "Object":
+                xamlType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlSystemBaseType(typeName, typeof(global::System.Object));
+                break;
+
+            case "String":
+                xamlType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlSystemBaseType(typeName, typeof(global::System.String));
+                break;
+
+            case "Int32":
+                xamlType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlSystemBaseType(typeName, typeof(global::System.Int32));
                 break;
 
             case "ImgurUploader.AccountFlyout":
@@ -151,9 +183,72 @@ namespace ImgurUploader.ImgurUploader_XamlTypeInfo
                 xamlType = userType;
                 break;
 
+            case "ImgurUploader.MainPage2":
+                userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.MainPage2), GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_3_MainPage2;
+                userType.AddMemberName("QueuedImages");
+                AddToMapOfTypeToStandardName(typeof(global::System.Collections.ObjectModel.ObservableCollection<global::ImgurUploader.QueuedImage>),
+                                                   "System.Collections.ObjectModel.ObservableCollection<ImgurUploader.QueuedImage>");
+                xamlType = userType;
+                break;
+
+            case "System.Collections.ObjectModel.ObservableCollection<ImgurUploader.QueuedImage>":
+                userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::System.Collections.ObjectModel.ObservableCollection<global::ImgurUploader.QueuedImage>), GetXamlTypeByName("System.Collections.ObjectModel.Collection<ImgurUploader.QueuedImage>"));
+                AddToMapOfTypeToStandardName(typeof(global::System.Collections.ObjectModel.ObservableCollection<global::ImgurUploader.QueuedImage>),
+                                                   "System.Collections.ObjectModel.ObservableCollection<ImgurUploader.QueuedImage>");
+                userType.Activator = Activate_4_ObservableCollection;
+                userType.CollectionAdd = VectorAdd_4_ObservableCollection;
+                xamlType = userType;
+                break;
+
+            case "System.Collections.ObjectModel.Collection<ImgurUploader.QueuedImage>":
+                userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::System.Collections.ObjectModel.Collection<global::ImgurUploader.QueuedImage>), GetXamlTypeByName("Object"));
+                AddToMapOfTypeToStandardName(typeof(global::System.Collections.ObjectModel.Collection<global::ImgurUploader.QueuedImage>),
+                                                   "System.Collections.ObjectModel.Collection<ImgurUploader.QueuedImage>");
+                userType.Activator = Activate_5_Collection;
+                userType.CollectionAdd = VectorAdd_5_Collection;
+                xamlType = userType;
+                break;
+
+            case "ImgurUploader.QueuedImage":
+                userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.QueuedImage), GetXamlTypeByName("ImgurUploader.ObservableObject"));
+                userType.AddMemberName("File");
+                userType.AddMemberName("FileName");
+                AddToMapOfTypeToStandardName(typeof(global::System.String),
+                                                   "String");
+                userType.AddMemberName("Title");
+                AddToMapOfTypeToStandardName(typeof(global::System.String),
+                                                   "String");
+                userType.AddMemberName("Description");
+                AddToMapOfTypeToStandardName(typeof(global::System.String),
+                                                   "String");
+                xamlType = userType;
+                break;
+
+            case "ImgurUploader.ObservableObject":
+                userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.ObservableObject), GetXamlTypeByName("Object"));
+                xamlType = userType;
+                break;
+
+            case "Windows.Storage.StorageFile":
+                userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::Windows.Storage.StorageFile), GetXamlTypeByName("Object"));
+                xamlType = userType;
+                break;
+
             case "ImgurUploader.SharePage":
                 userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.SharePage), GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_3_SharePage;
+                userType.Activator = Activate_9_SharePage;
+                xamlType = userType;
+                break;
+
+            case "ImgurUploader.UploadingProgressPopup":
+                userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.UploadingProgressPopup), GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
+                userType.AddMemberName("TotalFiles");
+                AddToMapOfTypeToStandardName(typeof(global::System.Int32),
+                                                   "Int32");
+                userType.AddMemberName("CompletedFiles");
+                AddToMapOfTypeToStandardName(typeof(global::System.Int32),
+                                                   "Int32");
                 xamlType = userType;
                 break;
 
@@ -162,11 +257,117 @@ namespace ImgurUploader.ImgurUploader_XamlTypeInfo
         }
 
 
+        private object get_0_MainPage2_QueuedImages(object instance)
+        {
+            var that = (global::ImgurUploader.MainPage2)instance;
+            return that.QueuedImages;
+        }
+        private object get_1_QueuedImage_File(object instance)
+        {
+            var that = (global::ImgurUploader.QueuedImage)instance;
+            return that.File;
+        }
+        private void set_1_QueuedImage_File(object instance, object Value)
+        {
+            var that = (global::ImgurUploader.QueuedImage)instance;
+            that.File = (global::Windows.Storage.StorageFile)Value;
+        }
+        private object get_2_QueuedImage_FileName(object instance)
+        {
+            var that = (global::ImgurUploader.QueuedImage)instance;
+            return that.FileName;
+        }
+        private object get_3_QueuedImage_Title(object instance)
+        {
+            var that = (global::ImgurUploader.QueuedImage)instance;
+            return that.Title;
+        }
+        private void set_3_QueuedImage_Title(object instance, object Value)
+        {
+            var that = (global::ImgurUploader.QueuedImage)instance;
+            that.Title = (global::System.String)Value;
+        }
+        private object get_4_QueuedImage_Description(object instance)
+        {
+            var that = (global::ImgurUploader.QueuedImage)instance;
+            return that.Description;
+        }
+        private void set_4_QueuedImage_Description(object instance, object Value)
+        {
+            var that = (global::ImgurUploader.QueuedImage)instance;
+            that.Description = (global::System.String)Value;
+        }
+        private object get_5_UploadingProgressPopup_TotalFiles(object instance)
+        {
+            var that = (global::ImgurUploader.UploadingProgressPopup)instance;
+            return that.TotalFiles;
+        }
+        private void set_5_UploadingProgressPopup_TotalFiles(object instance, object Value)
+        {
+            var that = (global::ImgurUploader.UploadingProgressPopup)instance;
+            that.TotalFiles = (global::System.Int32)Value;
+        }
+        private object get_6_UploadingProgressPopup_CompletedFiles(object instance)
+        {
+            var that = (global::ImgurUploader.UploadingProgressPopup)instance;
+            return that.CompletedFiles;
+        }
+        private void set_6_UploadingProgressPopup_CompletedFiles(object instance, object Value)
+        {
+            var that = (global::ImgurUploader.UploadingProgressPopup)instance;
+            that.CompletedFiles = (global::System.Int32)Value;
+        }
 
         private global::Windows.UI.Xaml.Markup.IXamlMember CreateXamlMember(string longMemberName)
         {
             global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlMember xamlMember = null;
-            // No Local Properties
+            global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType userType;
+
+            switch (longMemberName)
+            {
+            case "ImgurUploader.MainPage2.QueuedImages":
+                userType = (global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ImgurUploader.MainPage2");
+                xamlMember = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlMember(this, "QueuedImages", "System.Collections.ObjectModel.ObservableCollection<ImgurUploader.QueuedImage>");
+                xamlMember.Getter = get_0_MainPage2_QueuedImages;
+                xamlMember.SetIsReadOnly();
+                break;
+            case "ImgurUploader.QueuedImage.File":
+                userType = (global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ImgurUploader.QueuedImage");
+                xamlMember = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlMember(this, "File", "Windows.Storage.StorageFile");
+                xamlMember.Getter = get_1_QueuedImage_File;
+                xamlMember.Setter = set_1_QueuedImage_File;
+                break;
+            case "ImgurUploader.QueuedImage.FileName":
+                userType = (global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ImgurUploader.QueuedImage");
+                xamlMember = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlMember(this, "FileName", "String");
+                xamlMember.Getter = get_2_QueuedImage_FileName;
+                xamlMember.SetIsReadOnly();
+                break;
+            case "ImgurUploader.QueuedImage.Title":
+                userType = (global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ImgurUploader.QueuedImage");
+                xamlMember = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlMember(this, "Title", "String");
+                xamlMember.Getter = get_3_QueuedImage_Title;
+                xamlMember.Setter = set_3_QueuedImage_Title;
+                break;
+            case "ImgurUploader.QueuedImage.Description":
+                userType = (global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ImgurUploader.QueuedImage");
+                xamlMember = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlMember(this, "Description", "String");
+                xamlMember.Getter = get_4_QueuedImage_Description;
+                xamlMember.Setter = set_4_QueuedImage_Description;
+                break;
+            case "ImgurUploader.UploadingProgressPopup.TotalFiles":
+                userType = (global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ImgurUploader.UploadingProgressPopup");
+                xamlMember = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlMember(this, "TotalFiles", "Int32");
+                xamlMember.Getter = get_5_UploadingProgressPopup_TotalFiles;
+                xamlMember.Setter = set_5_UploadingProgressPopup_TotalFiles;
+                break;
+            case "ImgurUploader.UploadingProgressPopup.CompletedFiles":
+                userType = (global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ImgurUploader.UploadingProgressPopup");
+                xamlMember = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlMember(this, "CompletedFiles", "Int32");
+                xamlMember.Getter = get_6_UploadingProgressPopup_CompletedFiles;
+                xamlMember.Setter = set_6_UploadingProgressPopup_CompletedFiles;
+                break;
+            }
             return xamlMember;
         }
 
