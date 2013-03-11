@@ -25,9 +25,10 @@ namespace ImgurUploader
 
         private async void RefreshAccessToken()
         {
+            ImgurHttpClient client = ImgurHttpClient.Instance;
+
             try
             {
-                ImgurHttpClient client = ImgurHttpClient.Instance;
 
                 using (MultipartFormDataContent fullContent = new MultipartFormDataContent())
                 {
@@ -56,6 +57,7 @@ namespace ImgurUploader
             }
             catch (Exception ex)
             {
+                client.LogOut();
                 System.Diagnostics.Debug.WriteLine(ex);
             }
         }

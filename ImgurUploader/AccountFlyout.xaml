@@ -118,13 +118,13 @@
             </Grid.ColumnDefinitions>
 
             <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="40, 32, 17, 13">
-                <Button Click="BackClicked" Margin="0,3,0,0"  Style="{StaticResource SettingsBackButtonStyle}"/>
+                <Button Click="BackClicked" Margin="0,4,0,1"  Style="{StaticResource SettingsBackButtonStyle}"/>
                 <TextBlock Margin="10,0,0,0" FontFamily="Segoe UI" FontWeight="SemiLight" FontSize="24.6667" Text="Account" Foreground="White"/>
             </StackPanel>
         </Grid>
 
         <StackPanel x:Name="FlyoutContent" Grid.Row="1" Margin="16,16,16,16">
-            <TextBlock FontWeight="Bold" Text="Account" TextWrapping="Wrap" Style="{StaticResource BasicTextStyle}" HorizontalAlignment="Left"/>
+            <TextBlock Text="Account" TextWrapping="Wrap" Style="{StaticResource ImageDetailsHeader}" HorizontalAlignment="Left"/>
             <StackPanel x:Name="LoggedOut">
                 <Button x:Name="LogInButton" Content="Log In" Click="LogInButton_Click"/>
             </StackPanel>

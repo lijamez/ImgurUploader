@@ -10,19 +10,24 @@
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="80"/>
+            <RowDefinition Height="4"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
         
         <Grid Grid.Row="0">
-            <TextBlock Text="Log In" Style="{StaticResource PageHeaderTextStyle}" VerticalAlignment="Bottom"/>
+            <TextBlock Text="Log In" Style="{StaticResource PageHeaderTextStyle}"/>
         </Grid>
         
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Background="{StaticResource GreenAccent}">
+
+        </Grid>
+        
+        <Grid Grid.Row="2" Background="{StaticResource BackgroundColor}">
             <WebView x:Name="AuthorizationWebView" Width="650"/>
         </Grid>
         
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="3">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="10,10,10,10">
                 <Button x:Name="Cancel" Content="Cancel" Click="Cancel_Click"/>
             </StackPanel>

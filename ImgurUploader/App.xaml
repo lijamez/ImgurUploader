@@ -13,8 +13,17 @@
                     Required by Visual Studio project and item templates
                  -->
                 <ResourceDictionary Source="Common/StandardStyles.xaml"/>
+                
+                <!--
+                    Styles specific to Imgur Uploader
+                -->
+                <ResourceDictionary Source="Styles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
+
+            
         </ResourceDictionary>
+
+        
     </Application.Resources>
 </Application>

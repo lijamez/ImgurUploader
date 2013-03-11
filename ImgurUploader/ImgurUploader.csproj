@@ -127,9 +127,6 @@
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MainPage2.xaml.cs">
-      <DependentUpon>MainPage2.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Model\RefreshedAccessToken.cs" />
     <Compile Include="Model\Basic.cs" />
     <Compile Include="Model\AlbumCreateData.cs" />
@@ -181,11 +178,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="MainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Styles.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
-    <Page Include="MainPage2.xaml">
+    <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

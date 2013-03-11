@@ -22,7 +22,7 @@ namespace ImgurUploader
     /// </summary>
     public sealed partial class AccountFlyout : Page
     {
-        private double _authPopupHeight = 700;
+        private double _authPopupHeight = 710;
         ImgurHttpClient _imgurHttpClient = ImgurHttpClient.Instance;
 
         public AccountFlyout()

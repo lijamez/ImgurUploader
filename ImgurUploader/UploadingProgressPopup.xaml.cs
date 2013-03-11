@@ -52,6 +52,7 @@ namespace ImgurUploader
         public UploadingProgressPopup(int totalFiles)
         {
             this.InitializeComponent();
+            TotalFiles = totalFiles;
         }
 
         /// <summary>

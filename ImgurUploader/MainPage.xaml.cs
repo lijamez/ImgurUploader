@@ -1,9 +1,9 @@
 ﻿using ImgurUploader.Model;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -17,7 +17,6 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -30,6 +29,9 @@ namespace ImgurUploader
     public sealed partial class MainPage : Page
     {
         private ImgurAPI _api = new ImgurAPI();
+
+
+
         private FileOpenPicker _filePicker;
         private FileOpenPicker FilePicker
         {
@@ -58,17 +60,29 @@ namespace ImgurUploader
                 return _filePicker;
             }
         }
-        private StorageFile SelectedFile
+
+        private ObservableCollection<QueuedImage> _queuedImages;
+        public ObservableCollection<QueuedImage> QueuedImages
         {
-            get;
-            set;
+            get
+            {
+                if (_queuedImages == null)
+                {
+                    _queuedImages = new ObservableCollection<QueuedImage>();
+                }
+
+                return _queuedImages;
+            }
         }
+
         private double _settingsWidth = 346;
         private Popup _settingsPopup;
+
 
         public MainPage()
         {
             this.InitializeComponent();
+            QueuedImagesListView.DataContext = QueuedImages;
         }
 
 
@@ -124,7 +138,7 @@ namespace ImgurUploader
             settingsPopup.IsLightDismissEnabled = true;
             settingsPopup.Width = _settingsWidth;
             settingsPopup.Height = Window.Current.Bounds.Height;
-            
+
             // Add the proper animation for the panel.
             settingsPopup.ChildTransitions = new TransitionCollection();
             settingsPopup.ChildTransitions.Add(new PaneThemeTransition()
@@ -133,7 +147,7 @@ namespace ImgurUploader
                        EdgeTransitionLocation.Right :
                        EdgeTransitionLocation.Left
             });
-            
+
             // Create a SettingsFlyout the same dimenssions as the Popup.
             AccountFlyout mypane = new AccountFlyout();
             mypane.Width = _settingsWidth;
@@ -163,78 +177,158 @@ namespace ImgurUploader
             eventArgs.Request.ApplicationCommands.Add(settingsCommand);
         }
 
-        async void Browse_Click(object sender, RoutedEventArgs e)
+        private async void AddImageButton_Click(object sender, RoutedEventArgs e)
         {
-            SelectedFile = await FilePicker.PickSingleFileAsync();
-            if (SelectedFile == null)
+            IReadOnlyList<StorageFile> selectedFiles = await FilePicker.PickMultipleFilesAsync();
+            foreach (StorageFile selectedFile in selectedFiles)
             {
-                FilePath.Text = "No file selected.";
-                UploadButton.IsEnabled = false;
+                if (selectedFile != null)
+                {
+                    QueuedImage queuedImage = new QueuedImage(selectedFile);
+                    QueuedImages.Add(queuedImage);
+                }
+            }
+        }
+
+        private void RemoveImageButton_Click(object sender, RoutedEventArgs e)
+        {
+            List<QueuedImage> removableQueuedImages = new List<QueuedImage>();
+            foreach (object item in QueuedImagesListView.SelectedItems)
+            {
+                removableQueuedImages.Add(item as QueuedImage);
+            }
+
+            foreach (QueuedImage item in removableQueuedImages)
+            {
+                QueuedImages.Remove(item);
+            }
+        }
+
+        private async void UploadImagesButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (QueuedImages.Count <= 0)
+            {
+                MessageDialog msg = new MessageDialog("You can't upload nothing, silly!");
+                await msg.ShowAsync();
             }
             else
             {
-                FilePath.Text = SelectedFile.Name;
-                BitmapImage bmpSource = new BitmapImage();
-                bmpSource.UriSource = new Uri(SelectedFile.Path);
-                UploadButton.IsEnabled = true;
-            }
-        }
+                Popup uploadPopup = new Popup();
+                //uploadPopup.Closed += OnPopupClosed;
+                //Window.Current.Activated += OnWindowActivated;
+                uploadPopup.IsLightDismissEnabled = false;
+                uploadPopup.Width = Window.Current.Bounds.Width;
+                uploadPopup.Height = 180;
 
-        async void Upload_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                UploadForm.IsEnabled = false;
-
-                UploadProgressBar.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                UploadStatus.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-
-                UploadResult.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                ImageUrl.Text = String.Empty;
-
-                Basic<UploadData> result = await _api.Upload(SelectedFile, TitleInput.Text, DescriptionInput.Text, null);
-
-                if (result.Success)
+                // Add the proper animation for the panel.
+                /*
+                settingsPopup.ChildTransitions = new TransitionCollection();
+                settingsPopup.ChildTransitions.Add(new PaneThemeTransition()
                 {
-                    UploadStatus.Text = "Upload succeeded.";
-                    ImageUrl.Text = result.Data.Link;
-                    UploadResult.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                }
-                else
+                    Edge = (SettingsPane.Edge == SettingsEdgeLocation.Right) ?
+                           EdgeTransitionLocation.Right :
+                           EdgeTransitionLocation.Left
+                });
+                */
+
+                // Create a SettingsFlyout the same dimenssions as the Popup.
+                UploadingProgressPopup mypane = new UploadingProgressPopup(QueuedImages.Count);
+                mypane.Width = Window.Current.Bounds.Width;
+                mypane.Height = 180;
+
+                // Place the SettingsFlyout inside our Popup window.
+                uploadPopup.Child = mypane;
+
+                // Let's define the location of our Popup.
+                uploadPopup.SetValue(Canvas.LeftProperty, 0);
+                uploadPopup.SetValue(Canvas.TopProperty, (Window.Current.Bounds.Height - 160) / 2);
+                uploadPopup.IsOpen = true;
+
+
+
+
+                string finalUrl = null;
+
+                System.Diagnostics.Debug.WriteLine(String.Format("Now uploading {0} items...", QueuedImages.Count));
+                try
                 {
-                    UploadStatus.Text = String.Format("Upload failed. Error code: {0}", result.Status);
-                    UploadStatus.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    List<string> uploadedImageIds = new List<string>();
+
+                    foreach (QueuedImage queuedImage in QueuedImages)
+                    {
+                        Basic<UploadData> result = await _api.Upload(queuedImage.File, queuedImage.Title, queuedImage.Description, null);
+                        if (result.Success)
+                        {
+                            uploadedImageIds.Add(result.Data.ID);
+                        }
+                        mypane.CompletedFiles++;
+                    }
+
+                    if (QueuedImages.Count > 1)
+                    {
+                        Basic<AlbumCreateData> result = await _api.CreateAlbum(uploadedImageIds.ToArray(), null, null, null);
+                        finalUrl = String.Format("http://imgur.com/a/{0}", result.Data.ID);
+                    }
+                    else if (QueuedImages.Count == 1 && uploadedImageIds.Count == 1)
+                    {
+                        finalUrl = String.Format("http://imgur.com/{0}", uploadedImageIds[0]);
+                    }
+                }
+                catch (Exception)
+                {
+
+                }
+                finally
+                {
+                    if (finalUrl != null)
+                    {
+                        System.Diagnostics.Debug.WriteLine(String.Format("Upload Successful. {0}", finalUrl));
+                    }
+                    else
+                    {
+                        System.Diagnostics.Debug.WriteLine("Upload failed.");
+                    }
+
+                    uploadPopup.IsOpen = false;
                 }
             }
-            catch (Exception ex)
-            {
-                UploadStatus.Text = "An unknown error has occurred.";
-                UploadStatus.Visibility = Windows.UI.Xaml.Visibility.Visible;
-
-                throw ex;
-            }
-            finally
-            {
-                UploadProgressBar.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                UploadForm.IsEnabled = true;
-                
-            }
-
-            
         }
 
-        private void ImageUrl_GotFocus(object sender, RoutedEventArgs e)
+        private void ItemTitleTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            ImageUrl.SelectAll();
+            QueuedImage queuedImage = ImageDetailsPanel.DataContext as QueuedImage;
+            if (queuedImage != null)
+            {
+                queuedImage.Title = ItemTitleTextBox.Text;
+            }
         }
 
-        private async void ShinyButton_Click(object sender, RoutedEventArgs e)
+        private void ItemDescriptionTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            MessageDialog msg = new MessageDialog("derp");
-            
-            await msg.ShowAsync();
+            QueuedImage queuedImage = ImageDetailsPanel.DataContext as QueuedImage;
+            if (queuedImage != null)
+            {
+                queuedImage.Description = ItemDescriptionTextBox.Text;
+            }
         }
 
+        private void QueuedImagesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            IList<object> selectedImages = QueuedImagesListView.SelectedItems;
+            if (selectedImages.Count > 1)
+            {
+                ImageDetailsPanel.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            }
+            else if (selectedImages.Count == 1)
+            {
+                ImageDetailsPanel.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            }
+            else
+            {
+                ImageDetailsPanel.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+            }
+
+        }
 
     }
 }
