@@ -77,8 +77,27 @@ namespace ImgurUploader
                     UploadProgressBar.IsIndeterminate = false;
                     UploadProgressBar.Value = (double)CompletedFiles / TotalFiles;
                 }
+
+                if (CompletedFiles < TotalFiles)
+                {
+                    UploadProgressTextBlock.Text = String.Format("Uploading file {0} of {1}", CompletedFiles + 1, TotalFiles);
+                }
+                else
+                {
+                    UploadProgressTextBlock.Text = "Upload Complete";
+                }
+            }
+            else
+            {
+                UploadProgressBar.IsIndeterminate = true;
+                UploadProgressTextBlock.Text = String.Empty;
             }
             
+        }
+
+        public Button UploadCancelButton
+        {
+            get { return CancelButton; }
         }
 
     }

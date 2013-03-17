@@ -11,7 +11,7 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="110" Height="110">
-                <Image Source="{Binding Image}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}"/>
+                <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}"/>
             </Border>
             <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,0,0,0">
                 <TextBlock Text="{Binding FileName}" Style="{StaticResource TitleTextStyle}" TextWrapping="NoWrap"/>
@@ -52,9 +52,9 @@
     <SolidColorBrush x:Key="ContentBackgroundLightColor" Color="#FF444442"/>
 
     <SolidColorBrush x:Key="ListViewItemSelectedBackgroundThemeBrush" Color="#FF84D700"/> 
-    <SolidColorBrush x:Key="ListViewItemPointerOverBackgroundThemeBrush" Color="#FF444442"></SolidColorBrush>
-    <SolidColorBrush x:Key="ListViewItemSelectedPointerOverBackgroundThemeBrush" Color="#FF84D700"></SolidColorBrush>
-    <SolidColorBrush x:Key="ListViewItemSelectedPointerOverBorderThemeBrush" Color="#FF89C624"></SolidColorBrush>
+    <SolidColorBrush x:Key="ListViewItemPointerOverBackgroundThemeBrush" Color="#FF444442"/>
+    <SolidColorBrush x:Key="ListViewItemSelectedPointerOverBackgroundThemeBrush" Color="#FF84D700"/>
+    <SolidColorBrush x:Key="ListViewItemSelectedPointerOverBorderThemeBrush" Color="#FF89C624"/>
 
-
+    <SolidColorBrush x:Key="ProgressBarIndeterminateForegroundThemeBrush" Color="#FF89C624"/>
 </ResourceDictionary>

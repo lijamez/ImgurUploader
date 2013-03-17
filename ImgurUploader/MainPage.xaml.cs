@@ -121,7 +121,8 @@ namespace ImgurUploader
 
             AddSettings();
             UpdateImagePropertyPane();
-
+            UpdateUploadListSwitcher();
+            FriendlyAddImageControl.UploadButton.Click += AddImageButton_Click;
 
         }
 
@@ -212,6 +213,8 @@ namespace ImgurUploader
             }
         }
 
+        private bool _uploadCancelRequested = false;
+        private const int POPUP_HEIGHT = 240;
         private async void UploadImagesButton_Click(object sender, RoutedEventArgs e)
         {
             if (QueuedImages.Count <= 0)
@@ -226,7 +229,7 @@ namespace ImgurUploader
                 //Window.Current.Activated += OnWindowActivated;
                 uploadPopup.IsLightDismissEnabled = false;
                 uploadPopup.Width = Window.Current.Bounds.Width;
-                uploadPopup.Height = 180;
+                uploadPopup.Height = POPUP_HEIGHT;
 
                 // Add the proper animation for the panel.
                 /*
@@ -241,15 +244,16 @@ namespace ImgurUploader
 
                 // Create a SettingsFlyout the same dimenssions as the Popup.
                 UploadingProgressPopup mypane = new UploadingProgressPopup(QueuedImages.Count);
+                mypane.UploadCancelButton.Click += UploadCancel;
                 mypane.Width = Window.Current.Bounds.Width;
-                mypane.Height = 180;
+                mypane.Height = POPUP_HEIGHT;
 
                 // Place the SettingsFlyout inside our Popup window.
                 uploadPopup.Child = mypane;
 
                 // Let's define the location of our Popup.
                 uploadPopup.SetValue(Canvas.LeftProperty, 0);
-                uploadPopup.SetValue(Canvas.TopProperty, (Window.Current.Bounds.Height - 160) / 2);
+                uploadPopup.SetValue(Canvas.TopProperty, (Window.Current.Bounds.Height - POPUP_HEIGHT ) / 2);
                 uploadPopup.IsOpen = true;
 
 
@@ -265,9 +269,11 @@ namespace ImgurUploader
 
                     foreach (QueuedImage queuedImage in QueuedImages)
                     {
+                        if (_uploadCancelRequested) { throw new OperationCanceledException("Cancelled"); }
+
                         Basic<UploadData> uploadData = await _api.Upload(queuedImage.File, queuedImage.Title, queuedImage.Description, null);
                         UploadImageResult result = new UploadImageResult(queuedImage, uploadData);
-                        uploadedImageResults.UploadedImageResults.Add(result); 
+                        uploadedImageResults.UploadedImageResults.Add(result);
 
                         mypane.CompletedFiles++;
                     }
@@ -287,6 +293,7 @@ namespace ImgurUploader
                                 uploadedImageIds.Add(r.Result.Data.ID);
                             }
 
+                            if (_uploadCancelRequested) { throw new OperationCanceledException("Cancelled"); }
                             Basic<AlbumCreateData> createAlbumResult = await _api.CreateAlbum(uploadedImageIds.ToArray(), null, null, null);
 
                             if (createAlbumResult.Success)
@@ -308,11 +315,18 @@ namespace ImgurUploader
                         await msg.ShowAsync();
                     }
                 }
+                catch (OperationCanceledException) { }
                 finally
                 {
+                    _uploadCancelRequested = false;
                     uploadPopup.IsOpen = false;
                 }
             }
+        }
+
+        private void UploadCancel(object sender, RoutedEventArgs e)
+        {
+            _uploadCancelRequested = true;
         }
 
         private void ItemTitleTextBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -336,6 +350,9 @@ namespace ImgurUploader
         private void QueuedImagesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             UpdateImagePropertyPane();
+            UpdateAppBarIcons();
+            UpdateUploadListSwitcher();
+            
         }
 
         private void UpdateImagePropertyPane()
@@ -348,6 +365,34 @@ namespace ImgurUploader
             else
             {
                 ImageDetailsPanel.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            }
+        }
+
+        private void UpdateAppBarIcons()
+        {
+            if (QueuedImagesListView.SelectedItems.Count <= 0)
+            {
+                //Hide the Remove button
+            }
+            else
+            {
+                //show the Remove button
+            }
+            
+            UploadBottomAppBar.IsOpen = QueuedImagesListView.SelectedItems.Count > 0;
+        }
+
+        private void UpdateUploadListSwitcher()
+        {
+            if (QueuedImagesListView.Items.Count <= 0)
+            {
+                QueuedImagesListView.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                FriendlyAddImageControl.Visibility = Windows.UI.Xaml.Visibility.Visible;
+            }
+            else
+            {
+                QueuedImagesListView.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                FriendlyAddImageControl.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
         }
     }

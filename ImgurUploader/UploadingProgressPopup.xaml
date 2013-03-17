@@ -9,17 +9,18 @@
 
     <Grid Background="White">
         <Grid.RowDefinitions>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="80"/>
             <RowDefinition Height="2"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
-        
+
         <Grid Grid.Row="0">
             <TextBlock Text="Now uploading..." FontFamily="Segoe UI Light" FontSize="36" Foreground="Black" Style="{StaticResource PageHeaderTextStyle}" />
         </Grid>
 
         <Grid Grid.Row="1" Background="{StaticResource GreenAccent}">
-            
+
         </Grid>
 
         <Grid Grid.Row="2">
@@ -31,12 +32,20 @@
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="1">
-                    <ProgressBar x:Name="UploadProgressBar" Foreground="{StaticResource GreenAccent}" Maximum="1"/>
+                    <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                        <ProgressBar x:Name="UploadProgressBar" Foreground="{StaticResource GreenAccent}" Maximum="1" Margin="0,0,0,16"/>
+                        <TextBlock x:Name="UploadProgressTextBlock" Style="{StaticResource ImageDetailsText}" Foreground="Black" HorizontalAlignment="Center"/>
+                    </StackPanel>
+
                 </Grid>
             </Grid>
-            
-            
-            
         </Grid>
+
+        <Grid Grid.Row="3">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="16,0,16,0">
+                <Button x:Name="CancelButton" Content="Cancel" Foreground="Black" BorderBrush="Black" Background="Transparent"/>
+            </StackPanel>
+        </Grid>
+
     </Grid>
 </Page>

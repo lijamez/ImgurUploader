@@ -7,6 +7,24 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.BottomAppBar>
+        <AppBar x:Name="UploadBottomAppBar" Padding="10,0,10,0" Background="{StaticResource GreenAccentLight}" IsSticky="True">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50*"/>
+                    <ColumnDefinition Width="50*"/>
+                </Grid.ColumnDefinitions>
+                
+                <Grid Grid.Column="1">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="AddImageButton" Click="AddImageButton_Click" Style="{StaticResource AddAppBarButtonStyle}"/>
+                        <Button x:Name="RemoveImageButton" Click="RemoveImageButton_Click" Style="{StaticResource RemoveAppBarButtonStyle}"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </AppBar>
+    </Page.BottomAppBar>
+    
     <Grid Background="{StaticResource BackgroundColor}">
         <Grid.RowDefinitions>
             <RowDefinition Height="88"/>
@@ -30,8 +48,6 @@
                 <Grid Grid.Column="1">
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="UploadImagesButton" Click="UploadImagesButton_Click" Style="{StaticResource UploadAppBarButtonStyle}"/>
-                        <Button x:Name="AddImageButton" Click="AddImageButton_Click" Style="{StaticResource AddAppBarButtonStyle}"/>
-                        <Button x:Name="RemoveImageButton" Click="RemoveImageButton_Click" Style="{StaticResource RemoveAppBarButtonStyle}"/>
                     </StackPanel>
                 </Grid>
                 
@@ -51,19 +67,16 @@
                 </Grid.ColumnDefinitions>
                 
                 <Grid Grid.Column="0" Background="{StaticResource ContentBackgroundColor}">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="997*"/>
-                        <ColumnDefinition Width="369*"/>
-                    </Grid.ColumnDefinitions>
+                    <local:EmptyUploadListControl x:Name="FriendlyAddImageControl"/>
                     <ListView
                         x:Name="QueuedImagesListView"
                         ItemsSource="{Binding}" 
                         ItemTemplate="{StaticResource QueuedItemsTemplate}" 
                         SelectionChanged="QueuedImagesListView_SelectionChanged" 
-                        SelectionMode="Extended" Grid.ColumnSpan="2">
+                        SelectionMode="Extended" 
+                        Grid.ColumnSpan="2">
 
                     </ListView>
-
                 </Grid>
                 
                 <Grid x:Name="ImageDetailsPanel" Grid.Column="1" Width="500" DataContext="{Binding ElementName=QueuedImagesListView, Path=SelectedItem}">

@@ -105,6 +105,9 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="EmptyUploadListControl.xaml.cs">
+      <DependentUpon>EmptyUploadListControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UploadResult\AlbumResultsControl.xaml.cs">
       <DependentUpon>AlbumResultsControl.xaml</DependentUpon>
     </Compile>
@@ -182,6 +185,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="AccountFlyout.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="EmptyUploadListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
