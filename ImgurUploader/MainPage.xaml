@@ -66,7 +66,7 @@
 
                 </Grid>
                 
-                <Grid x:Name="ImageDetailsPanel" Grid.Column="1" Width="500" Visibility="Collapsed" DataContext="{Binding ElementName=QueuedImagesListView, Path=SelectedItem}">
+                <Grid x:Name="ImageDetailsPanel" Grid.Column="1" Width="500" DataContext="{Binding ElementName=QueuedImagesListView, Path=SelectedItem}">
                     <StackPanel Orientation="Vertical" Margin="16,16,16,16">
                         <TextBlock Text="File Name" Style="{StaticResource ImageDetailsHeader}"/>
                         <TextBlock Text="{Binding FileName}" Style="{StaticResource ImageDetailsText}"/>

@@ -105,6 +105,9 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UploadResult\AlbumResultsControl.xaml.cs">
+      <DependentUpon>AlbumResultsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -121,6 +124,12 @@
     <Compile Include="Common\RichTextColumns.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
     <Compile Include="HashQueryParser.cs" />
+    <Compile Include="UploadResult\CopyableLinkControl.xaml.cs">
+      <DependentUpon>CopyableLinkControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UploadResult\ImageResultsControl.xaml.cs">
+      <DependentUpon>ImageResultsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ImgurHttpClient.cs" />
     <Compile Include="JSONHelper.cs" />
     <Compile Include="LogInState.cs" />
@@ -141,6 +150,12 @@
     <Compile Include="UploadingProgressPopup.xaml.cs">
       <DependentUpon>UploadingProgressPopup.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UploadResult\UploadResultPage.xaml.cs">
+      <DependentUpon>UploadResultPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UploadResult\UploadAlbumResult.cs" />
+    <Compile Include="UploadResult\UploadImageResult.cs" />
+    <Compile Include="UploadResult\UploadResultCollection.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -170,6 +185,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="UploadResult\AlbumResultsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="AuthenticationPane.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -177,6 +196,14 @@
     <Page Include="Common\StandardStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UploadResult\CopyableLinkControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UploadResult\ImageResultsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles.xaml">
       <SubType>Designer</SubType>
@@ -192,6 +219,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UploadingProgressPopup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UploadResult\UploadResultPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -68,7 +68,15 @@ namespace ImgurUploader
         {
             if (TotalFiles > 0)
             {
-                UploadProgressBar.Value = (double)CompletedFiles / TotalFiles;    
+                if (CompletedFiles == 0)
+                {
+                    UploadProgressBar.IsIndeterminate = true;
+                }
+                else
+                {
+                    UploadProgressBar.IsIndeterminate = false;
+                    UploadProgressBar.Value = (double)CompletedFiles / TotalFiles;
+                }
             }
             
         }

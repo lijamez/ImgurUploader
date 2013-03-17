@@ -1,4 +1,5 @@
 ﻿using ImgurUploader.Model;
+using ImgurUploader.UploadResult;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -119,6 +120,8 @@ namespace ImgurUploader
         {
 
             AddSettings();
+            UpdateImagePropertyPane();
+
 
         }
 
@@ -186,6 +189,11 @@ namespace ImgurUploader
                 {
                     QueuedImage queuedImage = new QueuedImage(selectedFile);
                     QueuedImages.Add(queuedImage);
+
+                    if (QueuedImagesListView.SelectedItems.Count <= 0 && QueuedImagesListView.Items.Count > 0)
+                    {
+                        QueuedImagesListView.SelectedIndex = 0;
+                    }
                 }
             }
         }
@@ -247,48 +255,61 @@ namespace ImgurUploader
 
 
 
-                string finalUrl = null;
 
                 System.Diagnostics.Debug.WriteLine(String.Format("Now uploading {0} items...", QueuedImages.Count));
+
+                UploadResultCollection uploadedImageResults = new UploadResultCollection();
+
                 try
                 {
-                    List<string> uploadedImageIds = new List<string>();
 
                     foreach (QueuedImage queuedImage in QueuedImages)
                     {
-                        Basic<UploadData> result = await _api.Upload(queuedImage.File, queuedImage.Title, queuedImage.Description, null);
-                        if (result.Success)
-                        {
-                            uploadedImageIds.Add(result.Data.ID);
-                        }
+                        Basic<UploadData> uploadData = await _api.Upload(queuedImage.File, queuedImage.Title, queuedImage.Description, null);
+                        UploadImageResult result = new UploadImageResult(queuedImage, uploadData);
+                        uploadedImageResults.UploadedImageResults.Add(result); 
+
                         mypane.CompletedFiles++;
                     }
 
-                    if (QueuedImages.Count > 1)
+                    if (QueuedImages.Count >= 1 && uploadedImageResults.SuccessfulUploads.Count > 0)
                     {
-                        Basic<AlbumCreateData> result = await _api.CreateAlbum(uploadedImageIds.ToArray(), null, null, null);
-                        finalUrl = String.Format("http://imgur.com/a/{0}", result.Data.ID);
-                    }
-                    else if (QueuedImages.Count == 1 && uploadedImageIds.Count == 1)
-                    {
-                        finalUrl = String.Format("http://imgur.com/{0}", uploadedImageIds[0]);
-                    }
-                }
-                catch (Exception)
-                {
+                        if (QueuedImages.Count == 1)
+                        {
+                            this.Frame.Navigate(typeof(UploadResultPage), uploadedImageResults.UploadedImageResults[0]);
+                        }
+                        else
+                        {
+                            //Make an album
+                            List<string> uploadedImageIds = new List<string>();
+                            foreach (UploadImageResult r in uploadedImageResults.SuccessfulUploads)
+                            {
+                                uploadedImageIds.Add(r.Result.Data.ID);
+                            }
 
-                }
-                finally
-                {
-                    if (finalUrl != null)
-                    {
-                        System.Diagnostics.Debug.WriteLine(String.Format("Upload Successful. {0}", finalUrl));
+                            Basic<AlbumCreateData> createAlbumResult = await _api.CreateAlbum(uploadedImageIds.ToArray(), null, null, null);
+
+                            if (createAlbumResult.Success)
+                            {
+                                UploadAlbumResult albumResult = new UploadAlbumResult(uploadedImageResults, createAlbumResult);
+
+                                this.Frame.Navigate(typeof(UploadResultPage), albumResult);
+                            }
+                            else
+                            {
+                                MessageDialog msg = new MessageDialog("Unable to create album. Please ensure that you are logged in.");
+                                await msg.ShowAsync();
+                            }
+                        }
                     }
                     else
                     {
-                        System.Diagnostics.Debug.WriteLine("Upload failed.");
+                        MessageDialog msg = new MessageDialog("Unable to upload anything. Sorry!");
+                        await msg.ShowAsync();
                     }
-
+                }
+                finally
+                {
                     uploadPopup.IsOpen = false;
                 }
             }
@@ -314,21 +335,20 @@ namespace ImgurUploader
 
         private void QueuedImagesListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            UpdateImagePropertyPane();
+        }
+
+        private void UpdateImagePropertyPane()
+        {
             IList<object> selectedImages = QueuedImagesListView.SelectedItems;
-            if (selectedImages.Count > 1)
+            if (selectedImages.Count < 1)
             {
                 ImageDetailsPanel.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-            }
-            else if (selectedImages.Count == 1)
-            {
-                ImageDetailsPanel.Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
             else
             {
-                ImageDetailsPanel.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                ImageDetailsPanel.Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
-
         }
-
     }
 }
