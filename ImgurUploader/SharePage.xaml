@@ -3,15 +3,16 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ImgurUploader"
+    xmlns:localur="using:ImgurUploader.UploadResult"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <TextBlock x:Name="UploadStatus" Text="Uploading..." Style="{StaticResource SubheaderTextStyle}" Margin="0,0,0,12"/>
-            <ProgressRing x:Name="UploadProgressRing"/>
-            <TextBox x:Name="ImgurURL" Width="300" HorizontalAlignment="Left" IsReadOnly="True" Visibility="Collapsed" GotFocus="ImgurURL_GotFocus"/>
+        <StackPanel VerticalAlignment="Center" Margin="48,0">
+            <TextBlock x:Name="UploadStatus" Text="Uploading..." Style="{StaticResource SubheaderTextStyle}" Margin="0,0,0,16" HorizontalAlignment="Center"/>
+            <ProgressRing x:Name="UploadProgressRing" Foreground="{StaticResource GreenAccent}" Width="40" Height="40"/>
+            <localur:CopyableLinkControl x:Name="ImgurURL" Title="Link" IsViewableInBrowser="True" Visibility="Collapsed"/>
         </StackPanel>
     </Grid>
 </Page>

@@ -117,8 +117,8 @@
     <Compile Include="AccountFlyout.xaml.cs">
       <DependentUpon>AccountFlyout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AuthenticationPane.xaml.cs">
-      <DependentUpon>AuthenticationPane.xaml</DependentUpon>
+    <Compile Include="AuthenticationPage.xaml.cs">
+      <DependentUpon>AuthenticationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Common\BindableBase.cs" />
     <Compile Include="Common\BooleanNegationConverter.cs" />
@@ -127,6 +127,9 @@
     <Compile Include="Common\RichTextColumns.cs" />
     <Compile Include="Common\SuspensionManager.cs" />
     <Compile Include="HashQueryParser.cs" />
+    <Compile Include="PrivacyPolicy.xaml.cs">
+      <DependentUpon>PrivacyPolicy.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UploadResult\CopyableLinkControl.xaml.cs">
       <DependentUpon>CopyableLinkControl.xaml</DependentUpon>
     </Compile>
@@ -177,7 +180,7 @@
     <Content Include="Assets\StoreLogo.scale-180.png" />
     <Content Include="Assets\WideLogo.scale-140.png" />
     <Content Include="Common\ReadMe.txt" />
-    <Content Include="ImgurClientID.txt" />
+    <Content Include="APIKeys.txt" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -196,11 +199,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="AuthenticationPane.xaml">
+    <Page Include="AuthenticationPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Common\StandardStyles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PrivacyPolicy.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

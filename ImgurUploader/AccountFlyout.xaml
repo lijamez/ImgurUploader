@@ -106,32 +106,46 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="80"/>
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
 
-        <Grid Background="#464646" Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="40, 32, 17, 13">
-                <Button Click="BackClicked" Margin="0,4,0,1"  Style="{StaticResource SettingsBackButtonStyle}"/>
-                <TextBlock Margin="10,0,0,0" FontFamily="Segoe UI" FontWeight="SemiLight" FontSize="24.6667" Text="Account" Foreground="White"/>
-            </StackPanel>
+        <Grid Grid.Column="0" Background="{StaticResource GreenAccent}">
         </Grid>
 
-        <StackPanel x:Name="FlyoutContent" Grid.Row="1" Margin="16,16,16,16">
-            <TextBlock Text="Account" TextWrapping="Wrap" Style="{StaticResource ImageDetailsHeader}" HorizontalAlignment="Left"/>
-            <StackPanel x:Name="LoggedOut">
-                <Button x:Name="LogInButton" Content="Log In" Click="LogInButton_Click"/>
-            </StackPanel>
-            <StackPanel x:Name="LoggedIn">
-                <TextBlock x:Name="LoggedInUser" Text="{Binding Path=AccountUsername}"  Style="{StaticResource BodyTextStyle}"/>
-                <Button x:Name="LogOutButton" Content="Log Out" Click="LogOutButton_Click"/>
-            </StackPanel>
-        </StackPanel>
+        <Grid Grid.Column="1">
+            <Grid Background="{StaticResource ContentBackgroundColor}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="80"/>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <Grid Background="{StaticResource GreenAccent}" Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="40, 32, 17, 13">
+                        <Button Click="BackClicked" Margin="0,4,0,1"  Style="{StaticResource SettingsBackButtonStyle}"/>
+                        <TextBlock Margin="10,0,0,0" FontFamily="Segoe UI" FontWeight="SemiLight" FontSize="24.6667" Text="Account" Foreground="White"/>
+                    </StackPanel>
+                </Grid>
+
+                <StackPanel x:Name="FlyoutContent" Grid.Row="1" Margin="16,16,16,16">
+                    <TextBlock Text="Account" TextWrapping="Wrap" Style="{StaticResource ImageDetailsHeader}" HorizontalAlignment="Left"/>
+                    <StackPanel x:Name="LoggedOut">
+                        <Button x:Name="LogInButton" Content="Log In" Click="LogInButton_Click"/>
+                    </StackPanel>
+                    <StackPanel x:Name="LoggedIn">
+                        <TextBlock x:Name="LoggedInUser" Text="{Binding Path=AccountUsername}"  Style="{StaticResource BodyTextStyle}" Margin="0,0,0,8"/>
+                        <Button x:Name="LogOutButton" Content="Log Out" Click="LogOutButton_Click"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
     </Grid>
+    
+    
 </Page>

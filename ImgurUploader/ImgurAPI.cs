@@ -19,11 +19,10 @@ namespace ImgurUploader
     {
         public ImgurAPI()
         {
-            
 
         }
 
-        private async void RefreshAccessToken()
+        private async Task RefreshAccessToken()
         {
             ImgurHttpClient client = ImgurHttpClient.Instance;
 
@@ -62,15 +61,22 @@ namespace ImgurUploader
             }
         }
 
-        private HttpClient GetImgurHttpClient()
+        private async Task<HttpClient> GetImgurHttpClient()
         {
             if (ImgurHttpClient.Instance.LogInState.LoggedIn && !ImgurHttpClient.Instance.TokensValid())
             {
-                RefreshAccessToken();
+                await RefreshAccessToken();
+            }
+
+            if (String.IsNullOrEmpty(ImgurHttpClient.Instance.ClientID))
+            {
+                await ImgurHttpClient.Instance.ReadAPIKeys();
             }
 
             return ImgurHttpClient.Instance.Client;
         }
+
+
 
         /// <summary>
         /// For some reason, imgur requires a cookie to create albums. If there is no cookie, then this will fail with a 405 error. (Imgur didn't document this!!!)
@@ -85,9 +91,7 @@ namespace ImgurUploader
         {
             try
             {
-
-                HttpClient client = GetImgurHttpClient();
-
+                HttpClient client = await GetImgurHttpClient();
 
                 using (MultipartFormDataContent fullContent = new MultipartFormDataContent())
                 {
@@ -129,7 +133,7 @@ namespace ImgurUploader
         {
             try
             {
-                HttpClient client = GetImgurHttpClient();
+                HttpClient client = await GetImgurHttpClient();
 
                 using (HttpContent imageContent = new StreamContent(imageStream))
                 {

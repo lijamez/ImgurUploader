@@ -29,9 +29,9 @@ namespace ImgurUploader
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private static bool _settingsAdded = false;
+
         private ImgurAPI _api = new ImgurAPI();
-
-
 
         private FileOpenPicker _filePicker;
         private FileOpenPicker FilePicker
@@ -77,13 +77,14 @@ namespace ImgurUploader
         }
 
         private double _settingsWidth = 346;
-        private Popup _settingsPopup;
+        private Popup _accountPopup;
 
 
         public MainPage()
         {
             this.InitializeComponent();
             QueuedImagesListView.DataContext = QueuedImages;
+            AddSettings();
         }
 
 
@@ -107,7 +108,7 @@ namespace ImgurUploader
         {
             if (e.WindowActivationState == Windows.UI.Core.CoreWindowActivationState.Deactivated)
             {
-                _settingsPopup.IsOpen = false;
+                _accountPopup.IsOpen = false;
             }
         }
 
@@ -118,34 +119,23 @@ namespace ImgurUploader
         /// property is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-
-            AddSettings();
             UpdateImagePropertyPane();
             UpdateUploadListSwitcher();
             FriendlyAddImageControl.UploadButton.Click += AddImageButton_Click;
-
         }
 
-        /// <summary>
-        /// This the event handler for the "Defaults" button added to the settings charm. This method
-        /// is responsible for creating the Popup window will use as the container for our settings Flyout.
-        /// The reason we use a Popup is that it gives us the "light dismiss" behavior that when a user clicks away 
-        /// from our custom UI it just dismisses.  This is a principle in the Settings experience and you see the
-        /// same behavior in other experiences like AppBar. 
-        /// </summary>
-        /// <param name="command"></param>
-        void onSettingsCommand(IUICommand command)
+        void onAccountCommand(IUICommand command)
         {
-            Popup settingsPopup = new Popup();
-            settingsPopup.Closed += OnPopupClosed;
+            Popup popup = new Popup();
+            popup.Closed += OnPopupClosed;
             Window.Current.Activated += OnWindowActivated;
-            settingsPopup.IsLightDismissEnabled = true;
-            settingsPopup.Width = _settingsWidth;
-            settingsPopup.Height = Window.Current.Bounds.Height;
+            popup.IsLightDismissEnabled = true;
+            popup.Width = _settingsWidth;
+            popup.Height = Window.Current.Bounds.Height;
 
             // Add the proper animation for the panel.
-            settingsPopup.ChildTransitions = new TransitionCollection();
-            settingsPopup.ChildTransitions.Add(new PaneThemeTransition()
+            popup.ChildTransitions = new TransitionCollection();
+            popup.ChildTransitions.Add(new PaneThemeTransition()
             {
                 Edge = (SettingsPane.Edge == SettingsEdgeLocation.Right) ?
                        EdgeTransitionLocation.Right :
@@ -153,32 +143,47 @@ namespace ImgurUploader
             });
 
             // Create a SettingsFlyout the same dimenssions as the Popup.
-            AccountFlyout mypane = new AccountFlyout();
-            mypane.Width = _settingsWidth;
-            mypane.Height = Window.Current.Bounds.Height;
+            AccountFlyout accountFlyout = new AccountFlyout(this.Frame);
+            accountFlyout.Width = _settingsWidth;
+            accountFlyout.Height = Window.Current.Bounds.Height;
+            accountFlyout.DataContext = this;
 
             // Place the SettingsFlyout inside our Popup window.
-            settingsPopup.Child = mypane;
+            popup.Child = accountFlyout;
 
             // Let's define the location of our Popup.
-            settingsPopup.SetValue(Canvas.LeftProperty, SettingsPane.Edge == SettingsEdgeLocation.Right ? (Window.Current.Bounds.Width - _settingsWidth) : 0);
-            settingsPopup.SetValue(Canvas.TopProperty, 0);
-            settingsPopup.IsOpen = true;
+            popup.SetValue(Canvas.LeftProperty, SettingsPane.Edge == SettingsEdgeLocation.Right ? (Window.Current.Bounds.Width - _settingsWidth) : 0);
+            popup.SetValue(Canvas.TopProperty, 0);
+            popup.IsOpen = true;
 
-            _settingsPopup = settingsPopup;
+            _accountPopup = popup;
+        }
+
+        void onPrivacyPolicyCommand(IUICommand command)
+        {
+            this.Frame.Navigate(typeof(PrivacyPolicy));
         }
 
         void AddSettings()
         {
-            SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
+            if (!_settingsAdded)
+            {
+                SettingsPane.GetForCurrentView().CommandsRequested += OnCommandsRequested;
+                _settingsAdded = true;
+            }
         }
 
         void OnCommandsRequested(SettingsPane settingsPane, SettingsPaneCommandsRequestedEventArgs eventArgs)
         {
-            UICommandInvokedHandler handler = new UICommandInvokedHandler(onSettingsCommand);
+            UICommandInvokedHandler handler;
 
+            handler = new UICommandInvokedHandler(onAccountCommand);
             SettingsCommand settingsCommand = new SettingsCommand("AccountId", "Account", handler);
             eventArgs.Request.ApplicationCommands.Add(settingsCommand);
+
+            handler = new UICommandInvokedHandler(onPrivacyPolicyCommand);
+            SettingsCommand privacyPolicyCommand = new SettingsCommand("PrivacyPolicy", "Privacy Policy", handler);
+            eventArgs.Request.ApplicationCommands.Add(privacyPolicyCommand);
         }
 
         private async void AddImageButton_Click(object sender, RoutedEventArgs e)
@@ -213,8 +218,19 @@ namespace ImgurUploader
             }
         }
 
+        private void SelectAllButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (QueuedImagesListView.SelectedItems.Count >= QueuedImagesListView.Items.Count)
+            {
+                QueuedImagesListView.SelectedItems.Clear();
+            }
+            else
+            {
+                QueuedImagesListView.SelectAll();
+            }
+        }
+
         private bool _uploadCancelRequested = false;
-        private const int POPUP_HEIGHT = 240;
         private async void UploadImagesButton_Click(object sender, RoutedEventArgs e)
         {
             if (QueuedImages.Count <= 0)
@@ -224,12 +240,14 @@ namespace ImgurUploader
             }
             else
             {
+                Rect windowBounds = Window.Current.Bounds;
+
                 Popup uploadPopup = new Popup();
                 //uploadPopup.Closed += OnPopupClosed;
                 //Window.Current.Activated += OnWindowActivated;
                 uploadPopup.IsLightDismissEnabled = false;
-                uploadPopup.Width = Window.Current.Bounds.Width;
-                uploadPopup.Height = POPUP_HEIGHT;
+                uploadPopup.Width = windowBounds.Width;
+                uploadPopup.Height = windowBounds.Height;
 
                 // Add the proper animation for the panel.
                 /*
@@ -245,19 +263,16 @@ namespace ImgurUploader
                 // Create a SettingsFlyout the same dimenssions as the Popup.
                 UploadingProgressPopup mypane = new UploadingProgressPopup(QueuedImages.Count);
                 mypane.UploadCancelButton.Click += UploadCancel;
-                mypane.Width = Window.Current.Bounds.Width;
-                mypane.Height = POPUP_HEIGHT;
+                mypane.Width = windowBounds.Width;
+                mypane.Height = windowBounds.Height;
 
                 // Place the SettingsFlyout inside our Popup window.
                 uploadPopup.Child = mypane;
 
                 // Let's define the location of our Popup.
                 uploadPopup.SetValue(Canvas.LeftProperty, 0);
-                uploadPopup.SetValue(Canvas.TopProperty, (Window.Current.Bounds.Height - POPUP_HEIGHT ) / 2);
+                uploadPopup.SetValue(Canvas.TopProperty, 0);
                 uploadPopup.IsOpen = true;
-
-
-
 
 
                 System.Diagnostics.Debug.WriteLine(String.Format("Now uploading {0} items...", QueuedImages.Count));
@@ -370,16 +385,10 @@ namespace ImgurUploader
 
         private void UpdateAppBarIcons()
         {
-            if (QueuedImagesListView.SelectedItems.Count <= 0)
-            {
-                //Hide the Remove button
-            }
-            else
-            {
-                //show the Remove button
-            }
-            
-            UploadBottomAppBar.IsOpen = QueuedImagesListView.SelectedItems.Count > 0;
+            bool moreThanOneImageSelected = QueuedImagesListView.SelectedItems.Count > 0;
+
+            RemoveImageButton.IsEnabled = moreThanOneImageSelected;
+            UploadBottomAppBar.IsOpen = moreThanOneImageSelected;
         }
 
         private void UpdateUploadListSwitcher()

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
@@ -49,8 +50,17 @@ namespace ImgurUploader
 
         private bool _requiresNewAuthorization = true;
 
-        public string ClientID = "";
-        public string ClientSecret = "";
+        private string _clientID;
+        public string ClientID
+        {
+            get { return _clientID; }
+        }
+
+        private string _clientSecret;
+        public string ClientSecret
+        {
+            get { return _clientSecret; }
+        }
 
         private HttpClient _clientInstance;
         public HttpClient Client
@@ -77,6 +87,26 @@ namespace ImgurUploader
                 }
 
                 return _clientInstance;
+            }
+        }
+
+        
+        public async Task ReadAPIKeys()
+        {
+            try
+            {
+                var file = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync(@"ApiKeys.txt");
+                var stream = await file.OpenReadAsync();
+                var rdr = new StreamReader(stream.AsStream());
+                await Task.Run(() =>
+                {
+                    _clientID = rdr.ReadLine();
+                    _clientSecret = rdr.ReadLine();
+                });
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
             }
         }
 

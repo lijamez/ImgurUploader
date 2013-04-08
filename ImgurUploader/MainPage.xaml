@@ -17,6 +17,7 @@
                 
                 <Grid Grid.Column="1">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="SelectAllButton" Click="SelectAllButton_Click" Style="{StaticResource SelectAllAppBarButtonStyle}"/>
                         <Button x:Name="AddImageButton" Click="AddImageButton_Click" Style="{StaticResource AddAppBarButtonStyle}"/>
                         <Button x:Name="RemoveImageButton" Click="RemoveImageButton_Click" Style="{StaticResource RemoveAppBarButtonStyle}"/>
                     </StackPanel>
@@ -86,7 +87,7 @@
                         <TextBlock Text="Title" Style="{StaticResource ImageDetailsHeader}"/>
                         <TextBox x:Name="ItemTitleTextBox" Text="{Binding Title}" TextChanged="ItemTitleTextBox_TextChanged" MaxLength="128"/>
                         <TextBlock Text="Description" Style="{StaticResource ImageDetailsHeader}"/>
-                        <TextBox x:Name="ItemDescriptionTextBox" Text="{Binding Description}" TextChanged="ItemDescriptionTextBox_TextChanged" Height="100" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="65536"/>
+                        <TextBox x:Name="ItemDescriptionTextBox" Text="{Binding Description}" TextChanged="ItemDescriptionTextBox_TextChanged" Height="300" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="65536"/>
                     </StackPanel>
                 </Grid>
             </Grid>

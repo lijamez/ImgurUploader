@@ -22,20 +22,46 @@ namespace ImgurUploader.UploadResult
     {
         public string Title
         {
-            get;
-            set;
+            get
+            {
+                return TitleTextBlock.Text;
+            }
+            set
+            {
+                TitleTextBlock.Text = value;
+            }
         }
 
         public string Value
         {
-            get;
-            set;
+            get
+            {
+                return ContentTextBox.Text;
+            }
+            set
+            {
+                ContentTextBox.Text = value;
+            }
         }
+
 
         public bool IsViewableInBrowser
         {
-            get;
-            set;
+            get
+            {
+                return ViewInBrowserButton.Visibility == Windows.UI.Xaml.Visibility.Visible;
+            }
+            set
+            {
+                if (value)
+                {
+                    ViewInBrowserButton.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                }
+                else
+                {
+                    ViewInBrowserButton.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                }
+            }
         }
 
         public Visibility ViewInBrowserButtonVisibility
@@ -48,11 +74,16 @@ namespace ImgurUploader.UploadResult
 
         public CopyableLinkControl(string title, string copyableValue, bool isViewableInBrowser)
         {
+            this.InitializeComponent();
+            this.DataContext = this;
+
             Title = title;
             Value = copyableValue;
             IsViewableInBrowser = isViewableInBrowser;
-            this.DataContext = this;
+        }
 
+        public CopyableLinkControl()
+        {
             this.InitializeComponent();
         }
 

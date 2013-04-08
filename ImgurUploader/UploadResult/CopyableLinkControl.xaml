@@ -21,7 +21,7 @@
             </Grid.ColumnDefinitions>
             
             <Grid Grid.Column="0">
-                <Button x:Name="CopyButton" Content="Copy" Click="CopyButton_Click"/>
+                <Button x:Name="CopyButton" Content="&#xE16F;" ToolTipService.ToolTip="Copy" Click="CopyButton_Click" FontFamily="Segoe UI Symbol"/>
             </Grid>
             
             <Grid Grid.Column="1">
@@ -29,7 +29,7 @@
             </Grid>
 
             <Grid x:Name="ViewInBrowserGrid" Grid.Column="2">
-                <Button x:Name="ViewInBrowserButton" Content="View in Browser" Visibility="{Binding ViewInBrowserButtonVisibility}" Click="ViewInBrowserButton_Click"/>
+                <Button x:Name="ViewInBrowserButton" Content="&#xE128;" ToolTipService.ToolTip="Open in Browser" Visibility="{Binding ViewInBrowserButtonVisibility}" Click="ViewInBrowserButton_Click" FontFamily="Segoe UI Symbol"/>
             </Grid>
         </Grid>
     </StackPanel>

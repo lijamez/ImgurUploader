@@ -164,8 +164,9 @@ namespace ImgurUploader
 
                     if (operationSuccess)
                     {
-                        UploadStatus.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                        ImgurURL.Text = link;
+                        UploadStatus.Text = "Upload Complete";
+                        UploadProgressRing.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                        ImgurURL.Value = link;
                         ImgurURL.Visibility = Windows.UI.Xaml.Visibility.Visible;
                     }
                     else
@@ -177,12 +178,5 @@ namespace ImgurUploader
             });
 
         }
-
-        private void ImgurURL_GotFocus(object sender, RoutedEventArgs e)
-        {
-            ImgurURL.SelectAll();
-        }
-
-
     }
 }

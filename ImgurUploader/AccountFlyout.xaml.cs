@@ -5,6 +5,7 @@ using System.Linq;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.ApplicationSettings;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -22,17 +23,21 @@ namespace ImgurUploader
     /// </summary>
     public sealed partial class AccountFlyout : Page
     {
-        private double _authPopupHeight = 710;
+        //private double _authPopupHeight = 710;
         ImgurHttpClient _imgurHttpClient = ImgurHttpClient.Instance;
+        Frame _parentFrame;
 
-        public AccountFlyout()
+        public AccountFlyout(Frame parentFrame)
         {
             this.InitializeComponent();
 
+            _parentFrame = parentFrame;
             LoggedIn.DataContext = _imgurHttpClient.LogInState;
             _imgurHttpClient.LogInStatusChanged += new ImgurHttpClient.LogInStatusChangedHandler(LogInStatusChanged);
             RefreshUI();
 
+
+            InputPane input = InputPane.GetForCurrentView();
         }
 
         /// <summary>
@@ -88,30 +93,21 @@ namespace ImgurUploader
 
         private void LogInButton_Click(object sender, RoutedEventArgs e)
         {
-            Popup authenticationPopup = new Popup();
+            (Window.Current.Content as Frame).Navigate(typeof(AuthenticationPage));
+            Popup parent = this.Parent as Popup;
+            if (parent != null)
+            {
+                parent.IsOpen = false;
+            }
             
-            AuthenticationPane pane = new AuthenticationPane(CreateAuthenticationUrl(ImgurHttpClient.Instance.ClientID));
-            pane.Width = Window.Current.Bounds.Width;
-            pane.Height = _authPopupHeight;
-
-            authenticationPopup.Child = pane;
-            authenticationPopup.Width = Window.Current.Bounds.Width;
-            authenticationPopup.Height = _authPopupHeight;
-
-            authenticationPopup.SetValue(Canvas.LeftProperty, 0);
-            authenticationPopup.SetValue(Canvas.TopProperty, (Window.Current.Bounds.Height - _authPopupHeight) / 2);
-
-            authenticationPopup.IsOpen = true;
         }
 
-        private string CreateAuthenticationUrl(string clientId)
-        {
-            return String.Format("https://api.imgur.com/oauth2/authorize?client_id={0}&response_type=token", clientId);
-        }
+
 
         private void LogOutButton_Click(object sender, RoutedEventArgs e)
         {
             ImgurHttpClient.Instance.LogOut();
         }
+
     }
 }

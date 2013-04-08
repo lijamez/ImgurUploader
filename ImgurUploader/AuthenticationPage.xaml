@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="ImgurUploader.AuthenticationPane"
+    x:Class="ImgurUploader.AuthenticationPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ImgurUploader"
@@ -24,7 +24,7 @@
         </Grid>
         
         <Grid Grid.Row="2" Background="{StaticResource BackgroundColor}">
-            <WebView x:Name="AuthorizationWebView" Width="650"/>
+            <WebView x:Name="AuthorizationWebView"/>
         </Grid>
         
         <Grid Grid.Row="3">
