@@ -11,7 +11,7 @@
     
     <StackPanel Orientation="Vertical">
         
-        <TextBlock x:Name="TitleTextBlock" Text="{Binding Title}" Style="{StaticResource ImageDetailsHeader}"/>
+        <TextBlock x:Name="TitleTextBlock" Text="{Binding Title}" Style="{StaticResource ImageDetailsHeader}" TextWrapping="Wrap"/>
         
         <Grid>
             <Grid.ColumnDefinitions>

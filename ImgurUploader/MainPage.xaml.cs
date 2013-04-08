@@ -1,4 +1,5 @@
-﻿using ImgurUploader.Model;
+﻿using ImgurUploader.Common;
+using ImgurUploader.Model;
 using ImgurUploader.UploadResult;
 using System;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace ImgurUploader
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class MainPage : LayoutAwarePage
     {
         private static bool _settingsAdded = false;
 
@@ -120,6 +121,8 @@ namespace ImgurUploader
         /// property is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            base.OnNavigatedTo(e);
+
             UpdateImagePropertyPane();
             UpdateUploadListSwitcher();
             FriendlyAddImageControl.SelectButton.Click += AddImageButton_Click;
@@ -200,6 +203,7 @@ namespace ImgurUploader
             if (canOpenFilePicker)
             {
                 IReadOnlyList<StorageFile> selectedFiles = await FilePicker.PickMultipleFilesAsync();
+
                 foreach (StorageFile selectedFile in selectedFiles)
                 {
                     if (selectedFile != null)
@@ -382,6 +386,7 @@ namespace ImgurUploader
             
         }
 
+        //TODO: Also need to call this when the user rotates the device
         private void UpdateImagePropertyPane()
         {
             IList<object> selectedImages = QueuedImagesListView.SelectedItems;
@@ -391,6 +396,8 @@ namespace ImgurUploader
             }
             else
             {
+                ImageDetailsPanel.Width = Window.Current.Bounds.Width / 2;
+                System.Diagnostics.Debug.WriteLine(ImageDetailsPanel.Width);
                 ImageDetailsPanel.Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
         }
