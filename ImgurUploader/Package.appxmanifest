@@ -15,9 +15,15 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="ImgurUploader.App">
-      <VisualElements DisplayName="Imgur Uploader" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Upload images to imgur.com" ForegroundText="light" BackgroundColor="#464646">
-        <DefaultTile ShowName="noLogos" WideLogo="Assets\WideLogo.png" ShortName="imgur uploader" />
+      <VisualElements DisplayName="Imgur Uploader" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="Imgur Uploader is a tool for Windows 8/RT that lets users easily upload images to the image sharing website, Imgur. Easily share images from any app that supports the Share charm to Imgur." ForegroundText="light" BackgroundColor="#464646" ToastCapable="false">
+        <DefaultTile ShowName="noLogos" WideLogo="Assets\WideLogo.png" ShortName="Imgur Uploader" />
         <SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#121211" />
+        <InitialRotationPreference>
+          <Rotation Preference="portrait" />
+          <Rotation Preference="landscape" />
+          <Rotation Preference="portraitFlipped" />
+          <Rotation Preference="landscapeFlipped" />
+        </InitialRotationPreference>
       </VisualElements>
       <Extensions>
         <Extension Category="windows.shareTarget">

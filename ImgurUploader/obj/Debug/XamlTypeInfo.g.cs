@@ -196,7 +196,7 @@ namespace ImgurUploader.ImgurUploader_XamlTypeInfo
             case "ImgurUploader.EmptyUploadListControl":
                 userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.EmptyUploadListControl), GetXamlTypeByName("Windows.UI.Xaml.Controls.UserControl"));
                 userType.Activator = Activate_1_EmptyUploadListControl;
-                userType.AddMemberName("UploadButton");
+                userType.AddMemberName("SelectButton");
                 xamlType = userType;
                 break;
 
@@ -332,10 +332,10 @@ namespace ImgurUploader.ImgurUploader_XamlTypeInfo
         }
 
 
-        private object get_0_EmptyUploadListControl_UploadButton(object instance)
+        private object get_0_EmptyUploadListControl_SelectButton(object instance)
         {
             var that = (global::ImgurUploader.EmptyUploadListControl)instance;
-            return that.UploadButton;
+            return that.SelectButton;
         }
         private object get_1_AlbumResultsControl_Results(object instance)
         {
@@ -465,10 +465,10 @@ namespace ImgurUploader.ImgurUploader_XamlTypeInfo
 
             switch (longMemberName)
             {
-            case "ImgurUploader.EmptyUploadListControl.UploadButton":
+            case "ImgurUploader.EmptyUploadListControl.SelectButton":
                 userType = (global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ImgurUploader.EmptyUploadListControl");
-                xamlMember = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlMember(this, "UploadButton", "Windows.UI.Xaml.Controls.Button");
-                xamlMember.Getter = get_0_EmptyUploadListControl_UploadButton;
+                xamlMember = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlMember(this, "SelectButton", "Windows.UI.Xaml.Controls.Button");
+                xamlMember.Getter = get_0_EmptyUploadListControl_SelectButton;
                 xamlMember.SetIsReadOnly();
                 break;
             case "ImgurUploader.AlbumResultsControl.Results":

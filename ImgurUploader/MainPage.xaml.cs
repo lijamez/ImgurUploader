@@ -11,6 +11,7 @@ using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.ApplicationSettings;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -121,10 +122,10 @@ namespace ImgurUploader
         {
             UpdateImagePropertyPane();
             UpdateUploadListSwitcher();
-            FriendlyAddImageControl.UploadButton.Click += AddImageButton_Click;
+            FriendlyAddImageControl.SelectButton.Click += AddImageButton_Click;
         }
 
-        void onAccountCommand(IUICommand command)
+        void OnAccountCommand(IUICommand command)
         {
             Popup popup = new Popup();
             popup.Closed += OnPopupClosed;
@@ -159,7 +160,7 @@ namespace ImgurUploader
             _accountPopup = popup;
         }
 
-        void onPrivacyPolicyCommand(IUICommand command)
+        void OnPrivacyPolicyCommand(IUICommand command)
         {
             this.Frame.Navigate(typeof(PrivacyPolicy));
         }
@@ -177,28 +178,39 @@ namespace ImgurUploader
         {
             UICommandInvokedHandler handler;
 
-            handler = new UICommandInvokedHandler(onAccountCommand);
+            handler = new UICommandInvokedHandler(OnAccountCommand);
             SettingsCommand settingsCommand = new SettingsCommand("AccountId", "Account", handler);
             eventArgs.Request.ApplicationCommands.Add(settingsCommand);
 
-            handler = new UICommandInvokedHandler(onPrivacyPolicyCommand);
+            handler = new UICommandInvokedHandler(OnPrivacyPolicyCommand);
             SettingsCommand privacyPolicyCommand = new SettingsCommand("PrivacyPolicy", "Privacy Policy", handler);
             eventArgs.Request.ApplicationCommands.Add(privacyPolicyCommand);
         }
 
         private async void AddImageButton_Click(object sender, RoutedEventArgs e)
         {
-            IReadOnlyList<StorageFile> selectedFiles = await FilePicker.PickMultipleFilesAsync();
-            foreach (StorageFile selectedFile in selectedFiles)
+            // We can't open a FilePicker when the app is snapped. 
+            // Try to unsnap the app
+            bool canOpenFilePicker = true;
+            if (Windows.UI.ViewManagement.ApplicationView.Value == ApplicationViewState.Snapped)
             {
-                if (selectedFile != null)
-                {
-                    QueuedImage queuedImage = new QueuedImage(selectedFile);
-                    QueuedImages.Add(queuedImage);
+                canOpenFilePicker = Windows.UI.ViewManagement.ApplicationView.TryUnsnap();
+            }
 
-                    if (QueuedImagesListView.SelectedItems.Count <= 0 && QueuedImagesListView.Items.Count > 0)
+            if (canOpenFilePicker)
+            {
+                IReadOnlyList<StorageFile> selectedFiles = await FilePicker.PickMultipleFilesAsync();
+                foreach (StorageFile selectedFile in selectedFiles)
+                {
+                    if (selectedFile != null)
                     {
-                        QueuedImagesListView.SelectedIndex = 0;
+                        QueuedImage queuedImage = new QueuedImage(selectedFile);
+                        QueuedImages.Add(queuedImage);
+
+                        if (QueuedImagesListView.SelectedItems.Count <= 0 && QueuedImagesListView.Items.Count > 0)
+                        {
+                            QueuedImagesListView.SelectedIndex = 0;
+                        }
                     }
                 }
             }

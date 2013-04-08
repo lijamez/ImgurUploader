@@ -24,9 +24,9 @@ namespace ImgurUploader
             
         }
 
-        public Button UploadButton
+        public Button SelectButton
         {
-            get { return UploadFilesButton; }
+            get { return SelectFilesButton; }
         }
     }
 }
