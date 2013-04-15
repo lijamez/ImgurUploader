@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.ShareTarget;
@@ -35,11 +36,21 @@ namespace ImgurUploader
         private IRandomAccessStreamReference _sharedBitmapStreamRef;
         private IReadOnlyList<IStorageItem> _sharedStorageItems;
         ImgurAPI _api = new ImgurAPI();
+        CancellationTokenSource _cancellationTokenSource;
 
         public SharePage()
         {
             this.InitializeComponent();
         }
+
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+
+            System.Diagnostics.Debug.WriteLine("OnNavigatingFrom");
+        }
+
+        
 
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
@@ -64,6 +75,8 @@ namespace ImgurUploader
                     _sharedStorageItems = await _shareOperation.Data.GetStorageItemsAsync();
                 }
 
+                _cancellationTokenSource = new CancellationTokenSource();
+
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
                     bool operationSuccess = false;
@@ -72,7 +85,6 @@ namespace ImgurUploader
                     UploadProgressRing.IsActive = true;
                     UploadStatus.Visibility = Windows.UI.Xaml.Visibility.Visible;
 
-
                     if (_sharedBitmapStreamRef != null)
                     {
                         IRandomAccessStreamWithContentType stream = await _sharedBitmapStreamRef.OpenReadAsync();
@@ -80,7 +92,7 @@ namespace ImgurUploader
 
                         UploadStatus.Text = "Uploading image...";
 
-                        Basic<UploadData> uploadResult = await _api.Upload(imageStream, null, null, null, null);
+                        Basic<UploadData> uploadResult = await _api.Upload(imageStream, null, null, null, null, _cancellationTokenSource.Token);
 
                         if (uploadResult != null && uploadResult.Success)
                         {
@@ -97,7 +109,6 @@ namespace ImgurUploader
                     {
                         if (_sharedStorageItems.Count > 1)
                         {
-
                             List<string> uploadedImageIDs = new List<string>();
 
                             int currentImageCount = 0;
@@ -109,7 +120,7 @@ namespace ImgurUploader
                                 if (item.IsOfType(StorageItemTypes.File))
                                 {
                                     StorageFile file = (StorageFile)item;
-                                    Basic<UploadData> uploadResult = await _api.Upload(file, null, null, null);
+                                    Basic<UploadData> uploadResult = await _api.Upload(file, null, null, null, _cancellationTokenSource.Token);
 
                                     if (uploadResult != null && uploadResult.Success)
                                     {
@@ -123,7 +134,7 @@ namespace ImgurUploader
                             }
 
                             UploadStatus.Text = "Creating album...";
-                            Basic<AlbumCreateData> albumCreationResult = await _api.CreateAlbum(uploadedImageIDs.ToArray(), null, null, null);
+                            Basic<AlbumCreateData> albumCreationResult = await _api.CreateAlbum(uploadedImageIDs.ToArray(), null, null, null, _cancellationTokenSource.Token);
                             if (albumCreationResult != null && albumCreationResult.Success)
                             {
                                 operationSuccess = true;
@@ -143,7 +154,7 @@ namespace ImgurUploader
                                 UploadStatus.Text = "Uploading image...";
 
                                 StorageFile file = (StorageFile)item;
-                                Basic<UploadData> uploadResult = await _api.Upload(file, null, null, null);
+                                Basic<UploadData> uploadResult = await _api.Upload(file, null, null, null, _cancellationTokenSource.Token);
 
                                 if (uploadResult != null && uploadResult.Success)
                                 {
@@ -161,9 +172,6 @@ namespace ImgurUploader
                     }
 
                     UploadProgressRing.IsActive = false;
-
-
-                    
 
                     if (operationSuccess)
                     {

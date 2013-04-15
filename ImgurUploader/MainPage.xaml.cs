@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -195,7 +197,7 @@ namespace ImgurUploader
 
             handler = new UICommandInvokedHandler(delegate(IUICommand c)
             {
-                _accountPopup = CreateFlyoutPopup(typeof(AboutFlyout));
+                _aboutPopup = CreateFlyoutPopup(typeof(AboutFlyout));
             });
             SettingsCommand aboutCommand = new SettingsCommand("About", "About", handler);
             eventArgs.Request.ApplicationCommands.Add(aboutCommand);
@@ -257,7 +259,7 @@ namespace ImgurUploader
             }
         }
 
-        private bool _uploadCancelRequested = false;
+        private CancellationTokenSource _uploadCancellationTokenSource;
         private async void UploadImagesButton_Click(object sender, RoutedEventArgs e)
         {
             if (QueuedImages.Count <= 0)
@@ -308,12 +310,13 @@ namespace ImgurUploader
 
                 try
                 {
+                    _uploadCancellationTokenSource = new CancellationTokenSource();
 
                     foreach (QueuedImage queuedImage in QueuedImages)
                     {
-                        if (_uploadCancelRequested) { throw new OperationCanceledException("Cancelled"); }
+                        if (_uploadCancellationTokenSource.IsCancellationRequested) { throw new TaskCanceledException("Cancelled"); }
 
-                        Basic<UploadData> uploadData = await _api.Upload(queuedImage.File, queuedImage.Title, queuedImage.Description, null);
+                        Basic<UploadData> uploadData = await _api.Upload(queuedImage.File, queuedImage.Title, queuedImage.Description, null, _uploadCancellationTokenSource.Token);
                         UploadImageResult result = new UploadImageResult(queuedImage, uploadData);
                         uploadedImageResults.UploadedImageResults.Add(result);
 
@@ -335,8 +338,8 @@ namespace ImgurUploader
                                 uploadedImageIds.Add(r.Result.Data.ID);
                             }
 
-                            if (_uploadCancelRequested) { throw new OperationCanceledException("Cancelled"); }
-                            Basic<AlbumCreateData> createAlbumResult = await _api.CreateAlbum(uploadedImageIds.ToArray(), null, null, null);
+                            if (_uploadCancellationTokenSource.IsCancellationRequested) { throw new TaskCanceledException("Cancelled"); }
+                            Basic<AlbumCreateData> createAlbumResult = await _api.CreateAlbum(uploadedImageIds.ToArray(), null, null, null, _uploadCancellationTokenSource.Token);
 
                             if (createAlbumResult.Success)
                             {
@@ -357,10 +360,9 @@ namespace ImgurUploader
                         await msg.ShowAsync();
                     }
                 }
-                catch (OperationCanceledException) { }
+                catch (TaskCanceledException) { }
                 finally
                 {
-                    _uploadCancelRequested = false;
                     uploadPopup.IsOpen = false;
                 }
             }
@@ -368,7 +370,17 @@ namespace ImgurUploader
 
         private void UploadCancel(object sender, RoutedEventArgs e)
         {
-            _uploadCancelRequested = true;
+            if (_uploadCancellationTokenSource != null)
+            {
+                _uploadCancellationTokenSource.Cancel();
+
+                Button cancelButton = sender as Button;
+                if (cancelButton != null)
+                {
+                    cancelButton.IsEnabled = false;
+                    cancelButton.Content = "Cancelling...";
+                }
+            }
         }
 
         private void ItemTitleTextBox_TextChanged(object sender, TextChangedEventArgs e)

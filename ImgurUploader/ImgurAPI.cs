@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Security.Cryptography;
 using Windows.Storage;
@@ -22,7 +23,7 @@ namespace ImgurUploader
 
         }
 
-        private async Task RefreshAccessToken()
+        private async Task RefreshAccessToken(CancellationToken cancelToken)
         {
             ImgurHttpClient client = ImgurHttpClient.Instance;
 
@@ -37,7 +38,7 @@ namespace ImgurUploader
                     fullContent.Add(new StringContent("refresh_token"), "grant_type");
 
                     System.Diagnostics.Debug.WriteLine("Getting a new access token...");
-                    using (HttpResponseMessage response = await client.Client.PostAsync("https://api.imgur.com/oauth2/token", fullContent))
+                    using (HttpResponseMessage response = await client.Client.PostAsync("https://api.imgur.com/oauth2/token", fullContent, cancelToken))
                     {
                         RefreshedAccessToken result = JSONHelper.Deserialize<RefreshedAccessToken>(await response.Content.ReadAsStringAsync());
 
@@ -54,19 +55,19 @@ namespace ImgurUploader
                 }
 
             }
-            catch (Exception ex)
+            catch (IOException ex)
             {
                 client.LogOut();
                 System.Diagnostics.Debug.WriteLine(ex);
             }
         }
 
-        private async Task<HttpClient> GetImgurHttpClient()
+        private async Task<HttpClient> GetImgurHttpClient(CancellationToken cancelToken)
         {
             if (ImgurHttpClient.Instance.LogInState.CredentialsDefined && !ImgurHttpClient.Instance.TokensValid())
             {
                 System.Diagnostics.Debug.WriteLine("Token has been invalidated/expired. Trying to get a new one...");
-                await RefreshAccessToken();
+                await RefreshAccessToken(cancelToken);
             }
 
             if (String.IsNullOrEmpty(ImgurHttpClient.Instance.ClientID))
@@ -88,11 +89,11 @@ namespace ImgurUploader
         /// <param name="description"></param>
         /// <param name="cover"></param>
         /// <returns></returns>
-        public async Task<Basic<AlbumCreateData>> CreateAlbum(string[] ids, string title, string description, string cover)
+        public async Task<Basic<AlbumCreateData>> CreateAlbum(string[] ids, string title, string description, string cover, CancellationToken cancelToken)
         {
             try
             {
-                HttpClient client = await GetImgurHttpClient();
+                HttpClient client = await GetImgurHttpClient(cancelToken);
 
                 using (MultipartFormDataContent fullContent = new MultipartFormDataContent())
                 {
@@ -112,7 +113,7 @@ namespace ImgurUploader
                         fullContent.Add(new StringContent(cover), "cover");
 
                     System.Diagnostics.Debug.WriteLine("Creating album...");
-                    using (HttpResponseMessage response = await client.PostAsync("https://api.imgur.com/3/album", fullContent))
+                    using (HttpResponseMessage response = await client.PostAsync("https://api.imgur.com/3/album", fullContent, cancelToken))
                     {
                         System.Diagnostics.Debug.WriteLine(await response.Content.ReadAsStringAsync());
 
@@ -122,19 +123,20 @@ namespace ImgurUploader
                 }
 
             }
-            catch (Exception ex)
+            catch (IOException ex)
             {
                 System.Diagnostics.Debug.WriteLine(ex);
-                return null;
             }
+
+            return null;
         }
 
 
-        public async Task<Basic<UploadData>> Upload(Stream imageStream, string fileName, string title, string description, string albumId) 
+        public async Task<Basic<UploadData>> Upload(Stream imageStream, string fileName, string title, string description, string albumId, CancellationToken cancelToken) 
         {
             try
             {
-                HttpClient client = await GetImgurHttpClient();
+                HttpClient client = await GetImgurHttpClient(cancelToken);
 
                 using (HttpContent imageContent = new StreamContent(imageStream))
                 {
@@ -150,32 +152,32 @@ namespace ImgurUploader
                             fullContent.Add(new StringContent(albumId), "album_id");
                         if (!String.IsNullOrEmpty(description))
                             fullContent.Add(new StringContent(description), "description");
-
+                        
                         System.Diagnostics.Debug.WriteLine(String.Format("Uploading file '{0}'...", fileName));
-                        using (HttpResponseMessage response = await client.PostAsync("https://api.imgur.com/3/image", fullContent))
-                        {
-                            System.Diagnostics.Debug.WriteLine(await response.Content.ReadAsStringAsync());
+                            using (HttpResponseMessage response = await client.PostAsync("https://api.imgur.com/3/image", fullContent, cancelToken))
+                            {
+                                System.Diagnostics.Debug.WriteLine(await response.Content.ReadAsStringAsync());
 
-                            Basic<UploadData> result = JSONHelper.Deserialize<Basic<UploadData>>(await response.Content.ReadAsStringAsync());
-                            return result;
-                        }
+                                Basic<UploadData> result = JSONHelper.Deserialize<Basic<UploadData>>(await response.Content.ReadAsStringAsync());
+                                return result;
+                            }
                     }
                 }
                 
             }
-            catch (Exception e)
+            catch (IOException e)
             {
                 System.Diagnostics.Debug.WriteLine(e);
-                return null;
             }
-            
+
+            return null;
         }
 
-        public async Task<Basic<UploadData>> Upload(StorageFile file, string title, string description, string albumId)
+        public async Task<Basic<UploadData>> Upload(StorageFile file, string title, string description, string albumId, CancellationToken cancelToken)
         {
             using (Stream imageStream = await WindowsRuntimeStorageExtensions.OpenStreamForReadAsync(file))
             {
-                return await Upload(imageStream, file.Name, title, description, null);
+                return await Upload(imageStream, file.Name, title, description, null, cancelToken);
             }
         }
 

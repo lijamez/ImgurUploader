@@ -60,4 +60,7 @@
     <SolidColorBrush x:Key="ListViewItemSelectedPointerOverBorderThemeBrush" Color="#FF89C624"/>
 
     <SolidColorBrush x:Key="ProgressBarIndeterminateForegroundThemeBrush" Color="#FF89C624"/>
+    
+    
+
 </ResourceDictionary>
