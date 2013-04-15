@@ -63,8 +63,9 @@ namespace ImgurUploader
 
         private async Task<HttpClient> GetImgurHttpClient()
         {
-            if (ImgurHttpClient.Instance.LogInState.LoggedIn && !ImgurHttpClient.Instance.TokensValid())
+            if (ImgurHttpClient.Instance.LogInState.CredentialsDefined && !ImgurHttpClient.Instance.TokensValid())
             {
+                System.Diagnostics.Debug.WriteLine("Token has been invalidated/expired. Trying to get a new one...");
                 await RefreshAccessToken();
             }
 

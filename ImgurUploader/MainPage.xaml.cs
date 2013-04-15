@@ -80,6 +80,7 @@ namespace ImgurUploader
 
         private double _settingsWidth = 346;
         private Popup _accountPopup;
+        private Popup _aboutPopup;
 
 
         public MainPage()
@@ -110,7 +111,8 @@ namespace ImgurUploader
         {
             if (e.WindowActivationState == Windows.UI.Core.CoreWindowActivationState.Deactivated)
             {
-                _accountPopup.IsOpen = false;
+                if (_accountPopup != null ) _accountPopup.IsOpen = false;
+                if (_aboutPopup != null) _aboutPopup.IsOpen = false;
             }
         }
 
@@ -128,9 +130,10 @@ namespace ImgurUploader
             FriendlyAddImageControl.SelectButton.Click += AddImageButton_Click;
         }
 
-        void OnAccountCommand(IUICommand command)
+        Popup CreateFlyoutPopup(System.Type popupType)
         {
             Popup popup = new Popup();
+
             popup.Closed += OnPopupClosed;
             Window.Current.Activated += OnWindowActivated;
             popup.IsLightDismissEnabled = true;
@@ -147,25 +150,20 @@ namespace ImgurUploader
             });
 
             // Create a SettingsFlyout the same dimenssions as the Popup.
-            AccountFlyout accountFlyout = new AccountFlyout(this.Frame);
-            accountFlyout.Width = _settingsWidth;
-            accountFlyout.Height = Window.Current.Bounds.Height;
-            accountFlyout.DataContext = this;
+            FlyoutPage flyoutPage = (FlyoutPage) Activator.CreateInstance(popupType);
+            flyoutPage.Width = _settingsWidth;
+            flyoutPage.Height = Window.Current.Bounds.Height;
+            flyoutPage.DataContext = this;
 
             // Place the SettingsFlyout inside our Popup window.
-            popup.Child = accountFlyout;
+            popup.Child = flyoutPage;
 
             // Let's define the location of our Popup.
             popup.SetValue(Canvas.LeftProperty, SettingsPane.Edge == SettingsEdgeLocation.Right ? (Window.Current.Bounds.Width - _settingsWidth) : 0);
             popup.SetValue(Canvas.TopProperty, 0);
             popup.IsOpen = true;
 
-            _accountPopup = popup;
-        }
-
-        void OnPrivacyPolicyCommand(IUICommand command)
-        {
-            this.Frame.Navigate(typeof(PrivacyPolicy));
+            return popup;
         }
 
         void AddSettings()
@@ -181,13 +179,26 @@ namespace ImgurUploader
         {
             UICommandInvokedHandler handler;
 
-            handler = new UICommandInvokedHandler(OnAccountCommand);
+            handler = new UICommandInvokedHandler(delegate(IUICommand c)
+            {
+                _accountPopup = CreateFlyoutPopup(typeof(AccountFlyout));
+            });
             SettingsCommand settingsCommand = new SettingsCommand("AccountId", "Account", handler);
             eventArgs.Request.ApplicationCommands.Add(settingsCommand);
 
-            handler = new UICommandInvokedHandler(OnPrivacyPolicyCommand);
+            handler = new UICommandInvokedHandler(delegate(IUICommand c)
+            {
+                this.Frame.Navigate(typeof(PrivacyPolicy));
+            });
             SettingsCommand privacyPolicyCommand = new SettingsCommand("PrivacyPolicy", "Privacy Policy", handler);
             eventArgs.Request.ApplicationCommands.Add(privacyPolicyCommand);
+
+            handler = new UICommandInvokedHandler(delegate(IUICommand c)
+            {
+                _accountPopup = CreateFlyoutPopup(typeof(AboutFlyout));
+            });
+            SettingsCommand aboutCommand = new SettingsCommand("About", "About", handler);
+            eventArgs.Request.ApplicationCommands.Add(aboutCommand);
         }
 
         private async void AddImageButton_Click(object sender, RoutedEventArgs e)

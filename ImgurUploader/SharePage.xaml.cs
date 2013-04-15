@@ -162,15 +162,20 @@ namespace ImgurUploader
 
                     UploadProgressRing.IsActive = false;
 
+
+                    
+
                     if (operationSuccess)
                     {
                         UploadStatus.Text = "Upload Complete";
                         UploadProgressRing.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                        WarningTextBlock.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
                         ImgurURL.Value = link;
                         ImgurURL.Visibility = Windows.UI.Xaml.Visibility.Visible;
                     }
                     else
                     {
+                        WarningTextBlock.Text = "So sorry. Care to try it again?";
                         UploadStatus.Visibility = Windows.UI.Xaml.Visibility.Visible;
                     }
 

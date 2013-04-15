@@ -53,14 +53,14 @@ namespace ImgurUploader
 
                     if (token != null)
                     {
-                        System.Diagnostics.Debug.WriteLine(String.Format("Imgur has returned access_token '{0}' for user {1}", token, accountUserName));
+                        System.Diagnostics.Debug.WriteLine(String.Format("Imgur has returned access_token '{0}' for user {1} which expires in {2} seconds.", token, accountUserName, expiryTime));
                         ImgurHttpClient.Instance.LogIn(token, tokenType, DateTime.UtcNow.AddSeconds(Convert.ToDouble(expiryTime)), refreshToken, accountUserName);
 
                         logInResultsMessage = String.Format("Successfully logged in as {0}", accountUserName);
                     }
                     else
                     {
-                        logInResultsMessage = "Unable to get your token. And that's terrible.";
+                        logInResultsMessage = "Unable to get your token for some reason.";
                     }
                 }
                 else
@@ -80,8 +80,9 @@ namespace ImgurUploader
         /// </summary>
         /// <param name="e">Event data that describes how this page was reached.  The Parameter
         /// property is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
+            await ImgurHttpClient.Instance.ReadAPIKeys();
             string authUrl = CreateAuthenticationUrl(ImgurHttpClient.Instance.ClientID);
 
             AuthorizationWebView.Navigate(new Uri(authUrl));

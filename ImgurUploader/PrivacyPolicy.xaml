@@ -36,15 +36,15 @@
         
         <StackPanel x:Name="PrivacyPolicyBody" Grid.Row="2" Margin="24" Orientation="Vertical">
             <TextBlock Text="General Information" Style="{StaticResource ImageDetailsHeader}"/>
-            <TextBlock Text="Imgur Uploader is a tool for Windows 8/RT that lets users easily upload images to the image sharing website, Imgur. Easily share images from any app that supports the Share charm to Imgur." Style="{StaticResource ImageDetailsText}" TextWrapping="Wrap"/>
+            <TextBlock Text="Imgur Uploader is a tool for Windows 8/RT that lets users easily upload images to the image sharing website, Imgur. Easily share images from any app that supports the Share charm to Imgur." Style="{StaticResource ImageDetailsText}"/>
             <TextBlock Text="Information Collection and Use" Style="{StaticResource ImageDetailsHeader}"/>
-            <TextBlock Text="Imgur Uploader does not collect any application usage information or images themselves. All images are directly uploaded to Imgur using Imgur's provided API. Imgur Uploader may store information that can provide a better application experience such as the storage of user-provided Imgur credentials. Information stored by Imgur Uploader is never shared with any third party except Imgur." Style="{StaticResource ImageDetailsText}" TextWrapping="Wrap"/>
+            <TextBlock Text="Imgur Uploader does not collect any application usage information or images themselves. All images are directly uploaded to Imgur using Imgur's provided API. Imgur Uploader may store information that can provide a better application experience such as the storage of user-provided Imgur credentials. Information stored by Imgur Uploader is never shared with any third party except Imgur." Style="{StaticResource ImageDetailsText}"/>
             <TextBlock Text="Links" Style="{StaticResource ImageDetailsHeader}"/>
-            <TextBlock Text="Imgur Uploader may create links to external web sites including but not limited to Imgur or advertisements. Imgur Uploader is not responsible for the Privacy Policy or other practices employed by these external web sites." Style="{StaticResource ImageDetailsText}" TextWrapping="Wrap"/>
+            <TextBlock Text="Imgur Uploader may create links to external web sites including but not limited to Imgur or advertisements. Imgur Uploader is not responsible for the Privacy Policy or other practices employed by these external web sites." Style="{StaticResource ImageDetailsText}"/>
             <TextBlock Text="Security" Style="{StaticResource ImageDetailsHeader}"/>
-            <TextBlock Text="Imgur Uploader uses the Imgur API which transmits data through HTTP Secure (HTTPS). While we make a reasonable effort to secure data transmissions, transmissions over the internet are not guaranteed to be completely secure. Therefore, the developers of Imgur Uploader can not ensure security of information transmitted using this application. " Style="{StaticResource ImageDetailsText}" TextWrapping="Wrap"/>
+            <TextBlock Text="Imgur Uploader uses the Imgur API which transmits data through HTTP Secure (HTTPS). While we make a reasonable effort to secure data transmissions, transmissions over the internet are not guaranteed to be completely secure. Therefore, the developers of Imgur Uploader can not ensure security of information transmitted using this application. " Style="{StaticResource ImageDetailsText}"/>
             <TextBlock Text="Changes and Updates" Style="{StaticResource ImageDetailsHeader}"/>
-            <TextBlock Text="This Privacy Policy may change over time. By using Imgur Uploader, you agree to this Privacy Policy and its updates." Style="{StaticResource ImageDetailsText}" TextWrapping="Wrap"/>
+            <TextBlock Text="This Privacy Policy may change over time. By using Imgur Uploader, you agree to this Privacy Policy and its updates." Style="{StaticResource ImageDetailsText}"/>
         </StackPanel>
     </Grid>
 </Page>

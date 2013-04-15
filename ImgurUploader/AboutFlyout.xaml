@@ -1,5 +1,5 @@
 ﻿<local:FlyoutPage
-    x:Class="ImgurUploader.AccountFlyout"
+    x:Class="ImgurUploader.AboutFlyout"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ImgurUploader"
@@ -129,20 +129,17 @@
 
                     <StackPanel Orientation="Horizontal" Grid.Column="0" Margin="40, 32, 17, 13">
                         <Button Click="BackClicked" Margin="0,4,0,1"  Style="{StaticResource SettingsBackButtonStyle}"/>
-                        <TextBlock Margin="10,0,0,0" FontFamily="Segoe UI" FontWeight="SemiLight" FontSize="24.6667" Text="Account" Foreground="White"/>
+                        <TextBlock Margin="10,0,0,0" FontFamily="Segoe UI" FontWeight="SemiLight" FontSize="24.6667" Text="About" Foreground="White"/>
                     </StackPanel>
                 </Grid>
 
                 <StackPanel x:Name="FlyoutContent" Grid.Row="1" Margin="16,16,16,16">
-                    <TextBlock Text="Account" TextWrapping="Wrap" Style="{StaticResource ImageDetailsHeader}" HorizontalAlignment="Left"/>
-                    <StackPanel x:Name="LoggedOut">
-                        <Button x:Name="LogInButton" Content="Log In" Click="LogInButton_Click"/>
-                    </StackPanel>
-                    <StackPanel x:Name="LoggedIn">
-                        <TextBlock x:Name="LoggedInUser" Text="{Binding Path=AccountUsername}"  Style="{StaticResource BodyTextStyle}" Margin="0,0,0,8"/>
-                        <Button x:Name="LogOutButton" Content="Log Out" Click="LogOutButton_Click"/>
-                    </StackPanel>
+                    <TextBlock Text="About Imgur Uploader" Style="{StaticResource ImageDetailsHeader}"/>
+                    <TextBlock Text="Imgur Uploader is a tool for Windows 8/RT that lets you easily upload images to the image sharing website, Imgur. Easily share images from any app that supports the Share charm to Imgur." Style="{StaticResource ImageDetailsText}"/>
+                    <TextBlock Text="How to Use" Style="{StaticResource ImageDetailsHeader}"/>
+                    <TextBlock Text="Either open the app and manually select images from your pictures to upload or select the Share charm (Ctrl+H or a swipe from the right of the screen) while using any app that can share images." Style="{StaticResource ImageDetailsText}"/>
                 </StackPanel>
+                
             </Grid>
         </Grid>
     </Grid>

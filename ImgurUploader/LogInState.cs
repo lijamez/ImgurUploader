@@ -17,29 +17,28 @@ namespace ImgurUploader
         {
             object o = null;
 
-            _loggedIn = (o = _localSettings.Values["LoggedIn"]) == null ? false : (bool) o;
+            _credentialsDefined = (o = _localSettings.Values["LoggedIn"]) == null ? false : (bool) o;
             _accessToken = _localSettings.Values["AccessToken"] as string;
             _tokenType = _localSettings.Values["TokenType"] as string;
             _tokenAcquireTime = (o = _localSettings.Values["TokenAcquireTime"]) == null ? DateTime.MinValue : new DateTime((long) o);
             _expireTime = (o = _localSettings.Values["ExpireTime"]) == null ? DateTime.MinValue : new DateTime((long) o);
             _refreshToken = _localSettings.Values["RefreshToken"] as string;
             _accountUsername = _localSettings.Values["AccountUsername"] as string;
-
         }
 
-        private bool _loggedIn;
-        public bool LoggedIn
+        private bool _credentialsDefined;
+        public bool CredentialsDefined
         {
             get
             {
-                return _loggedIn;
+                return _credentialsDefined;
             }
             set
             {
-                _loggedIn = value;
-                _localSettings.Values["LoggedIn"] = _loggedIn;
+                _credentialsDefined = value;
+                _localSettings.Values["LoggedIn"] = _credentialsDefined;
 
-                if (!_loggedIn)
+                if (!_credentialsDefined)
                 {
                     AccessToken = null;
                     TokenType = null;
