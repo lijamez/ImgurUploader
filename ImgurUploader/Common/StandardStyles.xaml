@@ -406,8 +406,18 @@
         Uncomment any style you reference (as not all may be required).
     -->
 
-    
-    
+    <Style x:Key="MoveUpAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
+        <Setter Property="AutomationProperties.AutomationId" Value="MoveUpAppBarButton"/>
+        <Setter Property="AutomationProperties.Name" Value="Move Up"/>
+        <Setter Property="Content" Value="&#x2B06;"/>
+    </Style>
+
+    <Style x:Key="MoveDownAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
+        <Setter Property="AutomationProperties.AutomationId" Value="MoveDownAppBarButton"/>
+        <Setter Property="AutomationProperties.Name" Value="Move Down"/>
+        <Setter Property="Content" Value="&#x2B07;"/>
+    </Style>
+
     <Style x:Key="SkipBackAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
         <Setter Property="AutomationProperties.AutomationId" Value="SkipBackAppBarButton"/>
         <Setter Property="AutomationProperties.Name" Value="Skip Back"/>

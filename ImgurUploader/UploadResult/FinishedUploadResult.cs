@@ -7,12 +7,17 @@ using System.Threading.Tasks;
 
 namespace ImgurUploader.UploadResult
 {
-    public class UploadAlbumResult
+    public class FinishedUploadResult
     {
-        public UploadAlbumResult(UploadResultCollection images, Basic<AlbumCreateData> albumCreateResults)
+        public FinishedUploadResult()
+        {
+
+        }
+
+        public FinishedUploadResult(UploadResultCollection images, Basic<AlbumCreateData> albumCreateResults)
         {
             Images = images;
-            Results = albumCreateResults;
+            AlbumCreateResults = albumCreateResults;
         }
 
         public UploadResultCollection Images
@@ -21,7 +26,7 @@ namespace ImgurUploader.UploadResult
             set;
         }
 
-        public Basic<AlbumCreateData> Results
+        public Basic<AlbumCreateData> AlbumCreateResults
         {
             get;
             set;

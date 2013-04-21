@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using Windows.Storage;
 using Windows.Storage.FileProperties;
 using Windows.UI.Xaml.Media;
@@ -12,9 +13,20 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace ImgurUploader
 {
-    public class QueuedImage : ObservableObject
+    public class QueuedFile : QueuedItem
     {
+        public QueuedFile() { }
+
+        public QueuedFile(StorageFile file)
+        {
+            File = file;
+        }
+
+
         private StorageFile _file;
+
+        [XmlIgnore()]
+        //Do NOT assume that this variable is not null
         public StorageFile File
         {
             get
@@ -24,6 +36,7 @@ namespace ImgurUploader
             set
             {
                 _file = value;
+                GenerateThumbnail();
                 NotifyPropertyChanged();
             }
         }
@@ -38,42 +51,9 @@ namespace ImgurUploader
                     return "null";
             }
         }
-
-        private string _title;
-        public string Title
-        {
-            get
-            {
-                return _title;
-            }
-            set
-            {
-                _title = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        private string _description;
-        public string Description
-        {
-            get
-            {
-                return _description;
-            }
-            set
-            {
-                _description = value;
-                NotifyPropertyChanged();
-            }
-        }
-
-        public QueuedImage(StorageFile file)
-        {
-            File = file;
-            GenerateThumbnail();
-        }
-
+        
         private BitmapImage _thumbnail;
+        [XmlIgnore()]
         public BitmapImage Thumbnail
         {
             get
@@ -89,12 +69,15 @@ namespace ImgurUploader
 
         private async void GenerateThumbnail()
         {
-            StorageItemThumbnail thumbnail = await File.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView);
-            if (thumbnail != null)
+            if (File != null)
             {
-                BitmapImage img = new BitmapImage();
-                img.SetSource(thumbnail);
-                Thumbnail = img;
+                StorageItemThumbnail thumbnail = await File.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                if (thumbnail != null)
+                {
+                    BitmapImage img = new BitmapImage();
+                    img.SetSource(thumbnail);
+                    Thumbnail = img;
+                }
             }
         }
     }

@@ -80,9 +80,8 @@ namespace ImgurUploader
         /// </summary>
         /// <param name="e">Event data that describes how this page was reached.  The Parameter
         /// property is typically used to configure the page.</param>
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            await ImgurHttpClient.Instance.ReadAPIKeys();
             string authUrl = CreateAuthenticationUrl(ImgurHttpClient.Instance.ClientID);
 
             AuthorizationWebView.Navigate(new Uri(authUrl));

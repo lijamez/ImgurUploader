@@ -1,4 +1,5 @@
 ﻿using ImgurUploader.Model;
+using ImgurUploader.UploadResult;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,11 +8,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.DataTransfer.ShareTarget;
+using Windows.Data.Xml.Dom;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Streams;
 using Windows.UI.Core;
+using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -37,6 +40,8 @@ namespace ImgurUploader
         private IReadOnlyList<IStorageItem> _sharedStorageItems;
         ImgurAPI _api = new ImgurAPI();
         CancellationTokenSource _cancellationTokenSource;
+        private FinishedUploadResult _finishedResults;
+
 
         public SharePage()
         {
@@ -60,6 +65,7 @@ namespace ImgurUploader
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             _shareOperation = (ShareOperation) e.Parameter;
+            _shareOperation.ReportStarted();
 
             await Task.Factory.StartNew(async () =>
             {
@@ -80,10 +86,8 @@ namespace ImgurUploader
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
                     bool operationSuccess = false;
-                    string link = String.Empty;
-
-                    UploadProgressRing.IsActive = true;
-                    UploadStatus.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    string errorMsg = null;
+                    UploadResultCollection uploadedItems = new UploadResultCollection();
 
                     if (_sharedBitmapStreamRef != null)
                     {
@@ -93,17 +97,21 @@ namespace ImgurUploader
                         UploadStatus.Text = "Uploading image...";
 
                         Basic<UploadData> uploadResult = await _api.Upload(imageStream, null, null, null, null, _cancellationTokenSource.Token);
+                        UploadImageResult uploadImageResult = new UploadImageResult(new QueuedItem(), uploadResult);
+                        uploadedItems.UploadedImageResults.Add(uploadImageResult);
+
+                        _finishedResults = new FinishedUploadResult(uploadedItems, null);
 
                         if (uploadResult != null && uploadResult.Success)
                         {
                             operationSuccess = true;
-                            link = uploadResult.Data.Link;
                         }
                         else
                         {
-                            UploadStatus.Text = "Failed to upload image.";
+                            errorMsg = "Failed to upload image.";
                         }
 
+                        
                     }
                     else if (_sharedStorageItems != null)
                     {
@@ -125,24 +133,27 @@ namespace ImgurUploader
                                     if (uploadResult != null && uploadResult.Success)
                                     {
                                         uploadedImageIDs.Add(uploadResult.Data.ID);
+                                        uploadedItems.SuccessfulUploads.Add(new UploadImageResult(null, uploadResult));
                                     }
                                     else
                                     {
-                                        //TODO: Log this error.
+                                        uploadedItems.FailedUploads.Add(new UploadImageResult(null, uploadResult));
                                     }
                                 }
                             }
 
                             UploadStatus.Text = "Creating album...";
                             Basic<AlbumCreateData> albumCreationResult = await _api.CreateAlbum(uploadedImageIDs.ToArray(), null, null, null, _cancellationTokenSource.Token);
+                            FinishedUploadResult uploadAlbumResult = new FinishedUploadResult(uploadedItems, albumCreationResult);
+                            _finishedResults = uploadAlbumResult;
+
                             if (albumCreationResult != null && albumCreationResult.Success)
                             {
                                 operationSuccess = true;
-                                link = String.Format("http://imgur.com/a/{0}", albumCreationResult.Data.ID);
                             }
                             else
                             {
-                                UploadStatus.Text = "Failed to create album.";
+                                errorMsg = "Failed to create album.";
                             }
                         }
                         else if (_sharedStorageItems.Count == 1)
@@ -155,15 +166,18 @@ namespace ImgurUploader
 
                                 StorageFile file = (StorageFile)item;
                                 Basic<UploadData> uploadResult = await _api.Upload(file, null, null, null, _cancellationTokenSource.Token);
+                                UploadImageResult uploadImageResult = new UploadImageResult(new QueuedItem(), uploadResult);
+
+                                uploadedItems.UploadedImageResults.Add(uploadImageResult);
+                                _finishedResults = new FinishedUploadResult(uploadedItems, null);
 
                                 if (uploadResult != null && uploadResult.Success)
                                 {
                                     operationSuccess = true;
-                                    link = uploadResult.Data.Link;
                                 }
                                 else
                                 {
-                                    UploadStatus.Text = "Failed to upload image.";
+                                    errorMsg = "Failed to upload image.";
                                 }
                             }
                         }
@@ -171,25 +185,58 @@ namespace ImgurUploader
                         
                     }
 
+                    int uploadHistoryIndex = -1;
+                    if (_finishedResults != null)
+                    {
+                        App.UploadHistory.Add(_finishedResults);
+                        uploadHistoryIndex = App.UploadHistory.FindIndex(new Predicate<FinishedUploadResult>( i => i == _finishedResults));
+                    }
+
                     UploadProgressRing.IsActive = false;
+                    string toastLaunch = null;
+                    string toastTitle = null;
+                    string toastBody = null;
 
                     if (operationSuccess)
                     {
-                        UploadStatus.Text = "Upload Complete";
-                        UploadProgressRing.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                        WarningTextBlock.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                        ImgurURL.Value = link;
-                        ImgurURL.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                        if (uploadHistoryIndex >= 0)
+                        {
+                            toastLaunch = String.Format("ShowLatestResults,{0}", uploadHistoryIndex);
+                        }
+
+                        toastTitle = "Upload Complete";
+                        toastBody = "Click or tap to get links.";
+
+                        _shareOperation.ReportCompleted();
                     }
                     else
                     {
-                        WarningTextBlock.Text = "So sorry. Care to try it again?";
-                        UploadStatus.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                        if (String.IsNullOrEmpty(errorMsg)) errorMsg = "Something went wrong.";
+
+                        toastTitle = errorMsg;
+                        toastBody = "Care to try again?";
+
+                        _shareOperation.ReportError(errorMsg);
                     }
+
+                    ToastNotification toast = Toaster.MakeToast(toastTitle, toastBody, toastLaunch);
+                    toast.Activated += OnToastClicked;
+
+                    ToastNotificationManager.CreateToastNotifier().Show(toast);
 
                 });
             });
 
+        }
+
+        private void OnToastClicked(ToastNotification t, object o)
+        {
+            System.Diagnostics.Debug.WriteLine("Toast clicked");
+
+            XmlDocument toastXml = t.Content;
+            IXmlNode toastNode = (toastXml.GetElementsByTagName("toast"))[0];
+            XmlAttribute launchAttr = (XmlAttribute) toastNode.Attributes.GetNamedItem("launch");
+            System.Diagnostics.Debug.WriteLine(launchAttr.Value);
         }
     }
 }

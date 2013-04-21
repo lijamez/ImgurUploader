@@ -11,9 +11,7 @@
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
         <StackPanel VerticalAlignment="Center" Margin="48,0">
             <TextBlock x:Name="UploadStatus" Text="Uploading..." Style="{StaticResource SubheaderTextStyle}" Margin="0,0,0,16" HorizontalAlignment="Center"/>
-            <ProgressRing x:Name="UploadProgressRing" Foreground="{StaticResource GreenAccent}" Width="40" Height="40" Margin="0,16,0,16" />
-            <TextBlock x:Name="WarningTextBlock" Text="Please don't leave this window." Style="{StaticResource ImageDetailsText}" Margin="0,16,0,16" HorizontalAlignment="Center"/>
-            <localur:CopyableLinkControl x:Name="ImgurURL" Title="Link" IsViewableInBrowser="True" Visibility="Collapsed"/>
+            <ProgressRing x:Name="UploadProgressRing" Foreground="{StaticResource GreenAccent}" Width="40" Height="40" Margin="0,16,0,16" IsActive="True"/>
         </StackPanel>
     </Grid>
 </Page>

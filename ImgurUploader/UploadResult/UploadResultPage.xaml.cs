@@ -40,18 +40,32 @@ namespace ImgurUploader
             object arg = e.Parameter;
 
             ResultGrid.Children.Clear();
-            if (arg is UploadImageResult)
+
+            UploadResultsControl resultsControl = null;
+
+            if (arg is FinishedUploadResult)
             {
-                ResultGrid.Children.Add(new ImageResultsControl(arg as UploadImageResult));
+                resultsControl = new UploadResultsControl(arg as FinishedUploadResult);
             }
-            else if (arg is UploadAlbumResult)
+            else if (arg is string)
             {
-                ResultGrid.Children.Add(new AlbumResultsControl(arg as UploadAlbumResult));
+                try
+                {
+                    int uploadHistoryIndex = int.Parse(arg as string);
+                    resultsControl = new UploadResultsControl(App.UploadHistory[uploadHistoryIndex]);
+                }
+                catch (Exception) { }
+            }
+
+            if (resultsControl != null)
+            {
+                ResultGrid.Children.Add(resultsControl);
             }
             else
             {
                 this.Frame.GoBack();
             }
+
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

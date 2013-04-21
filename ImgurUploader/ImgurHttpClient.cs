@@ -50,13 +50,13 @@ namespace ImgurUploader
 
         private bool _requiresNewAuthorization = true;
 
-        private string _clientID;
+        private string _clientID = "25dd2578b2f3fe3";
         public string ClientID
         {
             get { return _clientID; }
         }
 
-        private string _clientSecret;
+        private string _clientSecret = "e265b1a185f23b356dd535734017bda67980a5bf";
         public string ClientSecret
         {
             get { return _clientSecret; }
@@ -90,27 +90,6 @@ namespace ImgurUploader
             }
         }
 
-        
-        public async Task ReadAPIKeys()
-        {
-            try
-            {
-                StorageFile file = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync(@"ApiKeys.txt");
-                var stream = await file.OpenReadAsync();
-                using (StreamReader rdr = new StreamReader(stream.AsStream()))
-                {
-                    await Task.Run(() =>
-                    {
-                        _clientID = rdr.ReadLine();
-                        _clientSecret = rdr.ReadLine();
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex);
-            }
-        }
 
         public delegate void LogInStatusChangedHandler(object sender, EventArgs e);
         public event LogInStatusChangedHandler LogInStatusChanged;

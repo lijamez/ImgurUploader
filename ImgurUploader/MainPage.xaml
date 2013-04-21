@@ -17,6 +17,10 @@
                 </Grid.ColumnDefinitions>
                 
                 <Grid Grid.Column="1">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                        <Button x:Name="MoveImageUpButton" Click="MoveImageUpButton_Click" Style="{StaticResource MoveUpAppBarButtonStyle}"/>
+                        <Button x:Name="MoveImageDownButton" Click="MoveImageDownButton_Click" Style="{StaticResource MoveDownAppBarButtonStyle}"/>
+                    </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button x:Name="SelectAllButton" Click="SelectAllButton_Click" Style="{StaticResource SelectAllAppBarButtonStyle}"/>
                         <Button x:Name="AddImageButton" Click="AddImageButton_Click" Style="{StaticResource AddAppBarButtonStyle}"/>

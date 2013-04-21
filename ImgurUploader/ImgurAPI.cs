@@ -70,11 +70,6 @@ namespace ImgurUploader
                 await RefreshAccessToken(cancelToken);
             }
 
-            if (String.IsNullOrEmpty(ImgurHttpClient.Instance.ClientID))
-            {
-                await ImgurHttpClient.Instance.ReadAPIKeys();
-            }
-
             return ImgurHttpClient.Instance.Client;
         }
 

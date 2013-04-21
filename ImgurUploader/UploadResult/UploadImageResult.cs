@@ -9,17 +9,20 @@ namespace ImgurUploader.UploadResult
 {
     public class UploadImageResult
     {
-        public UploadImageResult(QueuedImage img, Basic<UploadData> result)
+        public UploadImageResult() { }
+
+        public UploadImageResult(QueuedItem item, Basic<UploadData> result)
         {
-            Image = img;
+            Item = item;
             Result = result;
         }
 
-        public QueuedImage Image
+        public QueuedItem Item
         {
             get;
             set;
         }
+
 
         public Basic<UploadData> Result
         {

@@ -13,6 +13,7 @@ using Windows.Foundation.Collections;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.ApplicationSettings;
+using Windows.UI.Notifications;
 using Windows.UI.Popups;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
@@ -66,14 +67,14 @@ namespace ImgurUploader
             }
         }
 
-        private ObservableCollection<QueuedImage> _queuedImages;
-        public ObservableCollection<QueuedImage> QueuedImages
+        private ObservableCollection<QueuedFile> _queuedImages;
+        public ObservableCollection<QueuedFile> QueuedFiles
         {
             get
             {
                 if (_queuedImages == null)
                 {
-                    _queuedImages = new ObservableCollection<QueuedImage>();
+                    _queuedImages = new ObservableCollection<QueuedFile>();
                 }
 
                 return _queuedImages;
@@ -88,8 +89,9 @@ namespace ImgurUploader
         public MainPage()
         {
             this.InitializeComponent();
-            QueuedImagesListView.DataContext = QueuedImages;
+            QueuedImagesListView.DataContext = QueuedFiles;
             AddSettings();
+            UpdateAppBarIcons();
         }
 
 
@@ -130,6 +132,7 @@ namespace ImgurUploader
             UpdateImagePropertyPane();
             UpdateUploadListSwitcher();
             FriendlyAddImageControl.SelectButton.Click += AddImageButton_Click;
+
         }
 
         Popup CreateFlyoutPopup(System.Type popupType)
@@ -221,8 +224,8 @@ namespace ImgurUploader
                 {
                     if (selectedFile != null)
                     {
-                        QueuedImage queuedImage = new QueuedImage(selectedFile);
-                        QueuedImages.Add(queuedImage);
+                        QueuedFile queuedImage = new QueuedFile(selectedFile);
+                        QueuedFiles.Add(queuedImage);
 
                         if (QueuedImagesListView.SelectedItems.Count <= 0 && QueuedImagesListView.Items.Count > 0)
                         {
@@ -233,17 +236,47 @@ namespace ImgurUploader
             }
         }
 
+        private void MoveImageUpButton_Click(object sender, RoutedEventArgs e)
+        {
+            int selectedIndex = QueuedImagesListView.SelectedIndex;
+            if (selectedIndex > 0)
+            {
+                QueuedFile movedItem = QueuedFiles[selectedIndex];
+                QueuedFile swappedItem = QueuedFiles[selectedIndex - 1];
+
+                QueuedFiles[selectedIndex - 1] = movedItem;
+                QueuedFiles[selectedIndex] = swappedItem;
+                
+                QueuedImagesListView.SelectedIndex--;
+            }
+        }
+
+        private void MoveImageDownButton_Click(object sender, RoutedEventArgs e)
+        {
+            int selectedIndex = QueuedImagesListView.SelectedIndex;
+            if (selectedIndex >= 0 && selectedIndex < QueuedFiles.Count - 1)
+            {
+                QueuedFile movedItem = QueuedFiles[selectedIndex];
+                QueuedFile swappedItem = QueuedFiles[selectedIndex + 1];
+
+                QueuedFiles[selectedIndex + 1] = movedItem;
+                QueuedFiles[selectedIndex] = swappedItem;
+
+                QueuedImagesListView.SelectedIndex++;
+            }
+        }
+
         private void RemoveImageButton_Click(object sender, RoutedEventArgs e)
         {
-            List<QueuedImage> removableQueuedImages = new List<QueuedImage>();
+            List<QueuedFile> removableQueuedImages = new List<QueuedFile>();
             foreach (object item in QueuedImagesListView.SelectedItems)
             {
-                removableQueuedImages.Add(item as QueuedImage);
+                removableQueuedImages.Add(item as QueuedFile);
             }
 
-            foreach (QueuedImage item in removableQueuedImages)
+            foreach (QueuedFile item in removableQueuedImages)
             {
-                QueuedImages.Remove(item);
+                QueuedFiles.Remove(item);
             }
         }
 
@@ -262,7 +295,7 @@ namespace ImgurUploader
         private CancellationTokenSource _uploadCancellationTokenSource;
         private async void UploadImagesButton_Click(object sender, RoutedEventArgs e)
         {
-            if (QueuedImages.Count <= 0)
+            if (QueuedFiles.Count <= 0)
             {
                 MessageDialog msg = new MessageDialog("You can't upload nothing, silly!");
                 await msg.ShowAsync();
@@ -280,8 +313,8 @@ namespace ImgurUploader
 
                 // Add the proper animation for the panel.
                 /*
-                settingsPopup.ChildTransitions = new TransitionCollection();
-                settingsPopup.ChildTransitions.Add(new PaneThemeTransition()
+                uploadPopup.ChildTransitions = new TransitionCollection();
+                uploadPopup.ChildTransitions.Add(new PaneThemeTransition()
                 {
                     Edge = (SettingsPane.Edge == SettingsEdgeLocation.Right) ?
                            EdgeTransitionLocation.Right :
@@ -290,7 +323,7 @@ namespace ImgurUploader
                 */
 
                 // Create a SettingsFlyout the same dimenssions as the Popup.
-                UploadingProgressPopup mypane = new UploadingProgressPopup(QueuedImages.Count);
+                UploadingProgressPopup mypane = new UploadingProgressPopup(QueuedFiles.Count);
                 mypane.UploadCancelButton.Click += UploadCancel;
                 mypane.Width = windowBounds.Width;
                 mypane.Height = windowBounds.Height;
@@ -304,7 +337,7 @@ namespace ImgurUploader
                 uploadPopup.IsOpen = true;
 
 
-                System.Diagnostics.Debug.WriteLine(String.Format("Now uploading {0} items...", QueuedImages.Count));
+                System.Diagnostics.Debug.WriteLine(String.Format("Now uploading {0} items...", QueuedFiles.Count));
 
                 UploadResultCollection uploadedImageResults = new UploadResultCollection();
 
@@ -312,7 +345,9 @@ namespace ImgurUploader
                 {
                     _uploadCancellationTokenSource = new CancellationTokenSource();
 
-                    foreach (QueuedImage queuedImage in QueuedImages)
+                    string message = "Upload Completed";
+
+                    foreach (QueuedFile queuedImage in QueuedFiles)
                     {
                         if (_uploadCancellationTokenSource.IsCancellationRequested) { throw new TaskCanceledException("Cancelled"); }
 
@@ -323,11 +358,15 @@ namespace ImgurUploader
                         mypane.CompletedFiles++;
                     }
 
-                    if (QueuedImages.Count >= 1 && uploadedImageResults.SuccessfulUploads.Count > 0)
+                    if (QueuedFiles.Count >= 1 && uploadedImageResults.SuccessfulUploads.Count > 0)
                     {
-                        if (QueuedImages.Count == 1)
+                        FinishedUploadResult finishedResult = null;
+
+                        if (QueuedFiles.Count == 1)
                         {
-                            this.Frame.Navigate(typeof(UploadResultPage), uploadedImageResults.UploadedImageResults[0]);
+                            finishedResult = new FinishedUploadResult(uploadedImageResults, null);
+
+                            this.Frame.Navigate(typeof(UploadResultPage), finishedResult);
                         }
                         else
                         {
@@ -343,22 +382,32 @@ namespace ImgurUploader
 
                             if (createAlbumResult.Success)
                             {
-                                UploadAlbumResult albumResult = new UploadAlbumResult(uploadedImageResults, createAlbumResult);
+                                finishedResult = new FinishedUploadResult(uploadedImageResults, createAlbumResult);
 
-                                this.Frame.Navigate(typeof(UploadResultPage), albumResult);
+                                this.Frame.Navigate(typeof(UploadResultPage), finishedResult);
                             }
                             else
                             {
-                                MessageDialog msg = new MessageDialog("Unable to create album. Please ensure that you are logged in.");
+                                message = "Unable to create album.";
+                                MessageDialog msg = new MessageDialog(message);
                                 await msg.ShowAsync();
                             }
                         }
+
+                        if (finishedResult != null) App.UploadHistory.Add(finishedResult);
+
+
                     }
                     else
                     {
-                        MessageDialog msg = new MessageDialog("Unable to upload anything. Sorry!");
+                        message = "Unable to upload anything. Sorry!";
+                        MessageDialog msg = new MessageDialog(message);
                         await msg.ShowAsync();
                     }
+
+                    //TODO: Only show toast when the app is in the background
+                    ToastNotification toast = Toaster.MakeToast(message, "", null);
+                    ToastNotificationManager.CreateToastNotifier().Show(toast);
                 }
                 catch (TaskCanceledException) { }
                 finally
@@ -385,7 +434,7 @@ namespace ImgurUploader
 
         private void ItemTitleTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            QueuedImage queuedImage = ImageDetailsPanel.DataContext as QueuedImage;
+            QueuedFile queuedImage = ImageDetailsPanel.DataContext as QueuedFile;
             if (queuedImage != null)
             {
                 queuedImage.Title = ItemTitleTextBox.Text;
@@ -394,7 +443,7 @@ namespace ImgurUploader
 
         private void ItemDescriptionTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            QueuedImage queuedImage = ImageDetailsPanel.DataContext as QueuedImage;
+            QueuedFile queuedImage = ImageDetailsPanel.DataContext as QueuedFile;
             if (queuedImage != null)
             {
                 queuedImage.Description = ItemDescriptionTextBox.Text;
@@ -427,10 +476,16 @@ namespace ImgurUploader
 
         private void UpdateAppBarIcons()
         {
-            bool moreThanOneImageSelected = QueuedImagesListView.SelectedItems.Count > 0;
+            bool someImagesSelected = QueuedImagesListView.SelectedItems.Count > 0;
+            bool exactlyOneImageSelected = QueuedImagesListView.SelectedItems.Count == 1;
 
-            RemoveImageButton.IsEnabled = moreThanOneImageSelected;
-            UploadBottomAppBar.IsOpen = moreThanOneImageSelected;
+            SelectAllButton.IsEnabled = _queuedImages.Count > 0;
+
+            RemoveImageButton.IsEnabled = someImagesSelected;
+            UploadBottomAppBar.IsOpen = someImagesSelected;
+
+            MoveImageDownButton.IsEnabled = exactlyOneImageSelected;
+            MoveImageUpButton.IsEnabled = exactlyOneImageSelected;
         }
 
         private void UpdateUploadListSwitcher()
