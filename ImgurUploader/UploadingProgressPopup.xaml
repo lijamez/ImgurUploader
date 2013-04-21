@@ -84,9 +84,9 @@
 
 
     <Grid>
-        <Grid Opacity="0.6" Background="Black"></Grid>
+        <Grid Opacity="0.7" Background="Black"></Grid>
 
-        <Grid Background="White" Height="240">
+        <Grid Background="White" Height="340">
             <Grid.RowDefinitions>
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="2"/>

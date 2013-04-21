@@ -6,6 +6,7 @@
     xmlns:common="using:ImgurUploader.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:UI="using:Microsoft.Advertising.WinRT.UI"
     mc:Ignorable="d">
 
     <Page.BottomAppBar>
@@ -43,6 +44,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <Grid Grid.Column="0">
@@ -50,8 +52,18 @@
                     
                 </Grid>
                 
-                
                 <Grid Grid.Column="1">
+                    <UI:AdControl 
+                        ApplicationId="640f6bdf-6fdd-43f8-965b-5dd5df28e1a0" 
+                        AdUnitId="126876" 
+                        HorizontalAlignment="Left" 
+                        Height="60" 
+                        Margin="0,0,0,0"
+                        VerticalAlignment="Center" 
+                        Width="292"/>
+                </Grid>
+                
+                <Grid Grid.Column="2">
                     <StackPanel Orientation="Horizontal">
                         <Button x:Name="UploadImagesButton" Click="UploadImagesButton_Click" Style="{StaticResource UploadAppBarButtonStyle}"/>
                     </StackPanel>
