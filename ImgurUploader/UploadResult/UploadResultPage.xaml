@@ -16,7 +16,11 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
+
+        <Grid.Resources>
+            <common:BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        </Grid.Resources>
+
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120"/>
@@ -38,24 +42,37 @@
         </Grid>
         
         <Grid Grid.Row="2" Margin="24">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto">
                 <Grid x:Name="ResultGrid">
                     <!-- URLs go in here programatically-->
                 </Grid>
             </ScrollViewer>
         </Grid>
 
-        <Grid x:Name="AdGrid" Grid.Row="3" Height="90">
+        <Grid x:Name="AdGrid" Grid.Row="3" Visibility="{Binding Path=AppShouldShowAds, Converter={StaticResource BoolToVisibilityConverter}}" Background="{StaticResource ContentBackgroundLightColor}">
+            <UI:AdControl
+                x:Name="MainAd"
+                ApplicationId="640f6bdf-6fdd-43f8-965b-5dd5df28e1a0" 
+                AdUnitId="126877" 
+                HorizontalAlignment="Center" 
+                Height="90" 
+                Margin="0,0,0,0"
+                VerticalAlignment="Center" 
+                Width="728"/>
             <UI:AdControl 
-                        ApplicationId="640f6bdf-6fdd-43f8-965b-5dd5df28e1a0" 
-                        AdUnitId="126877" 
-                        HorizontalAlignment="Center" 
-                        Height="90" 
-                        Margin="0,0,0,0"
-                        VerticalAlignment="Center" 
-                        Width="728"/>
+                x:Name="SnappedAd"
+                ApplicationId="640f6bdf-6fdd-43f8-965b-5dd5df28e1a0" 
+                AdUnitId="126925" 
+                HorizontalAlignment="Center" 
+                Height="60" 
+                Margin="0,0,0,0"
+                VerticalAlignment="Center" 
+                Width="728"
+                Visibility="Collapsed"/>
+
         </Grid>
-        
+
+
         <VisualStateManager.VisualStateGroups>
             <!-- Visual states reflect the application's view state -->
             <VisualStateGroup>
@@ -66,6 +83,12 @@
                     <Storyboard>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PageTitle" Storyboard.TargetProperty="Text">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="Results" />
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainAd" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SnappedAd" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>

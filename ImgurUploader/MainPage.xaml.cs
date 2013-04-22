@@ -8,6 +8,8 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
+using Windows.ApplicationModel.Store;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -89,7 +91,12 @@ namespace ImgurUploader
         public MainPage()
         {
             this.InitializeComponent();
+
             QueuedImagesListView.DataContext = QueuedFiles;
+            MainAd.DataContext = InAppPurchases.Instance;
+            SnappedAd.DataContext = InAppPurchases.Instance;
+            ImageDetailsPanelWrapper.DataContext = Window.Current.Bounds;
+
             AddSettings();
             UpdateAppBarIcons();
         }
@@ -125,7 +132,7 @@ namespace ImgurUploader
         /// </summary>
         /// <param name="e">Event data that describes how this page was reached.  The Parameter
         /// property is typically used to configure the page.</param>
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
@@ -133,7 +140,39 @@ namespace ImgurUploader
             UpdateUploadListSwitcher();
             FriendlyAddImageControl.SelectButton.Click += AddImageButton_Click;
 
+#if DEBUG
+            await LoadInAppPurchaseProxyFileAsync();
+#endif
+
         }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+ 	        base.OnNavigatedFrom(e);
+
+#if DEBUG
+            if (licenseChangeHandler != null)
+            {
+                CurrentAppSimulator.LicenseInformation.LicenseChanged -= licenseChangeHandler;
+            }
+#endif
+        }
+
+#if DEBUG
+        LicenseChangedEventHandler licenseChangeHandler = null;
+
+        private async Task LoadInAppPurchaseProxyFileAsync()
+        {
+            StorageFolder proxyDataFolder = await Package.Current.InstalledLocation.GetFolderAsync("data");
+            StorageFile proxyFile = await proxyDataFolder.GetFileAsync("in-app-purchase.xml");
+            licenseChangeHandler = new LicenseChangedEventHandler(InAppPurchaseRefreshScenario);
+            CurrentAppSimulator.LicenseInformation.LicenseChanged += licenseChangeHandler;
+            await CurrentAppSimulator.ReloadSimulatorAsync(proxyFile);
+        }
+
+        private void InAppPurchaseRefreshScenario() { }
+
+#endif
 
         Popup CreateFlyoutPopup(System.Type popupType)
         {
@@ -458,7 +497,7 @@ namespace ImgurUploader
             
         }
 
-        //TODO: Also need to call this when the user rotates the device
+        //TODO: Also need to call this when the user rotates the device, or moves the window to another screen, etc.
         private void UpdateImagePropertyPane()
         {
             IList<object> selectedImages = QueuedImagesListView.SelectedItems;
@@ -468,8 +507,6 @@ namespace ImgurUploader
             }
             else
             {
-                ImageDetailsPanel.Width = Window.Current.Bounds.Width / 2;
-                System.Diagnostics.Debug.WriteLine(ImageDetailsPanel.Width);
                 ImageDetailsPanel.Visibility = Windows.UI.Xaml.Visibility.Visible;
             }
         }

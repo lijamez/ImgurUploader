@@ -31,14 +31,21 @@
             </Grid>
         </AppBar>
     </Page.BottomAppBar>
-    
+
+
+
     <Grid Background="{StaticResource BackgroundColor}">
         <Grid.RowDefinitions>
             <RowDefinition Height="88"/>
             <RowDefinition Height="4"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
+        <Grid.Resources>
+            <common:BooleanToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        </Grid.Resources>
+
         <Grid Grid.Row="0">
             <Grid Background="{StaticResource BackgroundColor}" >
                 <Grid.ColumnDefinitions>
@@ -47,20 +54,27 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
+
+
                 <Grid Grid.Column="0">
                     <TextBlock x:Name="PageTitle" Text="Imgur Uploader" Style="{StaticResource PageHeaderTextStyle}"/>
                     
                 </Grid>
-                
-                <Grid Grid.Column="1">
-                    <UI:AdControl 
-                        ApplicationId="640f6bdf-6fdd-43f8-965b-5dd5df28e1a0" 
-                        AdUnitId="126876" 
-                        HorizontalAlignment="Left" 
-                        Height="60" 
-                        Margin="0,0,0,0"
-                        VerticalAlignment="Center" 
-                        Width="292"/>
+
+
+                <Grid Grid.Column="1" x:Name="MainAd" Visibility="{Binding Path=AppShouldShowAds, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <StackPanel Orientation="Horizontal">
+                        <local:BuyControl/>
+                        <UI:AdControl 
+                            ApplicationId="640f6bdf-6fdd-43f8-965b-5dd5df28e1a0" 
+                            AdUnitId="126876" 
+                            HorizontalAlignment="Left" 
+                            Height="60" 
+                            Margin="0,0,0,0"
+                            VerticalAlignment="Center" 
+                            Width="292"/>
+                    </StackPanel>
+                    
                 </Grid>
                 
                 <Grid Grid.Column="2">
@@ -76,14 +90,31 @@
         <Grid Grid.Row="1" Background="{StaticResource GreenAccent}">
             
         </Grid>
-        
-        <Grid Grid.Row="2">
+
+        <Grid Grid.Row="2" x:Name="SnappedAd" Visibility="{Binding Path=AppShouldShowAds, Converter={StaticResource BoolToVisibilityConverter}}" Background="{StaticResource ContentBackgroundLightColor}">
+            <Grid x:Name="SnappedAdInner" Visibility="Collapsed">
+                <UI:AdControl 
+                            ApplicationId="640f6bdf-6fdd-43f8-965b-5dd5df28e1a0" 
+                            AdUnitId="126925" 
+                            HorizontalAlignment="Center" 
+                            Height="60" 
+                            Margin="0,0,0,0"
+                            VerticalAlignment="Center" 
+                            Width="292"/>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Row="3" x:Name="MainContent">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                
+
+                <Grid.Resources>
+                    <local:ImageDetailsPaneWidthConverter x:Key="ImageDetailsWidthConverter"/>
+                </Grid.Resources>
+
                 <Grid Grid.Column="0" Background="{StaticResource ContentBackgroundColor}">
                     <local:EmptyUploadListControl x:Name="FriendlyAddImageControl"/>
                     <ListView
@@ -98,8 +129,8 @@
                 </Grid>
 
                 <Grid x:Name="ImageDetailsPanelWrapper" Grid.Column="1">
-                    <Grid x:Name="ImageDetailsPanel" DataContext="{Binding ElementName=QueuedImagesListView, Path=SelectedItem}">
-                        <StackPanel Orientation="Vertical" Margin="16,16,16,16">
+                    <Grid x:Name="ImageDetailsPanel" Width="{Binding ElementName=MainContent, Path=ActualWidth, Converter={StaticResource ImageDetailsWidthConverter}}">
+                        <StackPanel Orientation="Vertical" Margin="16,16,16,16" DataContext="{Binding ElementName=QueuedImagesListView, Path=SelectedItem}" >
                             <TextBlock Text="File Name" Style="{StaticResource ImageDetailsHeader}"/>
                             <TextBlock Text="{Binding FileName}" Style="{StaticResource ImageDetailsText}"/>
                             <TextBlock Text="Title" Style="{StaticResource ImageDetailsHeader}"/>
@@ -109,8 +140,12 @@
                         </StackPanel>
                     </Grid>
                 </Grid>
+
+                
             </Grid>
         </Grid>
+
+
 
 
         <VisualStateManager.VisualStateGroups>
@@ -132,6 +167,12 @@
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MoveImageDownButton" Storyboard.TargetProperty="Visibility">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainAd" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SnappedAdInner" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>

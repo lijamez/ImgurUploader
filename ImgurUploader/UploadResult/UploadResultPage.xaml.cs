@@ -26,6 +26,8 @@ namespace ImgurUploader
         public UploadResultPage()
         {
             this.InitializeComponent();
+
+            AdGrid.DataContext = InAppPurchases.Instance;
         }
 
         /// <summary>

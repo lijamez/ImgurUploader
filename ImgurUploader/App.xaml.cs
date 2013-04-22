@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Serialization;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Store;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
@@ -27,12 +28,15 @@ namespace ImgurUploader
     /// </summary>
     sealed partial class App : Application
     {
+
+
         private const string UPLOAD_HISTORY_FILE_NAME = "UploadHistory.xml";
         private static List<FinishedUploadResult> _uploadHistory;
         public static List<FinishedUploadResult> UploadHistory
         {
             get
             {
+                
                 return _uploadHistory;
             }
         }
