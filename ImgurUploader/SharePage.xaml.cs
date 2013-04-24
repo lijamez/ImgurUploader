@@ -89,6 +89,8 @@ namespace ImgurUploader
                     string errorMsg = null;
                     UploadResultCollection uploadedItems = new UploadResultCollection();
 
+                    DateTime startTime = DateTime.UtcNow;
+
                     if (_sharedBitmapStreamRef != null)
                     {
                         IRandomAccessStreamWithContentType stream = await _sharedBitmapStreamRef.OpenReadAsync();
@@ -101,6 +103,8 @@ namespace ImgurUploader
                         uploadedItems.UploadedImageResults.Add(uploadImageResult);
 
                         _finishedResults = new FinishedUploadResult(uploadedItems, null);
+                        _finishedResults.StartDate = startTime;
+                        _finishedResults.FinishDate = DateTime.UtcNow;
 
                         if (uploadResult != null && uploadResult.Success)
                         {
@@ -145,6 +149,8 @@ namespace ImgurUploader
                             UploadStatus.Text = "Creating album...";
                             Basic<AlbumCreateData> albumCreationResult = await _api.CreateAlbum(uploadedImageIDs.ToArray(), null, null, null, _cancellationTokenSource.Token);
                             FinishedUploadResult uploadAlbumResult = new FinishedUploadResult(uploadedItems, albumCreationResult);
+                            _finishedResults.StartDate = startTime;
+                            _finishedResults.FinishDate = DateTime.UtcNow;
                             _finishedResults = uploadAlbumResult;
 
                             if (albumCreationResult != null && albumCreationResult.Success)
@@ -170,6 +176,8 @@ namespace ImgurUploader
 
                                 uploadedItems.UploadedImageResults.Add(uploadImageResult);
                                 _finishedResults = new FinishedUploadResult(uploadedItems, null);
+                                _finishedResults.StartDate = startTime;
+                                _finishedResults.FinishDate = DateTime.UtcNow;
 
                                 if (uploadResult != null && uploadResult.Success)
                                 {
@@ -188,8 +196,8 @@ namespace ImgurUploader
                     int uploadHistoryIndex = -1;
                     if (_finishedResults != null)
                     {
-                        App.UploadHistory.Add(_finishedResults);
-                        uploadHistoryIndex = App.UploadHistory.FindIndex(new Predicate<FinishedUploadResult>( i => i == _finishedResults));
+                        App.UploadHistory.Insert(0, _finishedResults);
+                        uploadHistoryIndex = App.UploadHistory.IndexOf(_finishedResults);
                     }
 
                     UploadProgressRing.IsActive = false;

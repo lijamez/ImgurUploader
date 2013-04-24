@@ -406,6 +406,7 @@
         Uncomment any style you reference (as not all may be required).
     -->
 
+    <!-- Imgur Uploader -->
     <Style x:Key="MoveUpAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
         <Setter Property="AutomationProperties.AutomationId" Value="MoveUpAppBarButton"/>
         <Setter Property="AutomationProperties.Name" Value="Move Up"/>
@@ -417,6 +418,26 @@
         <Setter Property="AutomationProperties.Name" Value="Move Down"/>
         <Setter Property="Content" Value="&#x2B07;"/>
     </Style>
+
+    <Style x:Key="ClearAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
+        <Setter Property="AutomationProperties.AutomationId" Value="ClearAppBarButton"/>
+        <Setter Property="AutomationProperties.Name" Value="Clear"/>
+        <Setter Property="Content" Value="&#xE106;"/>
+    </Style>
+
+    <Style x:Key="DeleteAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
+        <Setter Property="AutomationProperties.AutomationId" Value="DeleteAppBarButton"/>
+        <Setter Property="AutomationProperties.Name" Value="Delete"/>
+        <Setter Property="Content" Value="&#xE0E0;"/>
+    </Style>
+
+    <Style x:Key="HistoryAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
+        <Setter Property="AutomationProperties.AutomationId" Value="HistoryAppBarButton"/>
+        <Setter Property="AutomationProperties.Name" Value="History"/>
+        <Setter Property="Content" Value="&#xE14C;"/>
+    </Style>
+
+    <!-- End -->
 
     <Style x:Key="SkipBackAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
         <Setter Property="AutomationProperties.AutomationId" Value="SkipBackAppBarButton"/>
@@ -448,11 +469,14 @@
         <Setter Property="AutomationProperties.Name" Value="Save"/>
         <Setter Property="Content" Value="&#xE105;"/>
     </Style>
+    
+    <!--
     <Style x:Key="DeleteAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
         <Setter Property="AutomationProperties.AutomationId" Value="DeleteAppBarButton"/>
         <Setter Property="AutomationProperties.Name" Value="Delete"/>
         <Setter Property="Content" Value="&#xE106;"/>
     </Style>
+    -->
     <Style x:Key="DiscardAppBarButtonStyle" TargetType="ButtonBase" BasedOn="{StaticResource AppBarButtonStyle}">
         <Setter Property="AutomationProperties.AutomationId" Value="DiscardAppBarButton"/>
         <Setter Property="AutomationProperties.Name" Value="Discard"/>

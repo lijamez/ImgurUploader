@@ -71,7 +71,7 @@ namespace ImgurUploader
         {
             if (File != null)
             {
-                StorageItemThumbnail thumbnail = await File.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView);
+                StorageItemThumbnail thumbnail = await File.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.ListView, 160);
                 if (thumbnail != null)
                 {
                     BitmapImage img = new BitmapImage();

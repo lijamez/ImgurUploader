@@ -1,0 +1,138 @@
+﻿<Page
+    x:Class="ImgurUploader.UploadHistory.UploadHistoryPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ImgurUploader"
+    xmlns:common="using:ImgurUploader.Common"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+
+
+    <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="88"/>
+            <RowDefinition Height="4"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="120"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0">
+                <Button x:Name="BackButton" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}" VerticalAlignment="Center" Click="BackButton_Click" Margin="36,21,0,19"/>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <TextBlock x:Name="PageTitle" Text="History" Style="{StaticResource PageHeaderTextStyle}"/>
+            </Grid>
+
+        </Grid>
+
+        <Grid Grid.Row="1" Background="{StaticResource GreenAccent}">
+
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Grid.Resources>
+                <common:VisibleWhenNonNull x:Key="VisibleWhenNonNull"/>
+            </Grid.Resources>
+            <Grid.Background>
+                <StaticResource ResourceKey="ContentBackgroundColor"/>
+            </Grid.Background>
+
+            <Grid Grid.Column="0">
+                <ListView
+                    HorizontalContentAlignment="Stretch"
+                    x:Name="HistoryListView"
+                    ItemsSource="{Binding}"
+                    ItemTemplate="{StaticResource HistoryItemsTemplate}" 
+                    SelectionChanged="HistoryListView_SelectionChanged" 
+                    SelectionMode="Single">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                </ListView>
+            </Grid>
+            
+            <Grid Grid.Column="1" DataContext="{Binding ElementName=HistoryListView}"  Visibility="{Binding SelectedItem, Converter={StaticResource VisibleWhenNonNull}}" Background="{StaticResource BackgroundColor}">
+                <StackPanel Orientation="Vertical" DataContext="{Binding Path=SelectedItem}" Margin="32">
+                    <StackPanel.Resources>
+                        <common:VisibleWhenAlbumCreationSucceeded x:Key="VisibleWhenAlbumCreationSucceeded"/>
+                    </StackPanel.Resources>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,32">
+                        <StackPanel.Resources>
+                            <common:UploadStatusConverter x:Key="UploadStatusConverter"/>
+                            <common:UtcToLocalTimeConverter x:Key="UtcToLocalTimeConverter"/>
+                        </StackPanel.Resources>
+                        <StackPanel Orientation="Vertical" Margin="0,8,32,4">
+                            <TextBlock Text="Status" Style="{StaticResource ImageDetailsHeader}"/>
+                            <TextBlock Text="{Binding Converter={StaticResource UploadStatusConverter}}" Style="{StaticResource ImageDetailsText}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="0,8,32,4">
+                            <TextBlock Text="Started" Style="{StaticResource ImageDetailsHeader}"/>
+                            <TextBlock Text="{Binding StartDate, Converter={StaticResource UtcToLocalTimeConverter}}" Style="{StaticResource ImageDetailsText}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical" Margin="0,8,32,4">
+                            <TextBlock Text="Completed" Style="{StaticResource ImageDetailsHeader}"/>
+                            <TextBlock Text="{Binding FinishDate, Converter={StaticResource UtcToLocalTimeConverter}}" Style="{StaticResource ImageDetailsText}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    
+                    <local:UploadResultsControl x:Name="UploadResults" Margin="0,16"/>
+
+                    <StackPanel Margin="0,16" Visibility="{Binding AlbumCreateResults, Converter={StaticResource VisibleWhenAlbumCreationSucceeded}}">
+                        <TextBlock Text="Images" Style="{StaticResource ImageDetailsHeader}"/>
+                        <ListView
+                            x:Name="BatchListView"
+                            ItemsSource="{Binding Images.UploadedImageResults}" 
+                            ItemTemplate="{StaticResource BatchItemsTemplate}" 
+                            SelectionMode="Single" 
+                            Grid.ColumnSpan="2" ItemClick="BatchListView_ItemClicked" SelectionChanged="BatchListView_SelectionChanged">
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="ListViewItem">
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                        </ListView>
+                    </StackPanel>
+                    
+                </StackPanel>
+            </Grid>
+        </Grid>
+    </Grid>
+
+    <Page.BottomAppBar>
+        <AppBar x:Name="UploadBottomAppBar" Padding="10,0,10,0" Background="{StaticResource GreenAccentLight}" IsSticky="True" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.Resources>
+                    <common:EnabledWithSelectionConverter x:Key="EnabledWithSelectionConverter"/>
+                </Grid.Resources>
+
+                <Grid Grid.Column="1" >
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="ClearButton" Click="ClearButton_Click" Style="{StaticResource ClearAppBarButtonStyle}"/>
+                        <Button x:Name="DeleteButton" Click="DeleteButton_Click" Style="{StaticResource DeleteAppBarButtonStyle}"/>
+                    </StackPanel>
+                </Grid>
+            </Grid>
+        </AppBar>
+    </Page.BottomAppBar>
+</Page>

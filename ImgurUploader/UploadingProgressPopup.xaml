@@ -112,7 +112,7 @@
 
                     <Grid Grid.Column="1">
                         <StackPanel Orientation="Vertical" VerticalAlignment="Center">
-                            <ProgressBar x:Name="UploadProgressBar" Foreground="{StaticResource GreenAccent}" Maximum="1" Margin="0,0,0,16"/>
+                            <ProgressBar x:Name="UploadProgressBar" Foreground="{StaticResource GreenAccent}" Maximum="1" Margin="0,0,0,32"/>
                             <TextBlock x:Name="UploadProgressTextBlock" Style="{StaticResource ImageDetailsText}" Foreground="Black" HorizontalAlignment="Center"/>
                         </StackPanel>
 

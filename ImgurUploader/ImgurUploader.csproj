@@ -111,6 +111,11 @@
     <Compile Include="AboutFlyout.xaml.cs">
       <DependentUpon>AboutFlyout.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Common\ElapsedTimeConverter.cs" />
+    <Compile Include="Common\VisibleWhenNonNull.cs" />
+    <Compile Include="Common\UtcToLocalTimeConverter.cs" />
+    <Compile Include="Common\UploadStatusConverter.cs" />
+    <Compile Include="Common\EnabledWithSelectionConverter.cs" />
     <Compile Include="ImageDetailsPaneWidthConverter.cs" />
     <Compile Include="BuyControl.xaml.cs">
       <DependentUpon>BuyControl.xaml</DependentUpon>
@@ -141,6 +146,11 @@
       <DependentUpon>PrivacyPolicy.xaml</DependentUpon>
     </Compile>
     <Compile Include="Toaster.cs" />
+    <Compile Include="Common\PluralityConverter.cs" />
+    <Compile Include="Common\VisibleWhenAlbumCreationSucceeded.cs" />
+    <Compile Include="UploadHistory\UploadHistoryPage.xaml.cs">
+      <DependentUpon>UploadHistoryPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UploadResult\CopyableLinkControl.xaml.cs">
       <DependentUpon>CopyableLinkControl.xaml</DependentUpon>
     </Compile>
@@ -225,6 +235,10 @@
     <Page Include="PrivacyPolicy.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UploadHistory\UploadHistoryPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UploadResult\CopyableLinkControl.xaml">
       <SubType>Designer</SubType>

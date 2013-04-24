@@ -1,16 +1,17 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:ImgurUploader">
+    xmlns:local="using:ImgurUploader"
+    xmlns:common="using:ImgurUploader.Common">
 
     <!-- List-appropriate 130 pixel high item template as seen in the SplitPage -->
     <DataTemplate x:Key="QueuedItemsTemplate">
-        <Grid Height="110" Margin="6">
+        <Grid Height="160" Margin="6">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="110" Height="110">
+            <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}" Width="160" Height="160">
                 <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Title}"/>
             </Border>
             <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,0,0,0">
@@ -21,7 +22,71 @@
         </Grid>
     </DataTemplate>
 
-    
+    <DataTemplate x:Key="HistoryItemsTemplate">
+        <Grid Height="80" Margin="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            
+            <Grid.Resources>
+                <common:PluralityConverter x:Key="PluralityConverter"/>
+                <common:ElapsedTimeConverter x:Key="ElapsedTimeConverter"/>
+            </Grid.Resources>
+            
+            <Grid Grid.Column="0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock x:Name="HistoryItemImagesCount" Text="{Binding Images.TotalImageResults}" FontSize="64"/>
+                    <TextBlock Text="{Binding Images.TotalImageResults, Converter={StaticResource PluralityConverter}, ConverterParameter=image}" VerticalAlignment="Bottom"/>
+                </StackPanel>
+            </Grid>
+
+            <Grid Grid.Column="1">
+                <StackPanel Margin="10,0,0,0" HorizontalAlignment="Right">
+                    <StackPanel.Resources>
+                        <common:UtcToLocalTimeConverter x:Key="UtcToLocalTimeConverter"/>
+                    </StackPanel.Resources>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock Text="Started: " Margin="0,0,16,0"/>
+                        <TextBlock Text="{Binding StartDate, Converter={StaticResource UtcToLocalTimeConverter}}" TextWrapping="NoWrap"/>    
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock Text="Finished: " Margin="0,0,16,0"/>
+                        <TextBlock Text="{Binding FinishDate, Converter={StaticResource UtcToLocalTimeConverter}}" TextWrapping="NoWrap"/>    
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock Text="Duration: " Margin="0,0,16,0"/>
+                        <TextBlock Text="{Binding Converter={StaticResource ElapsedTimeConverter}}" TextWrapping="NoWrap"/>
+                    </StackPanel>
+
+                </StackPanel>
+            </Grid>
+
+        </Grid>
+    </DataTemplate>
+
+    <DataTemplate x:Key="BatchItemsTemplate">
+        <Grid Height="60" Margin="6">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel Grid.Column="1" VerticalAlignment="Top" Margin="10,0,0,0">
+                <StackPanel.Resources>
+                    <common:VisibleWhenNonNull x:Key="VisibleWhenNotNull"/>
+                </StackPanel.Resources>
+
+                <TextBlock Text="{Binding Item.Title}" TextWrapping="NoWrap" Style="{StaticResource TitleTextStyle}"  Visibility="{Binding Item.Title, Converter={StaticResource VisibleWhenNotNull}}"/>
+                <TextBlock Text="{Binding Item.Description}" TextWrapping="NoWrap"  Style="{StaticResource BodyTextStyle}" Visibility="{Binding Item.Title, Converter={StaticResource VisibleWhenNotNull}}"/>
+                
+            </StackPanel>
+
+            <TextBlock Text="{Binding Result.Data.Link}" TextWrapping="NoWrap" HorizontalAlignment="Right" VerticalAlignment="Bottom"/>
+        </Grid>
+    </DataTemplate>
 
     <Style x:Key="ImageDetailsHeader" TargetType="TextBlock">
         <Setter Property="FontSize" Value="24"/>

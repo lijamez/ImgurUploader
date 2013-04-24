@@ -1,6 +1,7 @@
 ﻿using ImgurUploader.UploadResult;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,8 +32,8 @@ namespace ImgurUploader
 
 
         private const string UPLOAD_HISTORY_FILE_NAME = "UploadHistory.xml";
-        private static List<FinishedUploadResult> _uploadHistory;
-        public static List<FinishedUploadResult> UploadHistory
+        private static ObservableCollection<FinishedUploadResult> _uploadHistory;
+        public static ObservableCollection<FinishedUploadResult> UploadHistory
         {
             get
             {
@@ -48,9 +49,9 @@ namespace ImgurUploader
                 StorageFile uploadHistoryFile = await ApplicationData.Current.RoamingFolder.GetFileAsync(UPLOAD_HISTORY_FILE_NAME);
                 if (uploadHistoryFile != null)
                 {
-                    XmlSerializer serializer = new XmlSerializer(typeof(List<FinishedUploadResult>));
+                    XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<FinishedUploadResult>));
                     Stream fileStream = await uploadHistoryFile.OpenStreamForReadAsync();
-                    _uploadHistory = (List<FinishedUploadResult>)serializer.Deserialize(fileStream);
+                    _uploadHistory = (ObservableCollection<FinishedUploadResult>)serializer.Deserialize(fileStream);
 
                     System.Diagnostics.Debug.WriteLine(String.Format("Successfully read {0} entries from upload history from {1}", UploadHistory.Count, uploadHistoryFile.Path));
 
@@ -58,7 +59,7 @@ namespace ImgurUploader
             }
             catch (Exception) 
             {
-                _uploadHistory = new List<FinishedUploadResult>();
+                _uploadHistory = new ObservableCollection<FinishedUploadResult>();
             }
         }
 
@@ -66,23 +67,9 @@ namespace ImgurUploader
         {
             if (UploadHistory != null)
             {
+                StorageFile uploadHistoryFile = await ApplicationData.Current.RoamingFolder.CreateFileAsync(UPLOAD_HISTORY_FILE_NAME, CreationCollisionOption.ReplaceExisting);
 
-                StorageFile uploadHistoryFile = null;
-
-                bool fileFound = false;
-                try
-                {
-                    uploadHistoryFile = await ApplicationData.Current.RoamingFolder.GetFileAsync(UPLOAD_HISTORY_FILE_NAME);
-                    fileFound = true;
-                }
-                catch (FileNotFoundException) { }
-
-                if (!fileFound)
-                {
-                    uploadHistoryFile = await ApplicationData.Current.RoamingFolder.CreateFileAsync(UPLOAD_HISTORY_FILE_NAME);
-                }
-
-                XmlSerializer serializer = new XmlSerializer(typeof(List<FinishedUploadResult>));
+                XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<FinishedUploadResult>));
                 using (Stream fileStream = await uploadHistoryFile.OpenStreamForWriteAsync())
                 {
                     serializer.Serialize(fileStream, UploadHistory);

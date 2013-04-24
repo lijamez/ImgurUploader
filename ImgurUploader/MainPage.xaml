@@ -79,6 +79,7 @@
                 
                 <Grid Grid.Column="2">
                     <StackPanel Orientation="Horizontal">
+                        <Button x:Name="HistoryButton" Click="HistoryButton_Click" Style="{StaticResource HistoryAppBarButtonStyle}"/>
                         <Button x:Name="UploadImagesButton" Click="UploadImagesButton_Click" Style="{StaticResource UploadAppBarButtonStyle}"/>
                     </StackPanel>
                 </Grid>
@@ -123,9 +124,7 @@
                         ItemTemplate="{StaticResource QueuedItemsTemplate}" 
                         SelectionChanged="QueuedImagesListView_SelectionChanged" 
                         SelectionMode="Extended" 
-                        Grid.ColumnSpan="2">
-
-                    </ListView>
+                        Grid.ColumnSpan="2"/>
                 </Grid>
 
                 <Grid x:Name="ImageDetailsPanelWrapper" Grid.Column="1">

@@ -379,9 +379,12 @@ namespace ImgurUploader
                 System.Diagnostics.Debug.WriteLine(String.Format("Now uploading {0} items...", QueuedFiles.Count));
 
                 UploadResultCollection uploadedImageResults = new UploadResultCollection();
+                Exception exception = null;
 
                 try
                 {
+                    DateTime startTime = DateTime.UtcNow;
+
                     _uploadCancellationTokenSource = new CancellationTokenSource();
 
                     string message = "Upload Completed";
@@ -404,6 +407,8 @@ namespace ImgurUploader
                         if (QueuedFiles.Count == 1)
                         {
                             finishedResult = new FinishedUploadResult(uploadedImageResults, null);
+                            finishedResult.StartDate = startTime;
+                            finishedResult.FinishDate = DateTime.UtcNow;
 
                             this.Frame.Navigate(typeof(UploadResultPage), finishedResult);
                         }
@@ -422,6 +427,8 @@ namespace ImgurUploader
                             if (createAlbumResult.Success)
                             {
                                 finishedResult = new FinishedUploadResult(uploadedImageResults, createAlbumResult);
+                                finishedResult.StartDate = startTime;
+                                finishedResult.FinishDate = DateTime.UtcNow;
 
                                 this.Frame.Navigate(typeof(UploadResultPage), finishedResult);
                             }
@@ -433,7 +440,7 @@ namespace ImgurUploader
                             }
                         }
 
-                        if (finishedResult != null) App.UploadHistory.Add(finishedResult);
+                        if (finishedResult != null) App.UploadHistory.Insert(0, finishedResult);
 
 
                     }
@@ -449,9 +456,19 @@ namespace ImgurUploader
                     ToastNotificationManager.CreateToastNotifier().Show(toast);
                 }
                 catch (TaskCanceledException) { }
+                catch (Exception ex) 
+                {
+                    exception = ex;
+                }
                 finally
                 {
                     uploadPopup.IsOpen = false;
+                }
+
+                if (exception != null)
+                {
+                    MessageDialog msg = new MessageDialog(exception.Message, "Something went wrong. Please try again.");
+                    await msg.ShowAsync();
                 }
             }
         }
@@ -473,7 +490,8 @@ namespace ImgurUploader
 
         private void ItemTitleTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            QueuedFile queuedImage = ImageDetailsPanel.DataContext as QueuedFile;
+            TextBox textBox = (TextBox)sender;
+            QueuedFile queuedImage = textBox.DataContext as QueuedFile;
             if (queuedImage != null)
             {
                 queuedImage.Title = ItemTitleTextBox.Text;
@@ -482,7 +500,8 @@ namespace ImgurUploader
 
         private void ItemDescriptionTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            QueuedFile queuedImage = ImageDetailsPanel.DataContext as QueuedFile;
+            TextBox textBox = (TextBox)sender;
+            QueuedFile queuedImage = textBox.DataContext as QueuedFile;
             if (queuedImage != null)
             {
                 queuedImage.Description = ItemDescriptionTextBox.Text;
@@ -494,7 +513,6 @@ namespace ImgurUploader
             UpdateImagePropertyPane();
             UpdateAppBarIcons();
             UpdateUploadListSwitcher();
-            
         }
 
         //TODO: Also need to call this when the user rotates the device, or moves the window to another screen, etc.
@@ -537,6 +555,11 @@ namespace ImgurUploader
                 QueuedImagesListView.Visibility = Windows.UI.Xaml.Visibility.Visible;
                 FriendlyAddImageControl.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
             }
+        }
+
+        private void HistoryButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(UploadHistory.UploadHistoryPage));
         }
     }
 }
