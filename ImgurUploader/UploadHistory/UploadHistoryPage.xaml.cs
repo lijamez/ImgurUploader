@@ -88,15 +88,11 @@ namespace ImgurUploader.UploadHistory
 
         private async void BatchListView_ItemClicked(object sender, ItemClickEventArgs e)
         {
-            //List<FinishedUploadResult> sourceData = (List<FinishedUploadResult>)HistoryListView.DataContext;
-            UploadImageResult selectedImage = (UploadImageResult)e.ClickedItem;
-            await Launcher.LaunchUriAsync(new Uri(selectedImage.Result.Data.Link));
-        }
-
-        private async void BatchListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            UploadImageResult selectedImage = (UploadImageResult)e.AddedItems[0];
-            await Launcher.LaunchUriAsync(new Uri(selectedImage.Result.Data.Link));
+            UploadImageResult imageResult = e.ClickedItem as UploadImageResult;
+            if (imageResult != null && imageResult.Result.Success)
+            {
+                await Launcher.LaunchUriAsync(new Uri(imageResult.Result.Data.Link));
+            }
         }
     }
 }

@@ -100,7 +100,9 @@
                             ItemsSource="{Binding Images.UploadedImageResults}" 
                             ItemTemplate="{StaticResource BatchItemsTemplate}" 
                             SelectionMode="Single" 
-                            Grid.ColumnSpan="2" ItemClick="BatchListView_ItemClicked" SelectionChanged="BatchListView_SelectionChanged">
+                            Grid.ColumnSpan="2"
+                            IsItemClickEnabled="True"
+                            ItemClick="BatchListView_ItemClicked">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="ListViewItem">
                                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
