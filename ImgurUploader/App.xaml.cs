@@ -1,4 +1,5 @@
-﻿using ImgurUploader.UploadResult;
+﻿using ImgurUploader.UploadHistory;
+using ImgurUploader.UploadResult;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,55 +30,20 @@ namespace ImgurUploader
     /// </summary>
     sealed partial class App : Application
     {
-
-
-        private const string UPLOAD_HISTORY_FILE_NAME = "UploadHistory.xml";
-        private static ObservableCollection<FinishedUploadResult> _uploadHistory;
-        public static ObservableCollection<FinishedUploadResult> UploadHistory
+        private static UploadHistoryManager _uploadHistoryMgr;
+        public static UploadHistoryManager UploadHistoryMgr
         {
             get
             {
-                
-                return _uploadHistory;
-            }
-        }
-
-        private async Task ReadUploadHistory()
-        {
-            try
-            {
-                StorageFile uploadHistoryFile = await ApplicationData.Current.RoamingFolder.GetFileAsync(UPLOAD_HISTORY_FILE_NAME);
-                if (uploadHistoryFile != null)
+                if (_uploadHistoryMgr == null)
                 {
-                    XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<FinishedUploadResult>));
-                    Stream fileStream = await uploadHistoryFile.OpenStreamForReadAsync();
-                    _uploadHistory = (ObservableCollection<FinishedUploadResult>)serializer.Deserialize(fileStream);
-
-                    System.Diagnostics.Debug.WriteLine(String.Format("Successfully read {0} entries from upload history from {1}", UploadHistory.Count, uploadHistoryFile.Path));
-
+                    _uploadHistoryMgr = new UploadHistoryManager();
                 }
-            }
-            catch (Exception) 
-            {
-                _uploadHistory = new ObservableCollection<FinishedUploadResult>();
+
+                return _uploadHistoryMgr;
             }
         }
 
-        private async Task WriteUploadHistory()
-        {
-            if (UploadHistory != null)
-            {
-                StorageFile uploadHistoryFile = await ApplicationData.Current.RoamingFolder.CreateFileAsync(UPLOAD_HISTORY_FILE_NAME, CreationCollisionOption.ReplaceExisting);
-
-                XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<FinishedUploadResult>));
-                using (Stream fileStream = await uploadHistoryFile.OpenStreamForWriteAsync())
-                {
-                    serializer.Serialize(fileStream, UploadHistory);
-
-                    System.Diagnostics.Debug.WriteLine(String.Format("Successfully written {0} entries to upload history file at {1}", UploadHistory.Count, uploadHistoryFile.Path));
-                }
-            }
-        }
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -117,10 +83,7 @@ namespace ImgurUploader
                 Window.Current.Content = rootFrame;
             }
 
-            if (UploadHistory == null)
-            {
-                await ReadUploadHistory();
-            }
+            await UploadHistoryMgr.ReadUploadHistory();
 
             if (rootFrame.Content == null)
             {
@@ -158,7 +121,7 @@ namespace ImgurUploader
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
-            await WriteUploadHistory();
+            await UploadHistoryMgr.WriteUploadHistory();
 
             deferral.Complete();
         }

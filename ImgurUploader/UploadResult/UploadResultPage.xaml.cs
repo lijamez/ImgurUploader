@@ -54,7 +54,7 @@ namespace ImgurUploader
                 try
                 {
                     int uploadHistoryIndex = int.Parse(arg as string);
-                    resultsControl = new UploadResultsControl(App.UploadHistory[uploadHistoryIndex]);
+                    resultsControl = new UploadResultsControl(App.UploadHistoryMgr.UploadHistory[uploadHistoryIndex]);
                 }
                 catch (Exception) { }
             }

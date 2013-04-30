@@ -30,13 +30,14 @@ namespace ImgurUploader.UploadHistory
         public UploadHistoryPage()
         {
             this.InitializeComponent();
-            _dataSource = App.UploadHistory;
+            _dataSource = App.UploadHistoryMgr.UploadHistory;
 
             HistoryListView.DataContext = _dataSource;
             if (HistoryListView.Items.Count > 0)
             {
                 HistoryListView.SelectedIndex = 0;
             }
+
         }
 
         /// <summary>
@@ -94,5 +95,13 @@ namespace ImgurUploader.UploadHistory
                 await Launcher.LaunchUriAsync(new Uri(imageResult.Result.Data.Link));
             }
         }
+
+        private async void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            await App.UploadHistoryMgr.ReadUploadHistory();
+            await App.UploadHistoryMgr.WriteUploadHistory();
+            HistoryListView.DataContext = App.UploadHistoryMgr.UploadHistory; //TODO: This shouldn't be neccessary. But it is.
+        }
+
     }
 }

@@ -148,6 +148,7 @@
     <Compile Include="Toaster.cs" />
     <Compile Include="Common\PluralityConverter.cs" />
     <Compile Include="Common\VisibleWhenAlbumCreationSucceeded.cs" />
+    <Compile Include="UploadHistory\UploadHistoryManager.cs" />
     <Compile Include="UploadHistory\UploadHistoryPage.xaml.cs">
       <DependentUpon>UploadHistoryPage.xaml</DependentUpon>
     </Compile>

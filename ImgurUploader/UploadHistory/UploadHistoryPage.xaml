@@ -128,6 +128,12 @@
                     <common:EnabledWithSelectionConverter x:Key="EnabledWithSelectionConverter"/>
                 </Grid.Resources>
 
+                <Grid Grid.Column="0">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="RefreshButton" Click="RefreshButton_Click" Style="{StaticResource RefreshAppBarButtonStyle}"/>
+                    </StackPanel>
+                </Grid>
+                
                 <Grid Grid.Column="1" >
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button x:Name="ClearButton" Click="ClearButton_Click" Style="{StaticResource ClearAppBarButtonStyle}"/>

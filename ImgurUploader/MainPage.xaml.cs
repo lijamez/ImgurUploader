@@ -440,7 +440,7 @@ namespace ImgurUploader
                             }
                         }
 
-                        if (finishedResult != null) App.UploadHistory.Insert(0, finishedResult);
+                        if (finishedResult != null) App.UploadHistoryMgr.UploadHistory.Insert(0, finishedResult);
 
 
                     }
