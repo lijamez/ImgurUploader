@@ -76,7 +76,7 @@ namespace ImgurUploader
                 {
                     AppShouldShowAds = false; //Set to notify listeners
 
-                    MessageDialog errMsg = new MessageDialog("Ads have now been removed.", "Thank you for your purchase");
+                    MessageDialog errMsg = new MessageDialog("Ads have now been removed. Enjoy!", "Thank you for your support");
                     await errMsg.ShowAsync();
                 }
 

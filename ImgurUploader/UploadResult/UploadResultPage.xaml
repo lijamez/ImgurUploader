@@ -49,7 +49,7 @@
             </ScrollViewer>
         </Grid>
 
-        <Grid x:Name="AdGrid" Grid.Row="3" Visibility="{Binding Path=AppShouldShowAds, Converter={StaticResource BoolToVisibilityConverter}}" Background="{StaticResource ContentBackgroundLightColor}">
+        <Grid x:Name="AdGrid" Grid.Row="3" Visibility="{Binding Path=AppShouldShowAds, Converter={StaticResource BoolToVisibilityConverter}}">
             <UI:AdControl
                 x:Name="MainAd"
                 ApplicationId="640f6bdf-6fdd-43f8-965b-5dd5df28e1a0" 

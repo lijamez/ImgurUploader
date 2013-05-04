@@ -130,7 +130,7 @@
 
                 <Grid Grid.Column="0">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                        <Button x:Name="RefreshButton" Click="RefreshButton_Click" Style="{StaticResource RefreshAppBarButtonStyle}"/>
+                        
                     </StackPanel>
                 </Grid>
                 

@@ -51,12 +51,14 @@ namespace ImgurUploader
             }
             else if (arg is string)
             {
-                try
+                string id = arg as string;
+                foreach (FinishedUploadResult r in App.UploadHistoryMgr.UploadHistory)
                 {
-                    int uploadHistoryIndex = int.Parse(arg as string);
-                    resultsControl = new UploadResultsControl(App.UploadHistoryMgr.UploadHistory[uploadHistoryIndex]);
-                }
-                catch (Exception) { }
+                    if (r != null && String.Equals(r.ID, id))
+                    {
+                        resultsControl = new UploadResultsControl(r);
+                    }
+                }   
             }
 
             if (resultsControl != null)

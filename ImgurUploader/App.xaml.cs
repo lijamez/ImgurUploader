@@ -13,6 +13,7 @@ using Windows.ApplicationModel.Store;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Storage;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -55,6 +56,7 @@ namespace ImgurUploader
             this.Suspending += OnSuspending;
         }
 
+
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
         /// will be used when the application is launched to open a specific file, to display
@@ -83,7 +85,7 @@ namespace ImgurUploader
                 Window.Current.Content = rootFrame;
             }
 
-            await UploadHistoryMgr.ReadUploadHistory();
+            await UploadHistoryMgr.Sync();
 
             if (rootFrame.Content == null)
             {
@@ -106,8 +108,18 @@ namespace ImgurUploader
                 }
             }
 
+            Window.Current.VisibilityChanged += OnVisibilityChanged;
+
             // Ensure the current window is active
             Window.Current.Activate();
+        }
+
+        private async void OnVisibilityChanged(object sender, VisibilityChangedEventArgs e)
+        {
+            if (e.Visible)
+            {
+                await UploadHistoryMgr.Sync();
+            }
         }
 
         /// <summary>
@@ -121,7 +133,7 @@ namespace ImgurUploader
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             //TODO: Save application state and stop any background activity
-            await UploadHistoryMgr.WriteUploadHistory();
+            await UploadHistoryMgr.Sync();
 
             deferral.Complete();
         }

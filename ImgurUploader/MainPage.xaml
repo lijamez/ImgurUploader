@@ -92,7 +92,7 @@
             
         </Grid>
 
-        <Grid Grid.Row="2" x:Name="SnappedAd" Visibility="{Binding Path=AppShouldShowAds, Converter={StaticResource BoolToVisibilityConverter}}" Background="{StaticResource ContentBackgroundLightColor}">
+        <Grid Grid.Row="2" x:Name="SnappedAd" Visibility="{Binding Path=AppShouldShowAds, Converter={StaticResource BoolToVisibilityConverter}}" Background="{StaticResource ContentBackgroundColor}" >
             <Grid x:Name="SnappedAdInner" Visibility="Collapsed">
                 <UI:AdControl 
                             ApplicationId="640f6bdf-6fdd-43f8-965b-5dd5df28e1a0" 

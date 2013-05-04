@@ -198,7 +198,7 @@ namespace ImgurUploader
             if (_finishedResults != null)
             {
                 _shareCharmUploadHistory.Insert(0, _finishedResults);
-                uploadHistoryIndex = App.UploadHistoryMgr.UploadHistory.IndexOf(_finishedResults);
+                uploadHistoryIndex = _shareCharmUploadHistory.IndexOf(_finishedResults);
             }
 
             UploadProgressRing.IsActive = false;
@@ -210,10 +210,7 @@ namespace ImgurUploader
 
             if (operationSuccess)
             {
-                if (uploadHistoryIndex >= 0)
-                {
-                    toastLaunch = String.Format("ShowLatestResults,{0}", uploadHistoryIndex);
-                }
+                toastLaunch = String.Format("ShowLatestResults,{0}", _finishedResults.ID);
 
                 toastTitle = "Upload Complete";
                 toastBody = "Click or tap to get links.";
@@ -234,8 +231,6 @@ namespace ImgurUploader
             toast.Activated += OnToastClicked;
 
             ToastNotificationManager.CreateToastNotifier().Show(toast);
-
-
         }
 
         private async Task ReadUploadHistory()

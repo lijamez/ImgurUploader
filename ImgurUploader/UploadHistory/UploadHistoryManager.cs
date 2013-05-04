@@ -25,60 +25,95 @@ namespace ImgurUploader.UploadHistory
         {
             get { return _uploadHistory; }
         }
+        private bool _initialized = false;
 
-        public async Task ReadUploadHistory()
+        public async Task Sync()
         {
             try
             {
-                _uploadHistory = new ObservableCollection<FinishedUploadResult>();
-
-                StorageFile uploadHistoryFile = await ApplicationData.Current.RoamingFolder.GetFileAsync(UPLOAD_HISTORY_FILE_NAME);
-                if (uploadHistoryFile != null)
+                if (_initialized)
                 {
-                    XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<FinishedUploadResult>));
-                    Stream fileStream = await uploadHistoryFile.OpenStreamForReadAsync();
-                    ObservableCollection<FinishedUploadResult> readUploadHistory = (ObservableCollection<FinishedUploadResult>)serializer.Deserialize(fileStream);
-
-                    _uploadHistory.Clear();
-                    foreach (FinishedUploadResult r in readUploadHistory)
-                    {
-                        _uploadHistory.Insert(0, r);
-                    }
-
-                    System.Diagnostics.Debug.WriteLine(String.Format("Successfully read {0} entries from upload history from {1}", _uploadHistory.Count, uploadHistoryFile.Path));
+                    await ReadAndDeleteShareCharmUploadHistory();
+                    await WriteUploadHistory();
+                }
+                else
+                {
+                    await ReadUploadHistory();
                 }
             }
-            catch (Exception)
+            catch (UnauthorizedAccessException)
             {
-                System.Diagnostics.Debug.WriteLine("An error has occurred when reading upload history.");
-            }
-
-            try
-            {
-                StorageFile uploadHistoryFile = await ApplicationData.Current.RoamingFolder.GetFileAsync(SHARE_CHARM_UPLOAD_HISTORY_FILE_NAME);
-                if (uploadHistoryFile != null)
-                {
-                    XmlSerializer serializer = new XmlSerializer(typeof(List<FinishedUploadResult>));
-                    Stream fileStream = await uploadHistoryFile.OpenStreamForReadAsync();
-                    List<FinishedUploadResult> shareCharmUploadHistory = (List<FinishedUploadResult>)serializer.Deserialize(fileStream);
-
-                    System.Diagnostics.Debug.WriteLine(String.Format("Successfully read {0} entries from upload history from {1}", _uploadHistory.Count, uploadHistoryFile.Path));
-
-                    foreach (FinishedUploadResult r in shareCharmUploadHistory)
-                    {
-                        _uploadHistory.Insert(0, r);
-                    }
-
-                    await uploadHistoryFile.DeleteAsync();
-                }
-            }
-            catch (Exception)
-            {
-                System.Diagnostics.Debug.WriteLine("An error has occurred when reading share charm upload history.");
+                //Concurrent file access. Just ignore it.
+                System.Diagnostics.Debug.WriteLine("Warning: Concurrent history file access.");
             }
         }
 
-        public async Task WriteUploadHistory()
+        private async Task ReadUploadHistory()
+        {
+            try
+            {
+                StorageFile uploadHistoryFile = await ApplicationData.Current.RoamingFolder.GetFileAsync(UPLOAD_HISTORY_FILE_NAME);
+
+                XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<FinishedUploadResult>));
+                ObservableCollection<FinishedUploadResult> readUploadHistory = null;
+                using (Stream fileStream = await uploadHistoryFile.OpenStreamForReadAsync())
+                {
+                    readUploadHistory = (ObservableCollection<FinishedUploadResult>)serializer.Deserialize(fileStream);
+                }
+
+                _uploadHistory.Clear();
+                foreach (FinishedUploadResult r in readUploadHistory)
+                {
+                    _uploadHistory.Insert(0, r);
+                }
+
+                System.Diagnostics.Debug.WriteLine(String.Format("Successfully read {0} entries from upload history from {1}", _uploadHistory.Count, uploadHistoryFile.Path));
+
+            }
+            catch (Exception)
+            {
+                System.Diagnostics.Debug.WriteLine("Error: An error has occurred when reading upload history.");
+            }
+
+            await ReadAndDeleteShareCharmUploadHistory();
+
+            _initialized = true;
+        }
+
+        private async Task ReadAndDeleteShareCharmUploadHistory()
+        {
+            try
+            {
+                StorageFile uploadHistoryFile = await ApplicationData.Current.RoamingFolder.GetFileAsync(SHARE_CHARM_UPLOAD_HISTORY_FILE_NAME);
+
+                XmlSerializer serializer = new XmlSerializer(typeof(List<FinishedUploadResult>));
+                List<FinishedUploadResult> shareCharmUploadHistory = null;
+                using (Stream fileStream = await uploadHistoryFile.OpenStreamForReadAsync())
+                {
+                    shareCharmUploadHistory = (List<FinishedUploadResult>)serializer.Deserialize(fileStream);
+                }
+
+                System.Diagnostics.Debug.WriteLine(String.Format("Successfully read {0} entries from upload history from {1}", _uploadHistory.Count, uploadHistoryFile.Path));
+
+                foreach (FinishedUploadResult r in shareCharmUploadHistory)
+                {
+                    _uploadHistory.Insert(0, r);
+                }
+
+                await uploadHistoryFile.DeleteAsync();
+
+            }
+            catch (FileNotFoundException)
+            {
+                System.Diagnostics.Debug.WriteLine("Warning: Share charm history file not found.");
+            }
+            catch (Exception)
+            {
+                System.Diagnostics.Debug.WriteLine("Error: An error has occurred when reading share charm upload history.");
+            }
+        }
+
+        private async Task WriteUploadHistory()
         {
             if (_uploadHistory != null)
             {

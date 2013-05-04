@@ -96,12 +96,6 @@ namespace ImgurUploader.UploadHistory
             }
         }
 
-        private async void RefreshButton_Click(object sender, RoutedEventArgs e)
-        {
-            await App.UploadHistoryMgr.ReadUploadHistory();
-            await App.UploadHistoryMgr.WriteUploadHistory();
-            HistoryListView.DataContext = App.UploadHistoryMgr.UploadHistory; //TODO: This shouldn't be neccessary. But it is.
-        }
 
     }
 }

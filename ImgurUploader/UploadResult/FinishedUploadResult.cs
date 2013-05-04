@@ -11,13 +11,20 @@ namespace ImgurUploader.UploadResult
     {
         public FinishedUploadResult()
         {
-
+            
         }
 
         public FinishedUploadResult(UploadResultCollection images, Basic<AlbumCreateData> albumCreateResults)
         {
             Images = images;
             AlbumCreateResults = albumCreateResults;
+            ID = Guid.NewGuid().ToString();
+        }
+
+        public string ID
+        {
+            get;
+            set;
         }
 
         public UploadResultCollection Images
