@@ -134,29 +134,29 @@ namespace ImgurUploader.ImgurUploader_XamlTypeInfo
 
         private object Activate_6_PrivacyPolicy() { return new global::ImgurUploader.PrivacyPolicy(); }
 
-        private object Activate_7_VisibleWhenNonNull() { return new global::ImgurUploader.Common.VisibleWhenNonNull(); }
+        private object Activate_7_LayoutAwarePage() { return new global::ImgurUploader.Common.LayoutAwarePage(); }
 
-        private object Activate_8_VisibleWhenAlbumCreationSucceeded() { return new global::ImgurUploader.Common.VisibleWhenAlbumCreationSucceeded(); }
+        private object Activate_8_EnabledWithSelectionConverter() { return new global::ImgurUploader.Common.EnabledWithSelectionConverter(); }
 
-        private object Activate_9_UploadResultsControl() { return new global::ImgurUploader.UploadResultsControl(); }
+        private object Activate_9_VisibleWhenNonNull() { return new global::ImgurUploader.Common.VisibleWhenNonNull(); }
 
-        private object Activate_10_FinishedUploadResult() { return new global::ImgurUploader.UploadResult.FinishedUploadResult(); }
+        private object Activate_10_VisibleWhenAlbumCreationSucceeded() { return new global::ImgurUploader.Common.VisibleWhenAlbumCreationSucceeded(); }
 
-        private object Activate_11_UploadStatusConverter() { return new global::ImgurUploader.Common.UploadStatusConverter(); }
+        private object Activate_11_UploadResultsControl() { return new global::ImgurUploader.UploadResultsControl(); }
 
-        private object Activate_12_UtcToLocalTimeConverter() { return new global::ImgurUploader.Common.UtcToLocalTimeConverter(); }
+        private object Activate_12_FinishedUploadResult() { return new global::ImgurUploader.UploadResult.FinishedUploadResult(); }
 
-        private object Activate_13_EnabledWithSelectionConverter() { return new global::ImgurUploader.Common.EnabledWithSelectionConverter(); }
+        private object Activate_13_UploadStatusConverter() { return new global::ImgurUploader.Common.UploadStatusConverter(); }
 
-        private object Activate_14_UploadHistoryPage() { return new global::ImgurUploader.UploadHistory.UploadHistoryPage(); }
+        private object Activate_14_UtcToLocalTimeConverter() { return new global::ImgurUploader.Common.UtcToLocalTimeConverter(); }
 
-        private object Activate_15_CopyableLinkControl() { return new global::ImgurUploader.UploadResult.CopyableLinkControl(); }
+        private object Activate_15_UploadHistoryPage() { return new global::ImgurUploader.UploadHistory.UploadHistoryPage(); }
 
-        private object Activate_16_PluralityConverter() { return new global::ImgurUploader.Common.PluralityConverter(); }
+        private object Activate_16_CopyableLinkControl() { return new global::ImgurUploader.UploadResult.CopyableLinkControl(); }
 
-        private object Activate_17_ElapsedTimeConverter() { return new global::ImgurUploader.Common.ElapsedTimeConverter(); }
+        private object Activate_17_PluralityConverter() { return new global::ImgurUploader.Common.PluralityConverter(); }
 
-        private object Activate_18_LayoutAwarePage() { return new global::ImgurUploader.Common.LayoutAwarePage(); }
+        private object Activate_18_ElapsedTimeConverter() { return new global::ImgurUploader.Common.ElapsedTimeConverter(); }
 
         private object Activate_19_BooleanToVisibilityConverter() { return new global::ImgurUploader.Common.BooleanToVisibilityConverter(); }
 
@@ -287,58 +287,64 @@ namespace ImgurUploader.ImgurUploader_XamlTypeInfo
                 xamlType = userType;
                 break;
 
+            case "ImgurUploader.Common.LayoutAwarePage":
+                userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.Common.LayoutAwarePage), GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
+                userType.Activator = Activate_7_LayoutAwarePage;
+                xamlType = userType;
+                break;
+
+            case "ImgurUploader.Common.EnabledWithSelectionConverter":
+                userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.Common.EnabledWithSelectionConverter), GetXamlTypeByName("Object"));
+                userType.Activator = Activate_8_EnabledWithSelectionConverter;
+                xamlType = userType;
+                break;
+
             case "ImgurUploader.Common.VisibleWhenNonNull":
                 userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.Common.VisibleWhenNonNull), GetXamlTypeByName("Object"));
-                userType.Activator = Activate_7_VisibleWhenNonNull;
+                userType.Activator = Activate_9_VisibleWhenNonNull;
                 xamlType = userType;
                 break;
 
             case "ImgurUploader.Common.VisibleWhenAlbumCreationSucceeded":
                 userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.Common.VisibleWhenAlbumCreationSucceeded), GetXamlTypeByName("Object"));
-                userType.Activator = Activate_8_VisibleWhenAlbumCreationSucceeded;
+                userType.Activator = Activate_10_VisibleWhenAlbumCreationSucceeded;
                 xamlType = userType;
                 break;
 
             case "ImgurUploader.UploadResultsControl":
                 userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.UploadResultsControl), GetXamlTypeByName("Windows.UI.Xaml.Controls.UserControl"));
-                userType.Activator = Activate_9_UploadResultsControl;
+                userType.Activator = Activate_11_UploadResultsControl;
                 userType.AddMemberName("Result");
                 xamlType = userType;
                 break;
 
             case "ImgurUploader.UploadResult.FinishedUploadResult":
                 userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.UploadResult.FinishedUploadResult), GetXamlTypeByName("Object"));
-                userType.Activator = Activate_10_FinishedUploadResult;
+                userType.Activator = Activate_12_FinishedUploadResult;
                 xamlType = userType;
                 break;
 
             case "ImgurUploader.Common.UploadStatusConverter":
                 userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.Common.UploadStatusConverter), GetXamlTypeByName("Object"));
-                userType.Activator = Activate_11_UploadStatusConverter;
+                userType.Activator = Activate_13_UploadStatusConverter;
                 xamlType = userType;
                 break;
 
             case "ImgurUploader.Common.UtcToLocalTimeConverter":
                 userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.Common.UtcToLocalTimeConverter), GetXamlTypeByName("Object"));
-                userType.Activator = Activate_12_UtcToLocalTimeConverter;
-                xamlType = userType;
-                break;
-
-            case "ImgurUploader.Common.EnabledWithSelectionConverter":
-                userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.Common.EnabledWithSelectionConverter), GetXamlTypeByName("Object"));
-                userType.Activator = Activate_13_EnabledWithSelectionConverter;
+                userType.Activator = Activate_14_UtcToLocalTimeConverter;
                 xamlType = userType;
                 break;
 
             case "ImgurUploader.UploadHistory.UploadHistoryPage":
-                userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.UploadHistory.UploadHistoryPage), GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_14_UploadHistoryPage;
+                userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.UploadHistory.UploadHistoryPage), GetXamlTypeByName("ImgurUploader.Common.LayoutAwarePage"));
+                userType.Activator = Activate_15_UploadHistoryPage;
                 xamlType = userType;
                 break;
 
             case "ImgurUploader.UploadResult.CopyableLinkControl":
                 userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.UploadResult.CopyableLinkControl), GetXamlTypeByName("Windows.UI.Xaml.Controls.UserControl"));
-                userType.Activator = Activate_15_CopyableLinkControl;
+                userType.Activator = Activate_16_CopyableLinkControl;
                 userType.AddMemberName("Title");
                 AddToMapOfTypeToStandardName(typeof(global::System.String),
                                                    "String");
@@ -354,19 +360,13 @@ namespace ImgurUploader.ImgurUploader_XamlTypeInfo
 
             case "ImgurUploader.Common.PluralityConverter":
                 userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.Common.PluralityConverter), GetXamlTypeByName("Object"));
-                userType.Activator = Activate_16_PluralityConverter;
+                userType.Activator = Activate_17_PluralityConverter;
                 xamlType = userType;
                 break;
 
             case "ImgurUploader.Common.ElapsedTimeConverter":
                 userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.Common.ElapsedTimeConverter), GetXamlTypeByName("Object"));
-                userType.Activator = Activate_17_ElapsedTimeConverter;
-                xamlType = userType;
-                break;
-
-            case "ImgurUploader.Common.LayoutAwarePage":
-                userType = new global::ImgurUploader.ImgurUploader_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.Common.LayoutAwarePage), GetXamlTypeByName("Windows.UI.Xaml.Controls.Page"));
-                userType.Activator = Activate_18_LayoutAwarePage;
+                userType.Activator = Activate_18_ElapsedTimeConverter;
                 xamlType = userType;
                 break;
 

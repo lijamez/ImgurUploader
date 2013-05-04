@@ -1,4 +1,5 @@
-﻿using ImgurUploader.UploadResult;
+﻿using ImgurUploader.Common;
+using ImgurUploader.UploadResult;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,6 +9,7 @@ using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
 using Windows.UI.Popups;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,7 +25,7 @@ namespace ImgurUploader.UploadHistory
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class UploadHistoryPage : Page
+    public sealed partial class UploadHistoryPage : LayoutAwarePage
     {
         ObservableCollection<FinishedUploadResult> _dataSource;
 
@@ -37,7 +39,6 @@ namespace ImgurUploader.UploadHistory
             {
                 HistoryListView.SelectedIndex = 0;
             }
-
         }
 
         /// <summary>
@@ -47,7 +48,7 @@ namespace ImgurUploader.UploadHistory
         /// property is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-
+            base.OnNavigatedTo(e);
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)
@@ -57,6 +58,11 @@ namespace ImgurUploader.UploadHistory
 
         private void HistoryListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (Windows.UI.ViewManagement.ApplicationView.Value == ApplicationViewState.Snapped)
+            {
+                Windows.UI.ViewManagement.ApplicationView.TryUnsnap();
+            }
+
             ListView list = sender as ListView;
             if (list != null)
             {
