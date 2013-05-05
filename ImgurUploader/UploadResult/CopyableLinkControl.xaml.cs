@@ -91,7 +91,7 @@ namespace ImgurUploader.UploadResult
         {
             DataPackage dpkg = new DataPackage();
             dpkg.SetText(ContentTextBox.Text);
-            Clipboard.SetContent(dpkg);
+            Clipboard.SetContent(dpkg);            
         }
 
         private async void ViewInBrowserButton_Click(object sender, RoutedEventArgs e)

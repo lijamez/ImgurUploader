@@ -11,7 +11,10 @@
     
     <StackPanel Orientation="Vertical">
         
-        <TextBlock x:Name="TitleTextBlock" Text="{Binding Title}" Style="{StaticResource ImageDetailsHeader}" TextWrapping="Wrap"/>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock x:Name="TitleTextBlock" Text="{Binding Title}" Style="{StaticResource ImageDetailsHeader}" TextWrapping="Wrap"/>
+        </StackPanel>
+        
         
         <Grid>
             <Grid.ColumnDefinitions>
@@ -21,15 +24,15 @@
             </Grid.ColumnDefinitions>
             
             <Grid Grid.Column="0">
-                <Button x:Name="CopyButton" Content="&#xE16F;" ToolTipService.ToolTip="Copy" Click="CopyButton_Click" FontFamily="Segoe UI Symbol"/>
+                <Button x:Name="CopyButton" Content="&#xE16F; Copy" ToolTipService.ToolTip="Copy" Click="CopyButton_Click" FontFamily="Segoe UI Symbol" Height="42" FontSize="18"/>
             </Grid>
             
             <Grid Grid.Column="1">
-                <TextBox Text="{Binding Value}" x:Name="ContentTextBox" IsReadOnly="True" GotFocus="ContentTextBox_GotFocus"/>
+                <TextBox Text="{Binding Value}" x:Name="ContentTextBox" IsReadOnly="True" GotFocus="ContentTextBox_GotFocus" Height="36"/>
             </Grid>
 
             <Grid x:Name="ViewInBrowserGrid" Grid.Column="2">
-                <Button x:Name="ViewInBrowserButton" Content="&#xE128;" ToolTipService.ToolTip="Open in Browser" Visibility="{Binding ViewInBrowserButtonVisibility}" Click="ViewInBrowserButton_Click" FontFamily="Segoe UI Symbol"/>
+                <Button x:Name="ViewInBrowserButton" Content="&#xE128;" ToolTipService.ToolTip="Open in Browser" Visibility="{Binding ViewInBrowserButtonVisibility}" Click="ViewInBrowserButton_Click" FontFamily="Segoe UI Symbol" Height="42" FontSize="18"/>
             </Grid>
         </Grid>
     </StackPanel>
