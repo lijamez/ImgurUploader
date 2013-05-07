@@ -92,6 +92,7 @@ namespace ImgurUploader
         {
             this.InitializeComponent();
 
+            this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required;
             QueuedImagesListView.DataContext = QueuedFiles;
             MainAd.DataContext = InAppPurchases.Instance;
             SnappedAd.DataContext = InAppPurchases.Instance;

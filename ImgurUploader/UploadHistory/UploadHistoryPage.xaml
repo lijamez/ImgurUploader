@@ -93,33 +93,38 @@
             </Grid>
             
             <Grid x:Name="UploadHistoryDetails" Grid.Column="1" DataContext="{Binding ElementName=HistoryListView}"  Visibility="{Binding SelectedItem, Converter={StaticResource VisibleWhenNonNull}}" Background="{StaticResource BackgroundColor}">
-                <StackPanel Orientation="Vertical" DataContext="{Binding Path=SelectedItem}" Margin="32">
-                    <StackPanel.Resources>
-                        <common:VisibleWhenAlbumCreationSucceeded x:Key="VisibleWhenAlbumCreationSucceeded"/>
-                    </StackPanel.Resources>
 
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,32">
+                <Grid DataContext="{Binding Path=SelectedItem}" Margin="32">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.Resources>
+                        <common:VisibleWhenAlbumCreationSucceeded x:Key="VisibleWhenAlbumCreationSucceeded"/>
+                    </Grid.Resources>
+
+                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16" >
                         <StackPanel.Resources>
                             <common:UploadStatusConverter x:Key="UploadStatusConverter"/>
                             <common:UtcToLocalTimeConverter x:Key="UtcToLocalTimeConverter"/>
                         </StackPanel.Resources>
-                        <StackPanel Orientation="Vertical" Margin="0,8,32,4">
+                        <StackPanel Orientation="Vertical" Margin="0,8,32,0">
                             <TextBlock Text="Status" Style="{StaticResource ImageDetailsHeader}"/>
                             <TextBlock Text="{Binding Converter={StaticResource UploadStatusConverter}}" Style="{StaticResource ImageDetailsText}"/>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" Margin="0,8,32,4">
+                        <StackPanel Orientation="Vertical" Margin="0,8,32,0">
                             <TextBlock Text="Started" Style="{StaticResource ImageDetailsHeader}"/>
                             <TextBlock Text="{Binding StartDate, Converter={StaticResource UtcToLocalTimeConverter}}" Style="{StaticResource ImageDetailsText}"/>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" Margin="0,8,32,4">
+                        <StackPanel Orientation="Vertical" Margin="0,8,32,0">
                             <TextBlock Text="Completed" Style="{StaticResource ImageDetailsHeader}"/>
                             <TextBlock Text="{Binding FinishDate, Converter={StaticResource UtcToLocalTimeConverter}}" Style="{StaticResource ImageDetailsText}"/>
                         </StackPanel>
                     </StackPanel>
-                    
-                    <local:UploadResultsControl x:Name="UploadResults" Margin="0,16"/>
 
-                    <StackPanel Margin="0,16" Visibility="{Binding AlbumCreateResults, Converter={StaticResource VisibleWhenAlbumCreationSucceeded}}">
+                    <local:UploadResultsControl x:Name="UploadResults" Grid.Row="1" Margin="0,16" Background="Blue" VerticalAlignment="Top" />
+<!--
+                    <StackPanel Grid.Row="2" Margin="0,16" Visibility="{Binding AlbumCreateResults, Converter={StaticResource VisibleWhenAlbumCreationSucceeded}}" >
                         <TextBlock Text="Images" Style="{StaticResource ImageDetailsHeader}"/>
                         <ListView
                             x:Name="BatchListView"
@@ -136,8 +141,8 @@
                             </ListView.ItemContainerStyle>
                         </ListView>
                     </StackPanel>
-                    
-                </StackPanel>
+-->                    
+                </Grid>
             </Grid>
 
 

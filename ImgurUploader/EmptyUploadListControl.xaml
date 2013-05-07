@@ -12,7 +12,7 @@
     <Grid>
         <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
             <TextBlock Text="You can upload images by adding files here or by using the Share charm from any app that can share images." Style="{StaticResource ImageDetailsHeader}" TextWrapping="Wrap" HorizontalAlignment="Center" Margin="32,0,32,32" TextAlignment="Center"/>
-            <Button x:Name="SelectFilesButton" Content="Select Files" HorizontalAlignment="Center" Width="140" Height="50"/>
+            <Button x:Name="SelectFilesButton" Content="Select Files" HorizontalAlignment="Center" Width="140" Height="50" FontSize="18"/>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -42,11 +42,9 @@
         </Grid>
         
         <Grid Grid.Row="2" Margin="24">
-            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto">
-                <Grid x:Name="ResultGrid">
-                    <!-- URLs go in here programatically-->
-                </Grid>
-            </ScrollViewer>
+            <Grid x:Name="ResultGrid">
+                <!-- URLs go in here programatically-->
+            </Grid>
         </Grid>
 
         <Grid x:Name="AdGrid" Grid.Row="3" Visibility="{Binding Path=AppShouldShowAds, Converter={StaticResource BoolToVisibilityConverter}}">
