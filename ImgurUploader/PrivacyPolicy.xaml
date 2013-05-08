@@ -34,7 +34,7 @@
 
         </Grid>
 
-        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" Grid.Row="2">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" Grid.Row="2" ZoomMode="Disabled">
             <StackPanel x:Name="PrivacyPolicyBody"  Margin="24" Orientation="Vertical">
                 <TextBlock Text="General Information" Style="{StaticResource ImageDetailsHeader}"/>
                 <TextBlock Text="imgup is a tool for Windows 8/RT that lets users easily upload images to the image sharing website, Imgur. Easily share images from any app that supports the Share charm to Imgur." Style="{StaticResource ImageDetailsText}"/>
