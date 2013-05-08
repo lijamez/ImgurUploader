@@ -258,18 +258,29 @@ namespace ImgurUploader
 
             if (canOpenFilePicker)
             {
-                IReadOnlyList<StorageFile> selectedFiles = await FilePicker.PickMultipleFilesAsync();
-
-                foreach (StorageFile selectedFile in selectedFiles)
+                IReadOnlyList<StorageFile> selectedFiles = null;
+                try
                 {
-                    if (selectedFile != null)
-                    {
-                        QueuedFile queuedImage = new QueuedFile(selectedFile);
-                        QueuedFiles.Add(queuedImage);
+                    selectedFiles = await FilePicker.PickMultipleFilesAsync();
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    System.Diagnostics.Debug.WriteLine("An UnauthorizedAccessException was thrown by the FilePicker which is really weird...");
+                }
 
-                        if (QueuedImagesListView.SelectedItems.Count <= 0 && QueuedImagesListView.Items.Count > 0)
+                if (selectedFiles != null)
+                {
+                    foreach (StorageFile selectedFile in selectedFiles)
+                    {
+                        if (selectedFile != null)
                         {
-                            QueuedImagesListView.SelectedIndex = 0;
+                            QueuedFile queuedImage = new QueuedFile(selectedFile);
+                            QueuedFiles.Add(queuedImage);
+
+                            if (QueuedImagesListView.SelectedItems.Count <= 0 && QueuedImagesListView.Items.Count > 0)
+                            {
+                                QueuedImagesListView.SelectedIndex = 0;
+                            }
                         }
                     }
                 }

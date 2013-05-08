@@ -134,8 +134,8 @@
                 </Grid>
 
                 <StackPanel x:Name="FlyoutContent" Grid.Row="1" Margin="16,16,16,16">
-                    <TextBlock Text="About Imgur Uploader" Style="{StaticResource ImageDetailsHeader}"/>
-                    <TextBlock Text="Imgur Uploader is a tool for Windows 8/RT that lets you easily upload images to the image sharing website, Imgur. Easily share images from any app that supports the Share charm to Imgur." Style="{StaticResource ImageDetailsText}"/>
+                    <TextBlock Text="About imgup" Style="{StaticResource ImageDetailsHeader}"/>
+                    <TextBlock Text="imgup is a tool for Windows 8/RT that lets you easily upload images to the image sharing website, Imgur. Easily share images from any app that supports the Share charm to Imgur." Style="{StaticResource ImageDetailsText}"/>
                     <TextBlock Text="How to Use" Style="{StaticResource ImageDetailsHeader}"/>
                     <TextBlock Text="Either open the app and manually select images from your pictures to upload or select the Share charm (Ctrl+H or a swipe from the right of the screen) while using any app that can share images." Style="{StaticResource ImageDetailsText}"/>
                 </StackPanel>

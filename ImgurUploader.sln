@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImgurUploader", "ImgurUploader\ImgurUploader.csproj", "{CC44D236-8780-4EC1-A1BD-1E608D7CE01D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "imgup", "ImgurUploader\imgup.csproj", "{CC44D236-8780-4EC1-A1BD-1E608D7CE01D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

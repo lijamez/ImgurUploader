@@ -57,8 +57,8 @@
 
 
                 <Grid Grid.Column="0">
-                    <TextBlock x:Name="PageTitle" Text="Imgur Uploader" Style="{StaticResource PageHeaderTextStyle}"/>
                     
+                    <Image Source="/Assets/Logo-NoBg.png" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="32,0,0,0" Stretch="None"/>
                 </Grid>
 
 
@@ -101,7 +101,8 @@
                             Height="60" 
                             Margin="0,0,0,0"
                             VerticalAlignment="Center" 
-                            Width="292"/>
+                            Width="292"
+                            UseStaticAnchor="False"/>
             </Grid>
         </Grid>
 
@@ -157,9 +158,6 @@
                     <Storyboard>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ImageDetailsPanelWrapper" Storyboard.TargetProperty="Visibility">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PageTitle" Storyboard.TargetProperty="Text">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Imgur" />
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MoveImageUpButton" Storyboard.TargetProperty="Visibility">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
