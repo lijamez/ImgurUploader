@@ -149,10 +149,9 @@ namespace ImgurUploader
 
                     UploadStatus.Text = "Creating album...";
                     Basic<AlbumCreateData> albumCreationResult = await _api.CreateAlbum(uploadedImageIDs.ToArray(), null, null, null, _cancellationTokenSource.Token);
-                    FinishedUploadResult uploadAlbumResult = new FinishedUploadResult(uploadedItems, albumCreationResult);
+                    _finishedResults = new FinishedUploadResult(uploadedItems, albumCreationResult);
                     _finishedResults.StartDate = startTime;
                     _finishedResults.FinishDate = DateTime.UtcNow;
-                    _finishedResults = uploadAlbumResult;
 
                     if (albumCreationResult != null && albumCreationResult.Success)
                     {
