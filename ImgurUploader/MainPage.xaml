@@ -19,8 +19,7 @@
                 
                 <Grid Grid.Column="1">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                        <Button x:Name="MoveImageUpButton" Click="MoveImageUpButton_Click" Style="{StaticResource MoveUpAppBarButtonStyle}"/>
-                        <Button x:Name="MoveImageDownButton" Click="MoveImageDownButton_Click" Style="{StaticResource MoveDownAppBarButtonStyle}"/>
+                        <!--Buttons on the left-->
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button x:Name="SelectAllButton" Click="SelectAllButton_Click" Style="{StaticResource SelectAllAppBarButtonStyle}"/>
@@ -127,7 +126,9 @@
                         ItemTemplate="{StaticResource QueuedItemsTemplate}" 
                         SelectionChanged="QueuedImagesListView_SelectionChanged" 
                         SelectionMode="Extended" 
-                        Grid.ColumnSpan="2"/>
+                        Grid.ColumnSpan="2"
+                        CanReorderItems="True"
+                        AllowDrop="True"/>
                 </Grid>
 
                 <Grid x:Name="ImageDetailsPanelWrapper" Grid.Column="1">

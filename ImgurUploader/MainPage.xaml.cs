@@ -287,6 +287,7 @@ namespace ImgurUploader
             }
         }
 
+        /*
         private void MoveImageUpButton_Click(object sender, RoutedEventArgs e)
         {
             int selectedIndex = QueuedImagesListView.SelectedIndex;
@@ -316,6 +317,7 @@ namespace ImgurUploader
                 QueuedImagesListView.SelectedIndex++;
             }
         }
+         */
 
         private void RemoveImageButton_Click(object sender, RoutedEventArgs e)
         {
@@ -549,9 +551,6 @@ namespace ImgurUploader
 
             RemoveImageButton.IsEnabled = someImagesSelected;
             UploadBottomAppBar.IsOpen = someImagesSelected;
-
-            MoveImageDownButton.IsEnabled = exactlyOneImageSelected;
-            MoveImageUpButton.IsEnabled = exactlyOneImageSelected;
         }
 
         private void UpdateUploadListSwitcher()
