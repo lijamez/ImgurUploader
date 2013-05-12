@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="imgup.App">
-      <VisualElements DisplayName="imgup" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="imgup is a tool for Windows 8/RT that lets users easily upload images to the image sharing website, Imgur. Easily share images from any app that supports the Share charm to Imgur." ForegroundText="light" BackgroundColor="#464646" ToastCapable="true">
+      <VisualElements DisplayName="imgup" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="imgup is a tool for Windows 8/RT that lets users easily upload images to the image sharing website, Imgur. Easily share images from any app that supports the Share charm to Imgur." ForegroundText="light" BackgroundColor="#000000" ToastCapable="true">
         <DefaultTile ShowName="logoOnly" WideLogo="Assets\WideLogo.png" ShortName="imgup" />
         <SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#121211" />
         <InitialRotationPreference>

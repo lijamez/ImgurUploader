@@ -356,8 +356,6 @@ namespace ImgurUploader
                 Rect windowBounds = Window.Current.Bounds;
 
                 Popup uploadPopup = new Popup();
-                //uploadPopup.Closed += OnPopupClosed;
-                //Window.Current.Activated += OnWindowActivated;
                 uploadPopup.IsLightDismissEnabled = false;
                 uploadPopup.Width = windowBounds.Width;
                 uploadPopup.Height = windowBounds.Height;
@@ -373,13 +371,11 @@ namespace ImgurUploader
                 });
                 */
 
-                // Create a SettingsFlyout the same dimenssions as the Popup.
                 UploadingProgressPopup mypane = new UploadingProgressPopup(QueuedFiles.Count);
                 mypane.UploadCancelButton.Click += UploadCancel;
                 mypane.Width = windowBounds.Width;
                 mypane.Height = windowBounds.Height;
 
-                // Place the SettingsFlyout inside our Popup window.
                 uploadPopup.Child = mypane;
 
                 // Let's define the location of our Popup.
@@ -421,8 +417,6 @@ namespace ImgurUploader
                             finishedResult = new FinishedUploadResult(uploadedImageResults, null);
                             finishedResult.StartDate = startTime;
                             finishedResult.FinishDate = DateTime.UtcNow;
-
-                            this.Frame.Navigate(typeof(UploadResultPage), finishedResult);
                         }
                         else
                         {
@@ -441,8 +435,6 @@ namespace ImgurUploader
                                 finishedResult = new FinishedUploadResult(uploadedImageResults, createAlbumResult);
                                 finishedResult.StartDate = startTime;
                                 finishedResult.FinishDate = DateTime.UtcNow;
-
-                                this.Frame.Navigate(typeof(UploadResultPage), finishedResult);
                             }
                             else
                             {
@@ -452,7 +444,14 @@ namespace ImgurUploader
                             }
                         }
 
-                        if (finishedResult != null) App.UploadHistoryMgr.UploadHistory.Insert(0, finishedResult);
+                        if (finishedResult != null)
+                        {
+                            App.UploadHistoryMgr.UploadHistory.Insert(0, finishedResult);
+
+                            QueuedFiles.Clear();
+
+                            this.Frame.Navigate(typeof(UploadResultPage), finishedResult);
+                        }
 
 
                     }
