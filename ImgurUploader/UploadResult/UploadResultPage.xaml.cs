@@ -4,8 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.System;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -24,6 +26,8 @@ namespace ImgurUploader
     /// </summary>
     public sealed partial class UploadResultPage : LayoutAwarePage
     {
+        FinishedUploadResult _finishedUploadResult;
+
         public UploadResultPage()
         {
             this.InitializeComponent();
@@ -39,7 +43,7 @@ namespace ImgurUploader
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
+            
             object arg = e.Parameter;
 
             ResultGrid.Children.Clear();
@@ -48,7 +52,8 @@ namespace ImgurUploader
 
             if (arg is FinishedUploadResult)
             {
-                resultsControl = new UploadResultsControl(arg as FinishedUploadResult);
+                _finishedUploadResult = arg as FinishedUploadResult;
+                resultsControl = new UploadResultsControl(_finishedUploadResult);
             }
             else if (arg is string)
             {
@@ -57,7 +62,8 @@ namespace ImgurUploader
                 {
                     if (r != null && String.Equals(r.ID, id))
                     {
-                        resultsControl = new UploadResultsControl(r);
+                        _finishedUploadResult = r;
+                        resultsControl = new UploadResultsControl(_finishedUploadResult);
                     }
                 }   
             }
@@ -76,6 +82,54 @@ namespace ImgurUploader
         private void BackButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.GoBack();
+        }
+
+        private string getUrl()
+        {
+            string url = null;
+            if (_finishedUploadResult.AlbumCreateResults != null)
+            {
+                url = String.Format("http://imgur.com/a/{0}", _finishedUploadResult.AlbumCreateResults.Data.ID);
+            }
+            else if (_finishedUploadResult.Images.SuccessfulUploads != null && _finishedUploadResult.Images.SuccessfulUploads.Count > 0)
+            {
+                url = String.Format("http://imgur.com/{0}", _finishedUploadResult.Images.SuccessfulUploads[0].Result.Data.ID);
+            }
+
+            return url;
+        }
+
+        private async void ShareToRedditButton_Click(object sender, RoutedEventArgs e)
+        {
+            string url = getUrl();
+
+            if (url != null)
+            {
+                await Launcher.LaunchUriAsync(new Uri(String.Format("{0}{1}", "http://www.reddit.com/submit?url=", url)));
+            }
+        }
+
+        private void CopyLinkButton_Click(object sender, RoutedEventArgs e)
+        {
+            string url = getUrl();
+
+            if (url != null)
+            {
+                DataPackage dpkg = new DataPackage();
+                dpkg.SetText(url);
+                Clipboard.SetContent(dpkg);     
+            }
+            
+        }
+
+        private async void OpenInBrowserButton_Click(object sender, RoutedEventArgs e)
+        {
+            string url = getUrl();
+
+            if (url != null)
+            {
+                await Launcher.LaunchUriAsync(new Uri(url));
+            }
         }
     }
 }

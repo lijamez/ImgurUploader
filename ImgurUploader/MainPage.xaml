@@ -32,11 +32,11 @@
         </AppBar>
     </Page.BottomAppBar>
 
-
+   
 
     <Grid Background="{StaticResource BackgroundColor}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="88"/>
+            <RowDefinition Height="70"/>
             <RowDefinition Height="4"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -54,16 +54,16 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-
-
                 <Grid Grid.Column="0">
-                    
-                    <Image Source="/Assets/Logo-NoBg.png" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="32,0,0,0" Stretch="None"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="img" Style="{StaticResource PageHeaderTextStyle}"/>
+                        <TextBlock Text="up" Style="{StaticResource PageHeaderTextStyle}" Foreground="{StaticResource GreenAccent}" Margin="0"/>
+                    </StackPanel>
                 </Grid>
 
 
                 <Grid Grid.Column="1" x:Name="MainAd" Visibility="{Binding Path=AppShouldShowAds, Converter={StaticResource BoolToVisibilityConverter}}">
-                    <StackPanel Orientation="Horizontal">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,16,0">
                         <local:BuyControl/>
                         <UI:AdControl 
                             ApplicationId="640f6bdf-6fdd-43f8-965b-5dd5df28e1a0" 
@@ -79,8 +79,10 @@
                 
                 <Grid Grid.Column="2">
                     <StackPanel Orientation="Horizontal">
-                        <Button x:Name="HistoryButton" Click="HistoryButton_Click" Style="{StaticResource HistoryAppBarButtonStyle}"/>
-                        <Button x:Name="UploadImagesButton" Click="UploadImagesButton_Click" Style="{StaticResource UploadAppBarButtonStyle}"/>
+                        <Line Stroke="DimGray" Y1="{StaticResource PageHeaderHeight}"/>
+                        <Button x:Name="HistoryButton" Click="HistoryButton_Click" Content="History" Style="{StaticResource FlatButton}"/>
+                        <Line Stroke="DimGray" Y1="{StaticResource PageHeaderHeight}"/>
+                        <Button x:Name="UploadImagesButton" Click="UploadImagesButton_Click" Content="Upload" Style="{StaticResource FlatButton}"/>
                     </StackPanel>
                 </Grid>
                 
@@ -131,13 +133,12 @@
                 <Grid x:Name="ImageDetailsPanelWrapper" Grid.Column="1">
                     <Grid x:Name="ImageDetailsPanel" Width="{Binding ElementName=MainContent, Path=ActualWidth, Converter={StaticResource ImageDetailsWidthConverter}}">
                         <StackPanel Orientation="Vertical" Margin="16,16,16,16" DataContext="{Binding ElementName=QueuedImagesListView, Path=SelectedItem}" >
-                            <TextBlock Text="File Name" Style="{StaticResource ImageDetailsHeader}"/>
-                            <TextBlock Text="{Binding FileName}" Style="{StaticResource ImageDetailsText}"/>
                             <TextBlock Text="Title" Style="{StaticResource ImageDetailsHeader}"/>
                             <TextBox x:Name="ItemTitleTextBox" Text="{Binding Title}" TextChanged="ItemTitleTextBox_TextChanged" MaxLength="128"/>
                             <TextBlock Text="Description" Style="{StaticResource ImageDetailsHeader}"/>
                             <TextBox x:Name="ItemDescriptionTextBox" Text="{Binding Description}" TextChanged="ItemDescriptionTextBox_TextChanged" Height="300" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="65536"/>
                         </StackPanel>
+                        
                     </Grid>
                 </Grid>
 

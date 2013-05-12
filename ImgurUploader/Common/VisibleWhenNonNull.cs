@@ -4,9 +4,6 @@ using Windows.UI.Xaml.Data;
 
 namespace ImgurUploader.Common
 {
-    /// <summary>
-    /// Value converter that translates true to false and vice versa.
-    /// </summary>
     public sealed class VisibleWhenNonNull : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, string language)

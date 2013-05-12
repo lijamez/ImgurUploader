@@ -43,7 +43,8 @@ namespace ImgurUploader
             {
                 if (_appShouldShowAds == null)
                 {
-                    _appShouldShowAds = !LicenseInformation.ProductLicenses[AD_REMOVAL_OFFER_TOKEN].IsActive;
+                    //_appShouldShowAds = !LicenseInformation.ProductLicenses[AD_REMOVAL_OFFER_TOKEN].IsActive;
+                    _appShouldShowAds = false;
                 }
 
                 return (bool) _appShouldShowAds;

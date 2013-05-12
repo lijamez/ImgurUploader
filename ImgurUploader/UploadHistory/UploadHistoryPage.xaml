@@ -38,25 +38,17 @@
 
     <Grid Background="{StaticResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="88"/>
+            <RowDefinition Height="70"/>
             <RowDefinition Height="4"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-
-            <Grid Grid.Column="0">
-                <Button x:Name="BackButton" IsEnabled="{Binding Frame.CanGoBack, ElementName=pageRoot}" Style="{StaticResource BackButtonStyle}" VerticalAlignment="Center" Click="BackButton_Click" Margin="36,21,0,19"/>
-            </Grid>
-
-            <Grid Grid.Column="1">
+        <Grid Grid.Row="0" Background="{StaticResource BackgroundColor}">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="BackButton" Style="{StaticResource PageHeaderBackButton}" Click="BackButton_Click"/>
+                <Line Stroke="DimGray" Y1="{StaticResource PageHeaderHeight}"/>
                 <TextBlock x:Name="PageTitle" Text="History" Style="{StaticResource PageHeaderTextStyle}"/>
-            </Grid>
-
+            </StackPanel>
         </Grid>
 
         <Grid Grid.Row="1" Background="{StaticResource GreenAccent}">
