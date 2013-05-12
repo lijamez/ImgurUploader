@@ -30,5 +30,33 @@ namespace ImgurUploader.Model
             get;
             set;
         }
+
+        [DataMember(Name = "error")]
+        public string Error
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = "request")]
+        public string Request
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = "parameters")]
+        public string Parameters
+        {
+            get;
+            set;
+        }
+
+        [DataMember(Name = "method")]
+        public string Method
+        {
+            get;
+            set;
+        }
     }
 }

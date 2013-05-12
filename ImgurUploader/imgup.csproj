@@ -117,9 +117,6 @@
     <Compile Include="Common\UtcToLocalTimeConverter.cs" />
     <Compile Include="Common\UploadStatusConverter.cs" />
     <Compile Include="Common\EnabledWithSelectionConverter.cs" />
-    <Compile Include="GroupedItemsPage1.xaml.cs">
-      <DependentUpon>GroupedItemsPage1.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ImageDetailsPaneWidthConverter.cs" />
     <Compile Include="BuyControl.xaml.cs">
       <DependentUpon>BuyControl.xaml</DependentUpon>
@@ -253,10 +250,6 @@
     <Page Include="Common\StandardStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="GroupedItemsPage1.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="PrivacyPolicy.xaml">
       <Generator>MSBuild:Compile</Generator>

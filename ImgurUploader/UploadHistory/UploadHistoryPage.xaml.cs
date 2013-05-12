@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.System;
@@ -39,7 +40,38 @@ namespace ImgurUploader.UploadHistory
             {
                 HistoryListView.SelectedIndex = 0;
             }
+
         }
+
+        private void ShareTextHandler(DataTransferManager sender, DataRequestedEventArgs e)
+        {
+            string failMessage = null;
+            if (HistoryListView.SelectedItem != null)
+            {
+                FinishedUploadResult result = HistoryListView.SelectedItem as FinishedUploadResult;
+                string url = FinishedUploadResult.GetShareableUrl(result);
+
+                if (!String.IsNullOrEmpty(url))
+                {
+                    e.Request.Data.Properties.Title = "Link to Imgur pictures";
+                    e.Request.Data.SetText(url);
+                }
+                else
+                {
+                    failMessage = "Unable to share this. Maybe because it failed to upload.";
+                }
+            }
+            else
+            {
+                failMessage = "Please select an item first before trying to share.";
+            }
+
+            if (!String.IsNullOrEmpty(failMessage))
+            {
+                e.Request.FailWithDisplayText(failMessage);
+            }
+        }
+
 
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
@@ -49,6 +81,17 @@ namespace ImgurUploader.UploadHistory
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+            DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested += ShareTextHandler;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested -= ShareTextHandler;
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

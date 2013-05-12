@@ -50,5 +50,23 @@ namespace ImgurUploader.UploadResult
             get;
             set;
         }
+
+        public static string GetShareableUrl(FinishedUploadResult result)
+        {
+            string url = null;
+            if (result != null)
+            {
+                if (result.AlbumCreateResults != null)
+                {
+                    url = String.Format("http://imgur.com/a/{0}", result.AlbumCreateResults.Data.ID);
+                }
+                else if (result.Images.SuccessfulUploads != null && result.Images.SuccessfulUploads.Count > 0)
+                {
+                    url = String.Format("http://imgur.com/{0}", result.Images.SuccessfulUploads[0].Result.Data.ID);
+                }
+            }
+            return url;
+        }
+
     }
 }

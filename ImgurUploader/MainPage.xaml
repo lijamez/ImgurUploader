@@ -19,7 +19,8 @@
                 
                 <Grid Grid.Column="1">
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-                        <!--Buttons on the left-->
+                        <Button x:Name="MoveImageUpButton" Click="MoveImageUpButton_Click" Style="{StaticResource MoveUpAppBarButtonStyle}"/>
+                        <Button x:Name="MoveImageDownButton" Click="MoveImageDownButton_Click" Style="{StaticResource MoveDownAppBarButtonStyle}"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                         <Button x:Name="SelectAllButton" Click="SelectAllButton_Click" Style="{StaticResource SelectAllAppBarButtonStyle}"/>
@@ -46,7 +47,7 @@
         </Grid.Resources>
 
         <Grid Grid.Row="0">
-            <Grid Background="{StaticResource BackgroundColor}" >
+            <Grid Background="Black" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
@@ -55,8 +56,11 @@
 
                 <Grid Grid.Column="0">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="img" Style="{StaticResource PageHeaderTextStyle}"/>
-                        <TextBlock Text="up" Style="{StaticResource PageHeaderTextStyle}" Foreground="{StaticResource GreenAccent}" Margin="0"/>
+                        <Image x:Name="Logo" Source="/Assets/Logo-NoBg.png" Height="60" Width="60" Stretch="Uniform" Margin="16,0,0,0" Visibility="Collapsed"/> 
+                        <StackPanel x:Name="AppName" Orientation="Horizontal">
+                            <TextBlock Text="img" Style="{StaticResource PageHeaderTextStyle}"/>
+                            <TextBlock Text="up" Style="{StaticResource PageHeaderTextStyle}" Foreground="{StaticResource GreenAccent}" Margin="0"/>
+                        </StackPanel>
                     </StackPanel>
                 </Grid>
 
@@ -172,6 +176,12 @@
                         </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SnappedAdInner" Storyboard.TargetProperty="Visibility">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Logo" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="AppName" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
                         </ObjectAnimationUsingKeyFrames>
                     </Storyboard>
                 </VisualState>

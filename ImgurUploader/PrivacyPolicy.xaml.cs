@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -27,6 +28,11 @@ namespace ImgurUploader
             this.InitializeComponent();
         }
 
+        private void ShareTextHandler(DataTransferManager sender, DataRequestedEventArgs e)
+        {
+            e.Request.FailWithDisplayText("Why do you want to share this? ๏̯͡๏");
+        }
+
         /// <summary>
         /// Invoked when this page is about to be displayed in a Frame.
         /// </summary>
@@ -34,7 +40,18 @@ namespace ImgurUploader
         /// property is typically used to configure the page.</param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            base.OnNavigatedTo(e);
 
+            DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested += ShareTextHandler;
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+
+            DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested -= ShareTextHandler;
         }
 
         private void BackButton_Click(object sender, RoutedEventArgs e)

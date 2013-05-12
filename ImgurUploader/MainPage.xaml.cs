@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.ApplicationModel;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.ApplicationModel.Store;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -100,8 +101,14 @@ namespace ImgurUploader
 
             AddSettings();
             UpdateAppBarIcons();
+
+            
         }
 
+        private void ShareTextHandler(DataTransferManager sender, DataRequestedEventArgs e)
+        {
+            e.Request.FailWithDisplayText("Please upload something first before trying to share.");
+        }
 
         /// <summary>
         /// When the Popup closes we no longer need to monitor activation changes.
@@ -141,6 +148,9 @@ namespace ImgurUploader
             UpdateUploadListSwitcher();
             FriendlyAddImageControl.SelectButton.Click += AddImageButton_Click;
 
+            DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested += ShareTextHandler;
+
 #if DEBUG
             await LoadInAppPurchaseProxyFileAsync();
 #endif
@@ -150,6 +160,9 @@ namespace ImgurUploader
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
  	        base.OnNavigatedFrom(e);
+
+            DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
+            dataTransferManager.DataRequested -= ShareTextHandler;
 
 #if DEBUG
             if (licenseChangeHandler != null)
@@ -287,7 +300,7 @@ namespace ImgurUploader
             }
         }
 
-        /*
+        
         private void MoveImageUpButton_Click(object sender, RoutedEventArgs e)
         {
             int selectedIndex = QueuedImagesListView.SelectedIndex;
@@ -317,7 +330,7 @@ namespace ImgurUploader
                 QueuedImagesListView.SelectedIndex++;
             }
         }
-         */
+        
 
         private void RemoveImageButton_Click(object sender, RoutedEventArgs e)
         {
@@ -459,11 +472,19 @@ namespace ImgurUploader
                     }
                     else
                     {
-                        message = "Unable to upload anything. Sorry!";
+                        if (uploadedImageResults.FailedUploads.Count == 1)
+                        {
+                            message = uploadedImageResults.FailedUploads[0].Result.Data.Error;
+                        }
+                        else
+                        {
+                            message = "Unable to upload anything. Sorry!";
+                        }
                         MessageDialog msg = new MessageDialog(message);
                         await msg.ShowAsync();
                     }
 
+                    
                     //TODO: Only show toast when the app is in the background
                     ToastNotification toast = Toaster.MakeToast(message, "", null);
                     ToastNotificationManager.CreateToastNotifier().Show(toast);
