@@ -2,7 +2,7 @@
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
   <Identity Name="758d7cdc-13ef-4a47-b29d-ce2ae88ce7e5" Publisher="CN=lijam_000" Version="1.0.0.0" />
   <Properties>
-    <DisplayName>ImgurUploader</DisplayName>
+    <DisplayName>imgup</DisplayName>
     <PublisherDisplayName>James Li</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="imgup.App">
-      <VisualElements DisplayName="imgup" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="imgup is a tool for Windows 8/RT that lets users easily upload images to the image sharing website, Imgur. Easily share images from any app that supports the Share charm to Imgur." ForegroundText="light" BackgroundColor="#000000" ToastCapable="true">
+      <VisualElements DisplayName="imgup" Logo="Assets\Logo.png" SmallLogo="Assets\SmallLogo.png" Description="imgup lets you easily upload photos to the popular image sharing website, Imgur, on Windows 8 and RT. Just upload your photos directly with the app or use the Share charm from any photo sharing capable app for quick uploads." ForegroundText="light" BackgroundColor="#000000" ToastCapable="true">
         <DefaultTile ShowName="logoOnly" WideLogo="Assets\WideLogo.png" ShortName="imgup" />
         <SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#121211" />
         <InitialRotationPreference>

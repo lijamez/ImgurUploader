@@ -135,9 +135,10 @@
 
                 <StackPanel x:Name="FlyoutContent" Grid.Row="1" Margin="16,16,16,16">
                     <TextBlock Text="About imgup" Style="{StaticResource ImageDetailsHeader}"/>
-                    <TextBlock Text="imgup is a tool for Windows 8/RT that lets you easily upload images to the image sharing website, Imgur. Easily share images from any app that supports the Share charm to Imgur." Style="{StaticResource ImageDetailsText}"/>
-                    <TextBlock Text="How to Use" Style="{StaticResource ImageDetailsHeader}"/>
-                    <TextBlock Text="Either open the app and manually select images from your pictures to upload or select the Share charm (Ctrl+H or a swipe from the right of the screen) while using any app that can share images." Style="{StaticResource ImageDetailsText}"/>
+                    <TextBlock Text="imgup lets you easily upload photos to the popular image sharing website, Imgur, on Windows 8 and RT. Just upload your photos directly with the app or use the Share charm from any photo sharing capable app for quick uploads." Style="{StaticResource ImageDetailsText}"/>
+                    <TextBlock Text="Usage" Style="{StaticResource ImageDetailsHeader}"/>
+                    <TextBlock Text="Either open the app and manually select images from your pictures to upload or select the Share charm (Ctrl+H or a swipe from the right edge of the screen) while using any app that can share images. Once images are uploaded, you may use the Share charm from this app to share the Imgur link." Style="{StaticResource ImageDetailsText}"/>
+                    <TextBlock Text="&quot;Imgur&quot; is a trademark of Imgur LLC and is used here for informational purposes only. imgup is not affiliated with Imgur and has not been reviewed or approved by Imgur LLC." Style="{StaticResource SubtitleTextStyle}" Margin="0,32,0,0"/>
                 </StackPanel>
                 
             </Grid>
