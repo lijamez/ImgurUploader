@@ -42,15 +42,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="16.404998"
-     inkscape:cx="179.12525"
-     inkscape:cy="141.9454"
+     inkscape:zoom="1.4500107"
+     inkscape:cx="314.02053"
+     inkscape:cy="746.39247"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1200"
+     inkscape:window-width="2560"
      inkscape:window-height="1537"
-     inkscape:window-x="3752"
+     inkscape:window-x="1192"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:snap-global="false" />
@@ -75,14 +75,14 @@
        id="rect3757"
        width="309.72202"
        height="149.72203"
-       x="115.29699"
-       y="530.24091"
+       x="20.814926"
+       y="560.58551"
        inkscape:export-filename="C:\Users\James\Desktop\text3850.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
     <path
        style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:0.19795318px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0"
-       d="m 184.37598,560.94729 c -9.78219,0 -17.97732,6.7955 -20.12317,15.92285 -0.59323,-0.0365 -1.19152,-0.0557 -1.79396,-0.0557 -15.85234,0 -28.70321,12.85086 -28.70321,28.70321 0,10.53638 5.67907,19.74553 14.14129,24.73795 l 0,0.14229 46.06122,0 0,-27.18145 -14.37635,0 21.88002,-20.5067 21.9295,20.5067 -14.39491,0 0,27.18145 45.10858,0 c 6.01183,-4.62908 9.88528,-11.89867 9.88528,-20.07369 0,-11.99335 -8.33373,-22.03984 -19.52932,-24.65754 -0.54732,-13.50067 -11.66585,-24.2802 -25.30088,-24.2802 -7.18233,0 -13.66518,2.99085 -18.27356,7.79441 -3.77294,-5.00043 -9.76375,-8.23361 -16.51053,-8.23361 z"
+       d="m 89.893918,591.2919 c -9.78219,0 -17.97732,6.7955 -20.12317,15.92285 -0.59323,-0.0365 -1.19152,-0.0557 -1.79396,-0.0557 -15.85234,0 -28.70321,12.85086 -28.70321,28.70321 0,10.53638 5.67907,19.74553 14.14129,24.73795 l 0,0.14229 46.06122,0 0,-27.18145 -14.37635,0 21.880022,-20.5067 21.9295,20.5067 -14.39491,0 0,27.18145 45.10858,0 c 6.01183,-4.62908 9.88528,-11.89867 9.88528,-20.07369 0,-11.99335 -8.33373,-22.03984 -19.52932,-24.65754 -0.54732,-13.50067 -11.66585,-24.2802 -25.30088,-24.2802 -7.18233,0 -13.66518,2.99085 -18.27356,7.79441 -3.77294,-5.00043 -9.763752,-8.23361 -16.510532,-8.23361 z"
        id="path2985"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\James\Desktop\text3850.png"
@@ -93,16 +93,16 @@
        id="rect3798"
        width="65.383514"
        height="157.34778"
-       x="-99.066772"
-       y="860.83112" />
+       x="-96.308174"
+       y="911.86523" />
     <path
        style="fill:#ff0000;fill-opacity:1;stroke:#ff0000;stroke-width:1.02961481px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0"
-       d="m -161.59233,860.9188 190.50609,0 -95.34811,-89.16681 z"
+       d="m -158.83373,911.95291 190.50609,0 -95.34811,-89.16681 z"
        id="path3812"
        inkscape:connector-curvature="0" />
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.21664411;stroke-opacity:0"
-       d="m 148.19171,633.52348 0,16.16707 106.31133,0 0,-16.16707 -7.05448,0 0,9.99948 -92.20914,0 0,-9.99948 -7.04771,0 z"
+       d="m 53.709648,663.86809 0,16.16707 106.311332,0 0,-16.16707 -7.05448,0 0,9.99948 -92.209142,0 0,-9.99948 -7.04771,0 z"
        id="rect3837"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\James\Desktop\text3850.png"
@@ -111,8 +111,8 @@
     <text
        xml:space="preserve"
        style="font-size:44.51602554px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Segoe UI Light;-inkscape-font-specification:Segoe UI Light"
-       x="278.03204"
-       y="622.33966"
+       x="183.54999"
+       y="652.68427"
        id="text3846"
        sodipodi:linespacing="125%"
        inkscape:export-filename="C:\Users\James\Desktop\text3850.png"
@@ -120,56 +120,56 @@
        inkscape:export-ydpi="90"><tspan
          sodipodi:role="line"
          id="tspan3848"
-         x="278.03204"
-         y="622.33966"
+         x="183.54999"
+         y="652.68427"
          style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;fill:#ffffff;font-family:Segoe UI Semilight;-inkscape-font-specification:Segoe UI Semilight Light">img</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:36.63980865px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#006d00;fill-opacity:1;stroke:none;font-family:Sans"
-       x="351.36606"
-       y="610.28748"
+       x="256.884"
+       y="640.63208"
        id="text3850"
        sodipodi:linespacing="125%"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90"><tspan
          sodipodi:role="line"
          id="tspan3852"
-         x="351.36606"
-         y="610.28748"
+         x="256.884"
+         y="640.63208"
          style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;fill:#006d00;fill-opacity:1;font-family:Segoe UI Semilight;-inkscape-font-specification:Segoe UI Semilight Light">up</tspan></text>
     <rect
-       style="fill:#121211;fill-opacity:1;stroke:#89c624;stroke-width:0.27797421999999999;stroke-opacity:0"
+       style="fill:#121211;fill-opacity:1;stroke:#89c624;stroke-width:0.27797422;stroke-opacity:0"
        id="rect3757-4"
        width="309.72202"
        height="149.72203"
-       x="111.88899"
-       y="695.25116"
-       inkscape:export-filename="C:\Users\James\Desktop\SplashScreen.scale-180.png"
-       inkscape:export-xdpi="324"
-       inkscape:export-ydpi="324" />
+       x="17.406929"
+       y="725.59576"
+       inkscape:export-filename="C:\Users\James\Desktop\SplashScreen.scale-80.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.15904294;stroke-opacity:0"
-       d="m 160.62686,789.18826 0,18.59739 78.04536,0 0,-18.59739 -6.86104,0 0,12.38744 -64.32825,0 0,-12.38744 z"
+       d="m 66.144798,819.53287 0,18.59739 78.045362,0 0,-18.59739 -6.86104,0 0,12.38744 -64.328252,0 0,-12.38744 z"
        id="rect3837-9"
        inkscape:connector-curvature="0"
-       inkscape:export-filename="C:\Users\James\Desktop\Logo-NoBg.png"
-       inkscape:export-xdpi="86.318344"
-       inkscape:export-ydpi="86.318344"
+       inkscape:export-filename="C:\Users\James\Desktop\SplashScreen.scale-80.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72"
        sodipodi:nodetypes="ccccccccc" />
     <text
        xml:space="preserve"
        style="font-size:44.51602554px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Segoe UI Light;-inkscape-font-specification:Segoe UI Light"
-       x="264.62405"
-       y="783.34991"
+       x="170.142"
+       y="813.69452"
        id="text3846-4"
        sodipodi:linespacing="125%"
-       inkscape:export-filename="C:\Users\James\Desktop\Logo-NoBg.png"
-       inkscape:export-xdpi="86.318344"
-       inkscape:export-ydpi="86.318344"><tspan
+       inkscape:export-filename="C:\Users\James\Desktop\SplashScreen.scale-80.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72"><tspan
          sodipodi:role="line"
          id="tspan3848-8"
-         x="264.62405"
-         y="783.34991"
+         x="170.142"
+         y="813.69452"
          style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;fill:#ffffff;font-family:Segoe UI Semilight;-inkscape-font-specification:Segoe UI Semilight Light">img<tspan
    style="fill:#89c624;fill-opacity:1"
    id="tspan3890">up</tspan></tspan></text>
@@ -185,20 +185,20 @@
            y="765.27686" /></flowRegion><flowPara
          id="flowPara3898" /></flowRoot>    <path
        style="fill:#ffffff;fill-opacity:1;stroke:#89c624;stroke-width:0.84995496;stroke-opacity:0"
-       d="m 214.26397,731.14431 c -6.68445,0 -12.66951,2.98395 -16.69061,7.70134 -3.02077,-3.62665 -7.5539,-5.94028 -12.6428,-5.94028 -9.09496,0 -16.48033,7.38537 -16.48033,16.48033 0,0.12421 -0.003,0.24441 0,0.36798 -10.34127,0.63541 -18.53052,9.21249 -18.53052,19.71331 0,7.25792 3.92032,13.59641 9.75152,17.0323 l 20.02873,0 11.74913,0 0,-17.0323 -15.3501,0 23.34056,-21.86863 23.39313,21.86863 -15.35009,0 0,17.0323 18.66193,0 12.93193,0 0.52569,0 c 5.90631,-2.59686 10.04065,-8.48429 10.04065,-15.3501 0,-8.15264 -5.80275,-14.96228 -13.5102,-16.48033 0.0384,-0.53054 0.0525,-1.06301 0.0525,-1.60335 0,-12.10765 -9.81354,-21.9212 -21.9212,-21.9212 z"
+       d="m 119.78191,761.48892 c -6.68445,0 -12.66951,2.98395 -16.69061,7.70134 -3.02077,-3.62665 -7.553902,-5.94028 -12.642802,-5.94028 -9.09496,0 -16.48033,7.38537 -16.48033,16.48033 0,0.12421 -0.003,0.24441 0,0.36798 -10.34127,0.63541 -18.53052,9.21249 -18.53052,19.71331 0,7.25792 3.92032,13.59641 9.75152,17.0323 l 20.02873,0 11.74913,0 0,-17.0323 -15.3501,0 23.340562,-21.86863 23.39313,21.86863 -15.35009,0 0,17.0323 18.66193,0 12.93193,0 0.52569,0 c 5.90631,-2.59686 10.04065,-8.48429 10.04065,-15.3501 0,-8.15264 -5.80275,-14.96228 -13.5102,-16.48033 0.0384,-0.53054 0.0525,-1.06301 0.0525,-1.60335 0,-12.10765 -9.81354,-21.9212 -21.9212,-21.9212 z"
        id="path3904"
-       inkscape:export-filename="C:\Users\James\Desktop\Logo-NoBg.png"
-       inkscape:export-xdpi="86.318344"
-       inkscape:export-ydpi="86.318344"
+       inkscape:export-filename="C:\Users\James\Desktop\SplashScreen.scale-80.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72"
        inkscape:connector-curvature="0" />
     <path
-       style="fill:none;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 192.5,745.86218 -25.875,21 -8,31.875 80.5,-1 -18.25,-52.625 z"
+       style="fill:none;stroke:none"
+       d="m 98.017938,776.20679 -25.875,21 -8,31.875 80.500002,-1 -18.25,-52.625 z"
        id="path3920"
        inkscape:connector-curvature="0"
-       inkscape:export-filename="C:\Users\James\Desktop\SplashScreen.scale-180.png"
-       inkscape:export-xdpi="324"
-       inkscape:export-ydpi="324" />
+       inkscape:export-filename="C:\Users\James\Desktop\SplashScreen.scale-80.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
     <g
        id="g3942"
        transform="matrix(0.29165721,0,0,0.29165721,138.40748,559.19118)" />
@@ -207,14 +207,14 @@
        id="rect3950"
        width="30"
        height="30"
-       x="158.5"
-       y="905.86218"
+       x="161.25861"
+       y="956.8963"
        inkscape:export-filename="C:\Users\James\Desktop\SmallLogo.targetsize-16.png"
        inkscape:export-xdpi="48"
        inkscape:export-ydpi="48" />
     <path
-       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.04496543;stroke-opacity:0"
-       d="m 162.40406,926.31208 0,5.25796 22.06538,0 0,-5.25796 -1.93978,0 0,3.50225 -18.18721,0 0,-3.50225 z"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.03513309;stroke-opacity:0"
+       d="m 167.58326,976.12247 0,4.10823 17.24047,0 0,-4.10823 -1.51562,0 0,2.73643 -14.21032,0 0,-2.73643 z"
        id="rect3837-9-2"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\James\Desktop\SmallLogo.targetsize-16.png"
@@ -222,8 +222,8 @@
        inkscape:export-ydpi="48"
        sodipodi:nodetypes="ccccccccc" />
     <path
-       style="fill:#ffffff;fill-opacity:1;stroke:#89c624;stroke-width:0.24030361;stroke-opacity:0"
-       d="m 177.56862,909.9016 c -1.88986,0 -3.58198,0.84364 -4.71886,2.17737 -0.85403,-1.02535 -2.13567,-1.67948 -3.57443,-1.67948 -2.57138,0 -4.6594,2.08804 -4.6594,4.65941 0,0.0351 -8.5e-4,0.0691 0,0.10405 -2.92374,0.17964 -5.23905,2.60461 -5.23905,5.57345 0,2.052 1.10838,3.84404 2.757,4.81546 l 5.66263,0 3.32177,0 0,-4.81546 -4.33985,0 6.59895,-6.18281 6.61383,6.18281 -4.33986,0 0,4.81546 5.2762,0 3.65618,0 0.14863,0 c 1.66986,-0.7342 2.83875,-2.39873 2.83875,-4.33985 0,-2.30497 -1.64059,-4.23022 -3.81968,-4.65941 0.0102,-0.15 0.0148,-0.30054 0.0148,-0.45331 0,-3.42314 -2.77453,-6.19767 -6.19766,-6.19767 z"
+       style="fill:#ffffff;fill-opacity:1;stroke:#89c624;stroke-width:0.18775778;stroke-opacity:0"
+       d="m 179.43187,963.30038 c -1.47661,0 -2.79873,0.65916 -3.68701,1.70125 -0.66729,-0.80114 -1.66868,-1.31223 -2.79283,-1.31223 -2.00911,0 -3.64056,1.63146 -3.64056,3.64056 0,0.0274 -6.6e-4,0.054 0,0.0813 -2.28442,0.14036 -4.09345,2.03507 -4.09345,4.35473 0,1.6033 0.86601,3.00349 2.15414,3.76249 l 4.42441,0 2.59542,0 0,-3.76249 -3.39088,0 5.156,-4.83085 5.16762,4.83085 -3.39089,0 0,3.76249 4.12248,0 2.85671,0 0.11613,0 c 1.30472,-0.57365 2.21801,-1.87421 2.21801,-3.39088 0,-1.80095 -1.28185,-3.30522 -2.98445,-3.64056 0.008,-0.1172 0.0116,-0.23482 0.0116,-0.35419 0,-2.67462 -2.16784,-4.84246 -4.84246,-4.84246 z"
        id="path3904-9"
        inkscape:export-filename="C:\Users\James\Desktop\SmallLogo.targetsize-16.png"
        inkscape:export-xdpi="48"
@@ -234,41 +234,41 @@
        id="rect3950-1"
        width="150.00111"
        height="150"
-       x="464.5231"
-       y="696.10596"
-       inkscape:export-filename="C:\Users\James\Desktop\Logo.scale-140.png"
-       inkscape:export-xdpi="126"
-       inkscape:export-ydpi="126" />
+       x="467.28171"
+       y="747.14008"
+       inkscape:export-filename="C:\Users\James\Desktop\Logo.scale-80.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72" />
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.13942175;stroke-opacity:0"
-       d="m 505.06954,779.70291 0,16.303 68.41714,0 0,-16.303 -6.01458,0 0,10.85913 -56.39229,0 0,-10.85913 z"
+       d="m 507.82814,830.73702 0,16.303 68.41714,0 0,-16.303 -6.01458,0 0,10.85913 -56.39229,0 0,-10.85913 z"
        id="rect3837-9-2-3"
        inkscape:connector-curvature="0"
-       inkscape:export-filename="C:\Users\James\Desktop\Logo.scale-140.png"
-       inkscape:export-xdpi="126"
-       inkscape:export-ydpi="126"
+       inkscape:export-filename="C:\Users\James\Desktop\Logo.scale-80.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72"
        sodipodi:nodetypes="ccccccccc" />
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:#89c624;stroke-width:0.74509579;stroke-opacity:0"
-       d="m 552.08961,728.82007 c -5.85979,0 -11.10649,2.6158 -14.63155,6.75117 -2.64807,-3.1792 -6.62199,-5.2074 -11.08307,-5.2074 -7.97295,0 -14.44721,6.47425 -14.44721,14.44711 0,0.10884 -0.003,0.21408 0,0.32252 -9.06551,0.55701 -16.24446,8.07594 -16.24446,17.28121 0,6.36251 3.43667,11.91897 8.5485,14.93098 l 17.55784,0 10.29966,0 0,-14.93098 -13.45637,0 20.46109,-19.17063 20.50718,19.17063 -13.45641,0 0,14.93098 16.35968,0 11.33656,0 0.46086,0 c 5.17765,-2.27646 8.80195,-7.43757 8.80195,-13.45629 0,-7.14685 -5.08689,-13.11635 -11.84349,-14.44712 0.0318,-0.46508 0.046,-0.93185 0.046,-1.40555 0,-10.61388 -8.60285,-19.21667 -19.21683,-19.21667 z"
+       d="m 554.84821,779.85418 c -5.85979,0 -11.10649,2.6158 -14.63155,6.75117 -2.64807,-3.1792 -6.62199,-5.2074 -11.08307,-5.2074 -7.97295,0 -14.44721,6.47425 -14.44721,14.44711 0,0.10884 -0.003,0.21408 0,0.32252 -9.06551,0.55701 -16.24446,8.07594 -16.24446,17.28121 0,6.36251 3.43667,11.91897 8.5485,14.93098 l 17.55784,0 10.29966,0 0,-14.93098 -13.45637,0 20.46109,-19.17063 20.50718,19.17063 -13.45641,0 0,14.93098 16.35968,0 11.33656,0 0.46086,0 c 5.17765,-2.27646 8.80195,-7.43757 8.80195,-13.45629 0,-7.14685 -5.08689,-13.11635 -11.84349,-14.44712 0.0318,-0.46508 0.046,-0.93185 0.046,-1.40555 0,-10.61388 -8.60285,-19.21667 -19.21683,-19.21667 z"
        id="path3904-9-5"
-       inkscape:export-filename="C:\Users\James\Desktop\Logo.scale-140.png"
-       inkscape:export-xdpi="126"
-       inkscape:export-ydpi="126"
+       inkscape:export-filename="C:\Users\James\Desktop\Logo.scale-80.png"
+       inkscape:export-xdpi="72"
+       inkscape:export-ydpi="72"
        inkscape:connector-curvature="0" />
     <rect
        style="fill:#121211;fill-opacity:1;stroke:none"
        id="rect3950-9"
        width="49.999935"
        height="50.05444"
-       x="220.94656"
-       y="884.9917"
+       x="223.70517"
+       y="936.02582"
        inkscape:export-filename="C:\Users\James\Desktop\StorelLogo.scale-180.png"
        inkscape:export-xdpi="162"
        inkscape:export-ydpi="162" />
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.06977157;stroke-opacity:0"
-       d="m 228.73564,918.46696 0,8.16306 34.21958,0 0,-8.16306 -3.00826,0 0,5.43729 -28.20522,0 0,-5.43729 z"
+       d="m 231.49424,969.50107 0,8.16306 34.21958,0 0,-8.16306 -3.00826,0 0,5.43729 -28.20522,0 0,-5.43729 z"
        id="rect3837-9-2-8"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\James\Desktop\StorelLogo.scale-180.png"
@@ -277,7 +277,7 @@
        sodipodi:nodetypes="ccccccccc" />
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:#89c624;stroke-width:0.37287226;stroke-opacity:0"
-       d="m 252.25324,892.9894 c -2.93084,0 -5.55504,1.30977 -7.31814,3.38041 -1.32445,-1.59189 -3.31206,-2.60741 -5.54332,-2.60741 -3.98776,0 -7.22593,3.24171 -7.22593,7.23379 0,0.0546 -0.001,0.10719 0,0.16153 -4.5342,0.2789 -8.12483,4.04371 -8.12483,8.65287 0,3.18575 1.71888,5.96794 4.27561,7.47609 l 8.78175,0 5.1515,0 0,-7.47609 -6.73035,0 10.23383,-9.59892 10.2569,9.59892 -6.73038,0 0,7.47609 8.18247,0 5.67011,0 0.2305,0 c 2.58966,-1.13985 4.4024,-3.72407 4.4024,-6.7377 0,-3.5785 -2.54426,-6.56749 -5.92366,-7.23379 0.016,-0.2329 0.0231,-0.4666 0.0231,-0.70379 0,-5.31448 -4.30281,-9.622 -9.6115,-9.622 z"
+       d="m 255.01184,944.02351 c -2.93084,0 -5.55504,1.30977 -7.31814,3.38041 -1.32445,-1.59189 -3.31206,-2.60741 -5.54332,-2.60741 -3.98776,0 -7.22593,3.24171 -7.22593,7.23379 0,0.0546 -0.001,0.10719 0,0.16153 -4.5342,0.2789 -8.12483,4.04371 -8.12483,8.65287 0,3.18575 1.71888,5.96794 4.27561,7.47609 l 8.78175,0 5.1515,0 0,-7.47609 -6.73035,0 10.23383,-9.59892 10.2569,9.59892 -6.73038,0 0,7.47609 8.18247,0 5.67011,0 0.2305,0 c 2.58966,-1.13985 4.4024,-3.72407 4.4024,-6.7377 0,-3.5785 -2.54426,-6.56749 -5.92366,-7.23379 0.016,-0.2329 0.0231,-0.4666 0.0231,-0.70379 0,-5.31448 -4.30281,-9.622 -9.6115,-9.622 z"
        id="path3904-9-4"
        inkscape:export-filename="C:\Users\James\Desktop\StorelLogo.scale-180.png"
        inkscape:export-xdpi="162"
@@ -285,7 +285,7 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.15904294;stroke-opacity:0"
-       d="m 395.09702,959.15558 0,18.59739 78.04536,0 0,-18.59739 -6.86104,0 0,12.38744 -64.32825,0 0,-12.38744 z"
+       d="m 397.85562,1010.1897 0,18.5974 78.04536,0 0,-18.5974 -6.86104,0 0,12.3874 -64.32825,0 0,-12.3874 z"
        id="rect3837-9-9"
        inkscape:connector-curvature="0"
        inkscape:export-filename="C:\Users\James\Desktop\Logo-NoBg.png"
@@ -295,8 +295,8 @@
     <text
        xml:space="preserve"
        style="font-size:53.87485504px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Segoe UI Light;-inkscape-font-specification:Segoe UI Light"
-       x="508.05444"
-       y="955.56549"
+       x="510.81305"
+       y="1006.5996"
        id="text3846-4-7"
        sodipodi:linespacing="125%"
        inkscape:export-filename="C:\Users\James\Desktop\Logo-NoBg.png"
@@ -304,18 +304,136 @@
        inkscape:export-ydpi="74.683456"><tspan
          sodipodi:role="line"
          id="tspan3848-8-3"
-         x="508.05444"
-         y="955.56549"
+         x="510.81305"
+         y="1006.5996"
          style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;fill:#ffffff;font-family:Segoe UI Semilight;-inkscape-font-specification:Segoe UI Semilight Light">img<tspan
    style="fill:#89c624;fill-opacity:1"
    id="tspan3890-7">up</tspan></tspan></text>
     <path
        style="fill:#ffffff;fill-opacity:1;stroke:#89c624;stroke-width:0.84995496;stroke-opacity:0"
-       d="m 448.73413,901.11163 c -6.68445,0 -12.66951,2.98395 -16.69061,7.70134 -3.02077,-3.62665 -7.5539,-5.94028 -12.6428,-5.94028 -9.09496,0 -16.48033,7.38537 -16.48033,16.48033 0,0.12421 -0.003,0.24441 0,0.36798 -10.34127,0.63541 -18.53052,9.21249 -18.53052,19.71331 0,7.25792 3.92032,13.59641 9.75152,17.0323 l 20.02873,0 11.74913,0 0,-17.0323 -15.3501,0 23.34056,-21.86863 23.39313,21.86863 -15.35009,0 0,17.0323 18.66193,0 12.93193,0 0.52569,0 c 5.90631,-2.59686 10.04065,-8.48429 10.04065,-15.3501 0,-8.15264 -5.80275,-14.96228 -13.5102,-16.48033 0.0384,-0.53054 0.0525,-1.06301 0.0525,-1.60335 0,-12.10765 -9.81354,-21.9212 -21.9212,-21.9212 z"
+       d="m 451.49273,952.14574 c -6.68445,0 -12.66951,2.98395 -16.69061,7.70134 -3.02077,-3.62665 -7.5539,-5.94028 -12.6428,-5.94028 -9.09496,0 -16.48033,7.38537 -16.48033,16.48033 0,0.12421 -0.003,0.24441 0,0.36798 -10.34127,0.63541 -18.53052,9.21249 -18.53052,19.71331 0,7.25792 3.92032,13.59638 9.75152,17.03228 l 20.02873,0 11.74913,0 0,-17.03228 -15.3501,0 23.34056,-21.86863 23.39313,21.86863 -15.35009,0 0,17.03228 18.66193,0 12.93193,0 0.52569,0 c 5.90631,-2.5968 10.04065,-8.48427 10.04065,-15.35008 0,-8.15264 -5.80275,-14.96228 -13.5102,-16.48033 0.0384,-0.53054 0.0525,-1.06301 0.0525,-1.60335 0,-12.10765 -9.81354,-21.9212 -21.9212,-21.9212 z"
        id="path3904-2"
        inkscape:export-filename="C:\Users\James\Desktop\Logo-NoBg.png"
        inkscape:export-xdpi="74.683456"
        inkscape:export-ydpi="74.683456"
        inkscape:connector-curvature="0" />
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:3.40079117000000020;stroke-opacity:1"
+       id="rect3018"
+       width="410.59921"
+       height="464.59921"
+       x="324.64651"
+       y="3.8082855"
+       inkscape:export-filename="C:\Users\James\Desktop\Promo414x468.png"
+       inkscape:export-xdpi="90.75"
+       inkscape:export-ydpi="90.75" />
+    <path
+       sodipodi:nodetypes="ccccccccc"
+       inkscape:export-ydpi="90.75"
+       inkscape:export-xdpi="90.75"
+       inkscape:export-filename="C:\Users\James\Desktop\Promo414x468.png"
+       inkscape:connector-curvature="0"
+       id="path3041"
+       d="m 444.85796,210.58988 0,40.53189 170.09515,0 0,-40.53189 -14.95322,0 0,26.99768 -140.19954,0 0,-26.99768 z"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.34662446;stroke-opacity:0" />
+    <path
+       inkscape:connector-curvature="0"
+       inkscape:export-ydpi="90.75"
+       inkscape:export-xdpi="90.75"
+       inkscape:export-filename="C:\Users\James\Desktop\Promo414x468.png"
+       id="path3043"
+       d="m 561.7568,84.086596 c -14.56835,0 -27.61243,6.50334 -36.37617,16.784604 -6.58359,-7.904061 -16.46327,-12.946484 -27.55422,-12.946484 -19.82192,0 -35.91788,16.095974 -35.91788,35.917894 0,0.2707 -0.007,0.53267 0,0.80199 -22.53818,1.38483 -40.38615,20.07806 -40.38615,42.96396 0,15.8182 8.5441,29.63256 21.25285,37.12087 l 43.6514,0 25.60652,0 0,-37.12087 -33.45461,0 50.86934,-47.66135 50.98391,47.66135 -33.4546,0 0,37.12087 40.67255,0 28.18436,0 1.14571,0 c 12.87245,-5.6597 21.88299,-18.491 21.88299,-33.45461 0,-17.76819 -12.64674,-32.60939 -29.44466,-35.91789 0.0837,-1.15628 0.11442,-2.31676 0.11442,-3.4944 0,-26.38789 -21.38802,-47.775934 -47.77593,-47.775934 z"
+       style="fill:#ffffff;fill-opacity:1;stroke:#89c624;stroke-width:1.85242546;stroke-opacity:0" />
+    <text
+       xml:space="preserve"
+       style="font-size:61.15394592px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Segoe UI Light;-inkscape-font-specification:Segoe UI Light"
+       x="445.2034"
+       y="345.67947"
+       id="text3846-4-4"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\James\Desktop\Promo414x468.png"
+       inkscape:export-xdpi="90.75"
+       inkscape:export-ydpi="90.75"><tspan
+         sodipodi:role="line"
+         id="tspan3848-8-0"
+         x="445.2034"
+         y="345.67947"
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;fill:#ffffff;font-family:Segoe UI Semilight;-inkscape-font-specification:Segoe UI Semilight Light">img<tspan
+   style="fill:#89c624;fill-opacity:1"
+   id="tspan3890-9">up</tspan></tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
+       x="397.99698"
+       y="390.71194"
+       id="text3837"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="C:\Users\James\Desktop\Promo414x468.png"
+       inkscape:export-xdpi="90.75"
+       inkscape:export-ydpi="90.75"><tspan
+         sodipodi:role="line"
+         id="tspan3839"
+         x="397.99698"
+         y="390.71194"
+         style="font-size:20px;font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Segoe UI Semilight;-inkscape-font-specification:Segoe UI Semilight Light">Easily upload photos to Imgur</tspan></text>
+    <rect
+       style="fill:#000000;fill-opacity:1;stroke:none"
+       id="rect3018-4"
+       width="414"
+       height="180"
+       x="337.49811"
+       y="485.86465"
+       inkscape:export-filename="C:\Users\James\Desktop\Promo414x180.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+    <path
+       sodipodi:nodetypes="ccccccccc"
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="C:\Users\James\Desktop\Promo414x180.png"
+       inkscape:connector-curvature="0"
+       id="path3874"
+       d="m 368.27998,599.90631 0,22.16812 93.03021,0 0,-22.16812 -8.17838,0 0,14.76585 -76.67939,0 0,-14.76585 z"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.18957947;stroke-opacity:0" />
+    <text
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="C:\Users\James\Desktop\Promo414x180.png"
+       sodipodi:linespacing="125%"
+       id="text3876"
+       y="577.14453"
+       x="539.72546"
+       style="font-size:44.51602554px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Segoe UI Light;-inkscape-font-specification:Segoe UI Light"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;fill:#ffffff;font-family:Segoe UI Semilight;-inkscape-font-specification:Segoe UI Semilight Light"
+         y="577.14453"
+         x="539.72546"
+         id="tspan3878"
+         sodipodi:role="line">img<tspan
+   id="tspan3880"
+   style="fill:#89c624;fill-opacity:1">up</tspan></tspan></text>
+    <path
+       inkscape:connector-curvature="0"
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="C:\Users\James\Desktop\Promo414x180.png"
+       id="path3882"
+       d="m 432.21551,530.71782 c -7.96788,0 -15.10208,3.55687 -19.89524,9.18001 -3.60076,-4.32298 -9.00426,-7.08083 -15.07024,-7.08083 -10.84121,0 -19.64458,8.80338 -19.64458,19.64459 0,0.14806 -0.004,0.29133 0,0.43863 -12.32681,0.75741 -22.08841,10.9813 -22.08841,23.4983 0,8.65145 4.67302,16.20695 11.62382,20.30253 l 23.87429,0 14.00498,0 0,-20.30253 -18.29735,0 27.82199,-26.06745 27.88466,26.06745 -18.29734,0 0,20.30253 22.24505,0 15.41489,0 0.62662,0 c 7.04033,-3.09546 11.96847,-10.11329 11.96847,-18.29734 0,-9.71797 -6.91688,-17.83507 -16.10418,-19.64459 0.0458,-0.6324 0.0626,-1.26711 0.0626,-1.91119 0,-14.43234 -11.69775,-26.13011 -26.13011,-26.13011 z"
+       style="fill:#ffffff;fill-opacity:1;stroke:#89c624;stroke-width:1.01314783;stroke-opacity:0" />
+    <text
+       inkscape:export-ydpi="90"
+       inkscape:export-xdpi="90"
+       inkscape:export-filename="C:\Users\James\Desktop\Promo414x180.png"
+       sodipodi:linespacing="125%"
+       id="text3905"
+       y="616.22748"
+       x="478.68604"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
+       xml:space="preserve"><tspan
+         style="font-size:20px;font-style:normal;font-variant:normal;font-weight:300;font-stretch:normal;font-family:Segoe UI Semilight;-inkscape-font-specification:Segoe UI Semilight Light"
+         y="616.22748"
+         x="478.68604"
+         id="tspan3907"
+         sodipodi:role="line">Easily upload photos to Imgur</tspan></text>
   </g>
 </svg>
