@@ -137,17 +137,36 @@
 
                 <Grid x:Name="ImageDetailsPanelWrapper" Grid.Column="1">
                     <Grid x:Name="ImageDetailsPanel" Width="{Binding ElementName=MainContent, Path=ActualWidth, Converter={StaticResource ImageDetailsWidthConverter}}">
-                        <StackPanel Orientation="Vertical" Margin="16,16,16,16" DataContext="{Binding ElementName=QueuedImagesListView, Path=SelectedItem}" >
-                            <TextBlock Text="Title" Style="{StaticResource ImageDetailsHeader}"/>
-                            <TextBox x:Name="ItemTitleTextBox" Text="{Binding Title}" TextChanged="ItemTitleTextBox_TextChanged" MaxLength="128"/>
-                            <TextBlock Text="Description" Style="{StaticResource ImageDetailsHeader}"/>
-                            <TextBox x:Name="ItemDescriptionTextBox" Text="{Binding Description}" TextChanged="ItemDescriptionTextBox_TextChanged" Height="300" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="65536"/>
+                        <StackPanel Orientation="Vertical" Margin="16,16,16,16">
+                            <StackPanel.Resources>
+                                <common:VisibleWhenMoreThanOne x:Key="VisibleWhenMoreThanOne"/>
+                            </StackPanel.Resources>
+                            <StackPanel x:Name="AlbumPreferencesStackPanel" Orientation="Vertical" Visibility="{Binding Path=Count, Converter={StaticResource VisibleWhenMoreThanOne}}" Margin="0,0,0,32">
+                                <StackPanel x:Name="AlbumPreferencesStackPanelInner" Orientation="Vertical">
+                                    <StackPanel.Resources>
+                                        <common:StringEqualityConverter x:Key="StringEqualityConverter"/>
+                                    </StackPanel.Resources>
+                                    <TextBlock Text="Album Title" Style="{StaticResource ImageDetailsHeader}"/>
+                                    <TextBox x:Name="AlbumTitleTextBox" Text="{Binding Title, Mode=TwoWay}" MaxLength="128"/>
+                                    <TextBlock Text="Album Layout" Style="{StaticResource ImageDetailsHeader}"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <RadioButton x:Name="AlbumLayoutBlogRadioButton" Content="Blog" GroupName="AlbumLayout" Margin="8,0" IsChecked="{Binding Path=Layout, Converter={StaticResource StringEqualityConverter}, ConverterParameter=blog}" Checked="AlbumLayoutBlogRadioButton_Checked"/>
+                                        <RadioButton x:Name="AlbumLayoutBlogGridButton" Content="Grid" GroupName="AlbumLayout" Margin="8,0" IsChecked="{Binding Path=Layout, Converter={StaticResource StringEqualityConverter}, ConverterParameter=grid}" Checked="AlbumLayoutBlogGridButton_Checked"/>
+                                        <RadioButton x:Name="AlbumLayoutBlogHorizontalButton" Content="Horizontal" GroupName="AlbumLayout" Margin="8,0" IsChecked="{Binding Path=Layout, Converter={StaticResource StringEqualityConverter}, ConverterParameter=horizontal}" Checked="AlbumLayoutBlogHorizontalButton_Checked"/>
+                                        <RadioButton x:Name="AlbumLayoutBlogVerticalButton" Content="Vertical" GroupName="AlbumLayout" Margin="8,0" IsChecked="{Binding Path=Layout, Converter={StaticResource StringEqualityConverter}, ConverterParameter=vertical}" Checked="AlbumLayoutBlogVerticalButton_Checked"/>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                            
+                            <StackPanel x:Name="ImagePreferencesStackPanel" Orientation="Vertical" DataContext="{Binding ElementName=QueuedImagesListView, Path=SelectedItem}" >
+                                <TextBlock Text="Title" Style="{StaticResource ImageDetailsHeader}"/>
+                                <TextBox x:Name="ItemTitleTextBox" Text="{Binding Title}" TextChanged="ItemTitleTextBox_TextChanged" MaxLength="128"/>
+                                <TextBlock Text="Description" Style="{StaticResource ImageDetailsHeader}"/>
+                                <TextBox x:Name="ItemDescriptionTextBox" Text="{Binding Description}" TextChanged="ItemDescriptionTextBox_TextChanged" Height="300" TextWrapping="Wrap" AcceptsReturn="True" MaxLength="65536"/>
+                            </StackPanel>
                         </StackPanel>
-                        
                     </Grid>
                 </Grid>
-
-                
             </Grid>
         </Grid>
 

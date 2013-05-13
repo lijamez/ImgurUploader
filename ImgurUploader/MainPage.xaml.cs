@@ -83,6 +83,19 @@ namespace ImgurUploader
                 return _queuedImages;
             }
         }
+        private AlbumPreferences _albumPreferences;
+        public AlbumPreferences AlbumPreferences
+        {
+            get
+            {
+                if (_albumPreferences == null)
+                {
+                    _albumPreferences = new AlbumPreferences();
+                }
+
+                return _albumPreferences;
+            }
+        }
 
         private double _settingsWidth = 346;
         private Popup _accountPopup;
@@ -102,7 +115,8 @@ namespace ImgurUploader
             AddSettings();
             UpdateAppBarIcons();
 
-            
+            AlbumPreferencesStackPanel.DataContext = QueuedFiles;
+            AlbumPreferencesStackPanelInner.DataContext = AlbumPreferences;
         }
 
         private void ShareTextHandler(DataTransferManager sender, DataRequestedEventArgs e)
@@ -130,7 +144,7 @@ namespace ImgurUploader
         {
             if (e.WindowActivationState == Windows.UI.Core.CoreWindowActivationState.Deactivated)
             {
-                if (_accountPopup != null ) _accountPopup.IsOpen = false;
+                if (_accountPopup != null) _accountPopup.IsOpen = false;
                 if (_aboutPopup != null) _aboutPopup.IsOpen = false;
             }
         }
@@ -159,7 +173,7 @@ namespace ImgurUploader
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
- 	        base.OnNavigatedFrom(e);
+            base.OnNavigatedFrom(e);
 
             DataTransferManager dataTransferManager = DataTransferManager.GetForCurrentView();
             dataTransferManager.DataRequested -= ShareTextHandler;
@@ -208,7 +222,7 @@ namespace ImgurUploader
             });
 
             // Create a SettingsFlyout the same dimenssions as the Popup.
-            FlyoutPage flyoutPage = (FlyoutPage) Activator.CreateInstance(popupType);
+            FlyoutPage flyoutPage = (FlyoutPage)Activator.CreateInstance(popupType);
             flyoutPage.Width = _settingsWidth;
             flyoutPage.Height = Window.Current.Bounds.Height;
             flyoutPage.DataContext = this;
@@ -300,7 +314,7 @@ namespace ImgurUploader
             }
         }
 
-        
+
         private void MoveImageUpButton_Click(object sender, RoutedEventArgs e)
         {
             int selectedIndex = QueuedImagesListView.SelectedIndex;
@@ -311,7 +325,7 @@ namespace ImgurUploader
 
                 QueuedFiles[selectedIndex - 1] = movedItem;
                 QueuedFiles[selectedIndex] = swappedItem;
-                
+
                 QueuedImagesListView.SelectedIndex--;
             }
         }
@@ -330,7 +344,7 @@ namespace ImgurUploader
                 QueuedImagesListView.SelectedIndex++;
             }
         }
-        
+
 
         private void RemoveImageButton_Click(object sender, RoutedEventArgs e)
         {
@@ -443,10 +457,15 @@ namespace ImgurUploader
                             }
 
                             if (_uploadCancellationTokenSource.IsCancellationRequested) { throw new TaskCanceledException("Cancelled"); }
-                            Basic<AlbumCreateData> createAlbumResult = await _api.CreateAlbum(uploadedImageIds.ToArray(), null, null, null, _uploadCancellationTokenSource.Token);
+                            Basic<AlbumCreateData> createAlbumResult = await _api.CreateAlbum(uploadedImageIds.ToArray(), AlbumPreferences.Title, AlbumPreferences.Description, AlbumPreferences.Cover, _uploadCancellationTokenSource.Token);
 
                             if (createAlbumResult.Success)
                             {
+                                if (!String.Equals(AlbumPreferences.Privacy, AlbumPreferences.DEFAULT_PRIVACY) || !String.Equals(AlbumPreferences.Layout, AlbumPreferences.DEFAULT_LAYOUT))
+                                {
+                                    Basic<Boolean> albumUpdateResult = await _api.UpdateAlbum(createAlbumResult.Data.DeleteHash, null, null, null, AlbumPreferences.Privacy, AlbumPreferences.Layout, null, _uploadCancellationTokenSource.Token);
+                                }
+
                                 finishedResult = new FinishedUploadResult(uploadedImageResults, createAlbumResult);
                                 finishedResult.StartDate = startTime;
                                 finishedResult.FinishDate = DateTime.UtcNow;
@@ -484,13 +503,13 @@ namespace ImgurUploader
                         await msg.ShowAsync();
                     }
 
-                    
+
                     //TODO: Only show toast when the app is in the background
                     ToastNotification toast = Toaster.MakeToast(message, "", null);
                     ToastNotificationManager.CreateToastNotifier().Show(toast);
                 }
                 catch (TaskCanceledException) { }
-                catch (Exception ex) 
+                catch (Exception ex)
                 {
                     exception = ex;
                 }
@@ -591,6 +610,26 @@ namespace ImgurUploader
         private void HistoryButton_Click(object sender, RoutedEventArgs e)
         {
             this.Frame.Navigate(typeof(UploadHistory.UploadHistoryPage));
+        }
+
+        private void AlbumLayoutBlogRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            AlbumPreferences.Layout = ImgurAPI.ALBUM_LAYOUT_BLOG;
+        }
+
+        private void AlbumLayoutBlogGridButton_Checked(object sender, RoutedEventArgs e)
+        {
+            AlbumPreferences.Layout = ImgurAPI.ALBUM_LAYOUT_GRID;
+        }
+
+        private void AlbumLayoutBlogHorizontalButton_Checked(object sender, RoutedEventArgs e)
+        {
+            AlbumPreferences.Layout = ImgurAPI.ALBUM_LAYOUT_HORIZONTAL;
+        }
+
+        private void AlbumLayoutBlogVerticalButton_Checked(object sender, RoutedEventArgs e)
+        {
+            AlbumPreferences.Layout = ImgurAPI.ALBUM_LAYOUT_VERTICAL;
         }
     }
 }

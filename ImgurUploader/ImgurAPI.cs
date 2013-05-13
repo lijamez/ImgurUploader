@@ -18,6 +18,15 @@ namespace ImgurUploader
     /// </summary>
     class ImgurAPI
     {
+        public const string ALBUM_PRIVACY_PUBLIC = "public";
+        public const string ALBUM_PRIVACY_HIDDEN = "hidden";
+        public const string ALBUM_PRIVACY_SECRET = "secret";
+
+        public const string ALBUM_LAYOUT_BLOG = "blog";
+        public const string ALBUM_LAYOUT_GRID = "grid";
+        public const string ALBUM_LAYOUT_HORIZONTAL = "horizontal";
+        public const string ALBUM_LAYOUT_VERTICAL = "vertical";
+
         public ImgurAPI()
         {
 
@@ -117,6 +126,51 @@ namespace ImgurUploader
                     }
                 }
 
+            }
+            catch (IOException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+
+            return null;
+        }
+
+        public async Task<Basic<Boolean>> UpdateAlbum(string albumId, string[] ids, string title, string description, string privacy, string layout, string cover, CancellationToken cancelToken)
+        {
+            try
+            {
+                HttpClient client = await GetImgurHttpClient(cancelToken);
+
+                using (MultipartFormDataContent fullContent = new MultipartFormDataContent())
+                {
+                    if (ids != null)
+                    {
+                        foreach (string id in ids)
+                        {
+                            fullContent.Add(new StringContent(id), "ids[]");
+                        }
+                    }
+
+                    if (!String.IsNullOrEmpty(title))
+                        fullContent.Add(new StringContent(title), "title");
+                    if (!String.IsNullOrEmpty(description))
+                        fullContent.Add(new StringContent(description), "description");
+                    if (!String.IsNullOrEmpty(privacy))
+                        fullContent.Add(new StringContent(privacy), "privacy");
+                    if (!String.IsNullOrEmpty(layout))
+                        fullContent.Add(new StringContent(layout), "layout");
+                    if (!String.IsNullOrEmpty(cover))
+                        fullContent.Add(new StringContent(cover), "cover");
+
+                    System.Diagnostics.Debug.WriteLine("Updating album...");
+                    using (HttpResponseMessage response = await client.PostAsync(String.Format("https://api.imgur.com/3/album/{0}", albumId), fullContent, cancelToken))
+                    {
+                        System.Diagnostics.Debug.WriteLine(await response.Content.ReadAsStringAsync());
+
+                        Basic<Boolean> result = JSONHelper.Deserialize<Basic<Boolean>>(await response.Content.ReadAsStringAsync());
+                        return result;
+                    }
+                }
             }
             catch (IOException ex)
             {

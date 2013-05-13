@@ -16,5 +16,12 @@ namespace ImgurUploader.Model
             get;
             set;
         }
+
+        [DataMember(Name = "deletehash")]
+        public string DeleteHash
+        {
+            get;
+            set;
+        }
     }
 }

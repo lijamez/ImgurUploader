@@ -111,6 +111,9 @@
     <Compile Include="AboutFlyout.xaml.cs">
       <DependentUpon>AboutFlyout.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AlbumPreferences.cs" />
+    <Compile Include="Common\VisibleWhenMoreThanOne.cs" />
+    <Compile Include="Common\StringEqualityConverter.cs" />
     <Compile Include="Common\LoggedInUserStringConverter.cs" />
     <Compile Include="Common\ElapsedTimeConverter.cs" />
     <Compile Include="Common\VisibleWhenNonNull.cs" />
