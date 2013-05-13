@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
-  <Identity Name="758d7cdc-13ef-4a47-b29d-ce2ae88ce7e5" Publisher="CN=lijam_000" Version="1.0.0.0" />
+  <Identity Name="39191JamesLi.imgup" Publisher="CN=B724CA4A-83EE-488B-8D91-45C000B90D16" Version="1.0.0.0" />
   <Properties>
     <DisplayName>imgup</DisplayName>
     <PublisherDisplayName>James Li</PublisherDisplayName>

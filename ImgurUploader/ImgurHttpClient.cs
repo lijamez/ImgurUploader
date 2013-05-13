@@ -50,13 +50,22 @@ namespace ImgurUploader
 
         private bool _requiresNewAuthorization = true;
 
+#if DEBUG
         private string _clientID = "25dd2578b2f3fe3";
+#else
+        private string _clientID = "2fbbf377c7605a0";
+#endif
+        
         public string ClientID
         {
             get { return _clientID; }
         }
 
+#if DEBUG
         private string _clientSecret = "e265b1a185f23b356dd535734017bda67980a5bf";
+#else
+        private string _clientSecret = "a99e7155b63ee35cac245a0b9cec3200937166df";
+#endif
         public string ClientSecret
         {
             get { return _clientSecret; }

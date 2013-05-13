@@ -12,9 +12,10 @@
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{BC8A1FFA-BEE3-4634-8014-F334798102B3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <PackageCertificateKeyFile>ImgurUploader_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateKeyFile>imgup_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
-    <AppxPackageDir>C:\Users\lijam_000\Desktop\</AppxPackageDir>
+    <AppxPackageDir>C:\Users\James\Desktop\</AppxPackageDir>
+    <PackageCertificateThumbprint>C2F42DDF07C00F480A97DBDFCA17D28EBB76E37A</PackageCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -187,6 +188,7 @@
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
+    <None Include="imgup_StoreKey.pfx" />
     <None Include="ImgurUploader_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
@@ -195,7 +197,6 @@
     <Content Include="Assets\Logo.scale-140.png" />
     <Content Include="Assets\Logo.scale-180.png" />
     <Content Include="Assets\Logo.scale-80.png" />
-    <Content Include="Assets\SmallLogo.256.png" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SmallLogo.scale-140.png" />
     <Content Include="Assets\SmallLogo.scale-180.png" />
@@ -216,6 +217,7 @@
     <Content Include="Assets\WideLogo.scale-80.png" />
     <Content Include="Common\ReadMe.txt" />
     <Content Include="Data\in-app-purchase.xml" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="UploadResult\ButtonContent\Assets\link.png" />
     <Content Include="UploadResult\ButtonContent\Assets\reddit.png" />
   </ItemGroup>
