@@ -115,6 +115,9 @@
     <Compile Include="Common\UtcToLocalTimeConverter.cs" />
     <Compile Include="Common\UploadStatusConverter.cs" />
     <Compile Include="Common\EnabledWithSelectionConverter.cs" />
+    <Compile Include="ConfirmationPopup.xaml.cs">
+      <DependentUpon>ConfirmationPopup.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ImageDetailsPaneWidthConverter.cs" />
     <Compile Include="BuyControl.xaml.cs">
       <DependentUpon>BuyControl.xaml</DependentUpon>
@@ -235,6 +238,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="BuyControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ConfirmationPopup.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

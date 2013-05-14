@@ -1,9 +1,12 @@
 ﻿using ImgurUploader.Common;
+using ImgurUploader.Model;
 using ImgurUploader.UploadResult;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -15,6 +18,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
@@ -143,6 +147,67 @@ namespace ImgurUploader
             if (url != null)
             {
                 await Launcher.LaunchUriAsync(new Uri(url));
+            }
+        }
+
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            string deleteHash = null;
+            bool isAlbum = false;
+            if (_finishedUploadResult.AlbumCreateResults != null)
+            {
+                deleteHash = _finishedUploadResult.AlbumCreateResults.Data.DeleteHash;
+                isAlbum = true;
+            }
+            else
+            {
+                deleteHash = _finishedUploadResult.Images.SuccessfulUploads[0].Result.Data.DeleteHash;
+                isAlbum = false;
+            }
+
+            if (deleteHash != null)
+            {
+                Popup popup = new Popup();
+                Panel panel = (Panel)DeleteButton.Content;
+                panel.Children.Add(popup);
+
+
+                popup.IsLightDismissEnabled = true;
+                
+                popup.ChildTransitions = new TransitionCollection();
+                popup.ChildTransitions.Add(new PopupThemeTransition()
+                {
+                });
+
+                string message = isAlbum ? "Are you sure you want to delete this album?" : "Are you sure you want to delete this image?";
+
+                ConfirmationPopup confirmation = new ConfirmationPopup(message, "Yep", async delegate()
+                {
+                    ImgurAPI _api = new ImgurAPI();
+                    CancellationTokenSource ts = new CancellationTokenSource();
+                    Task<Basic<Boolean>> deletionResult;
+                    if (isAlbum)
+                    {
+                        deletionResult = _api.DeleteAlbum(deleteHash, ts.Token);
+                    }
+                    else
+                    {
+                        deletionResult = _api.DeleteImage(deleteHash, ts.Token);
+                    }
+
+                    popup.IsOpen = false;
+                    this.Frame.GoBack();
+
+                    await deletionResult;
+                });
+                confirmation.Width = 160;
+                confirmation.Height = 150;
+
+                popup.VerticalOffset = -(confirmation.Height + 20);
+                popup.HorizontalOffset = (DeleteButton.ActualWidth - confirmation.Width) / 2;
+
+                popup.Child = confirmation;
+                popup.IsOpen = true;
             }
         }
     }

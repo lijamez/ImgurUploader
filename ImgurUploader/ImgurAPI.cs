@@ -180,6 +180,31 @@ namespace ImgurUploader
             return null;
         }
 
+        public async Task<Basic<Boolean>> DeleteAlbum(string deleteHash, CancellationToken cancelToken)
+        {
+            try
+            {
+                HttpClient client = await GetImgurHttpClient(cancelToken);
+
+                using (MultipartFormDataContent fullContent = new MultipartFormDataContent())
+                {
+                    System.Diagnostics.Debug.WriteLine("Deleting album...");
+                    using (HttpResponseMessage response = await client.DeleteAsync(String.Format("https://api.imgur.com/3/album/{0}", deleteHash), cancelToken))
+                    {
+                        System.Diagnostics.Debug.WriteLine(await response.Content.ReadAsStringAsync());
+
+                        Basic<Boolean> result = JSONHelper.Deserialize<Basic<Boolean>>(await response.Content.ReadAsStringAsync());
+                        return result;
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+
+            return null;
+        }
 
         public async Task<Basic<UploadData>> Upload(Stream imageStream, string fileName, string title, string description, string albumId, CancellationToken cancelToken) 
         {
@@ -230,5 +255,30 @@ namespace ImgurUploader
             }
         }
 
+        public async Task<Basic<Boolean>> DeleteImage(string deleteHash, CancellationToken cancelToken)
+        {
+            try
+            {
+                HttpClient client = await GetImgurHttpClient(cancelToken);
+
+                using (MultipartFormDataContent fullContent = new MultipartFormDataContent())
+                {
+                    System.Diagnostics.Debug.WriteLine("Deleting image...");
+                    using (HttpResponseMessage response = await client.DeleteAsync(String.Format("https://api.imgur.com/3/image/{0}", deleteHash), cancelToken))
+                    {
+                        System.Diagnostics.Debug.WriteLine(await response.Content.ReadAsStringAsync());
+
+                        Basic<Boolean> result = JSONHelper.Deserialize<Basic<Boolean>>(await response.Content.ReadAsStringAsync());
+                        return result;
+                    }
+                }
+            }
+            catch (IOException ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex);
+            }
+
+            return null;
+        }
     }
 }

@@ -392,11 +392,10 @@ namespace ImgurUploader
                 // Add the proper animation for the panel.
                 /*
                 uploadPopup.ChildTransitions = new TransitionCollection();
-                uploadPopup.ChildTransitions.Add(new PaneThemeTransition()
+                uploadPopup.ChildTransitions.Add(new PopupThemeTransition()
                 {
-                    Edge = (SettingsPane.Edge == SettingsEdgeLocation.Right) ?
-                           EdgeTransitionLocation.Right :
-                           EdgeTransitionLocation.Left
+                    FromHorizontalOffset = 0,
+                    FromVerticalOffset = 100
                 });
                 */
 
