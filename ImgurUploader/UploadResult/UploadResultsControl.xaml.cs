@@ -43,6 +43,7 @@ namespace ImgurUploader
                             CopyableLinksStackPanel.Children.Add(new CopyableLinkControl("BBCode (message boards & forums)", String.Format(@"[IMG]{0}[/IMG]", imageResult.Result.Data.Link), false));
                             CopyableLinksStackPanel.Children.Add(new CopyableLinkControl("Linked BBCode (message boards)", String.Format(@"[URL=http://imgur.com/{0}][IMG]{1}[/IMG][/URL]", imageResult.Result.Data.ID, imageResult.Result.Data.Link), false));
                             CopyableLinksStackPanel.Children.Add(new CopyableLinkControl("Markdown Link (reddit comment)", String.Format(@"[Imgur]({0})", imageResult.Result.Data.Link), false));
+                            CopyableLinksStackPanel.Children.Add(new CopyableLinkControl("Delete Link", String.Format(@"http://imgur.com/delete/{0}", imageResult.Result.Data.DeleteHash), true));
                         }
                     }
                     else

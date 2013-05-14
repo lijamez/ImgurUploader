@@ -47,7 +47,7 @@
             <StackPanel Orientation="Horizontal">
                 <Button x:Name="BackButton" Style="{StaticResource PageHeaderBackButton}" Click="BackButton_Click"/>
                 <Line Stroke="DimGray" Y1="{StaticResource PageHeaderHeight}"/>
-                <TextBlock x:Name="PageTitle" Text="History" Style="{StaticResource PageHeaderTextStyle}"/>
+                <TextBlock x:Name="PageTitle" Text="History" Style="{StaticResource PageHeaderTextStyle}" TextTrimming="WordEllipsis"/>
             </StackPanel>
         </Grid>
 
