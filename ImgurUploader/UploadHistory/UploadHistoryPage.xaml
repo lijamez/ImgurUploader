@@ -95,7 +95,7 @@
                         <common:VisibleWhenAlbumCreationSucceeded x:Key="VisibleWhenAlbumCreationSucceeded"/>
                     </Grid.Resources>
 
-                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Visible"  HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" ZoomMode="Disabled">
+                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Auto"  HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" ZoomMode="Disabled">
                         <StackPanel Orientation="Vertical">
                             <StackPanel.Resources>
                                 <common:VisibleWhenUploadSuccessConverter x:Key="VisibleWhenUploadSuccessConverter"/>
