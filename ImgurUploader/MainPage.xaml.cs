@@ -154,7 +154,12 @@ namespace ImgurUploader
         /// </summary>
         /// <param name="e">Event data that describes how this page was reached.  The Parameter
         /// property is typically used to configure the page.</param>
+        /// 
+#if DEBUG
+        protected override async void OnNavigatedTo(NavigationEventArgs e)
+#else
         protected override void OnNavigatedTo(NavigationEventArgs e)
+#endif
         {
             base.OnNavigatedTo(e);
 

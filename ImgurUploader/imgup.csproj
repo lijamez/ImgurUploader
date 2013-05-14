@@ -107,6 +107,7 @@
       <DependentUpon>AboutFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="AlbumPreferences.cs" />
+    <Compile Include="Common\VisibleWhenUploadSuccessConverter.cs" />
     <Compile Include="Common\VisibleWhenMoreThanOne.cs" />
     <Compile Include="Common\StringEqualityConverter.cs" />
     <Compile Include="Common\LoggedInUserStringConverter.cs" />
@@ -146,6 +147,18 @@
     <Compile Include="HashQueryParser.cs" />
     <Compile Include="PrivacyPolicy.xaml.cs">
       <DependentUpon>PrivacyPolicy.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QuickButtons\OpenInBrowserButton.xaml.cs">
+      <DependentUpon>OpenInBrowserButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QuickButtons\DeleteButton.xaml.cs">
+      <DependentUpon>DeleteButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QuickButtons\CopyLinkButton.xaml.cs">
+      <DependentUpon>CopyLinkButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="QuickButtons\SubmitToRedditButton.xaml.cs">
+      <DependentUpon>SubmitToRedditButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Toaster.cs" />
     <Compile Include="Common\PluralityConverter.cs" />
@@ -221,8 +234,8 @@
     <Content Include="Common\ReadMe.txt" />
     <Content Include="Data\in-app-purchase.xml" />
     <None Include="Package.StoreAssociation.xml" />
-    <Content Include="UploadResult\ButtonContent\Assets\link.png" />
-    <Content Include="UploadResult\ButtonContent\Assets\reddit.png" />
+    <Content Include="QuickButtons\ButtonContent\Assets\link.png" />
+    <Content Include="QuickButtons\ButtonContent\Assets\reddit.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -260,6 +273,22 @@
     <Page Include="PrivacyPolicy.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QuickButtons\OpenInBrowserButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QuickButtons\DeleteButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QuickButtons\CopyLinkButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QuickButtons\SubmitToRedditButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="UploadHistory\UploadHistoryPage.xaml">
       <SubType>Designer</SubType>

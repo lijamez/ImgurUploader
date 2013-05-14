@@ -51,6 +51,34 @@ namespace ImgurUploader.UploadResult
             set;
         }
 
+        public enum Status
+        {
+            SUCCESSFUL, PARTIAL, FAILED
+        }
+
+        public static Status GetStatus(FinishedUploadResult result)
+        {
+            if (result.AlbumCreateResults == null || (result.AlbumCreateResults != null && result.AlbumCreateResults.Success))
+            {
+                if (result.Images.FailedUploads.Count == 0)
+                {
+                    return Status.SUCCESSFUL;
+                }
+                else if (result.Images.SuccessfulUploads.Count == 0)
+                {
+                    return Status.FAILED;
+                }
+                else
+                {
+                    return Status.PARTIAL;
+                }
+            }
+            else
+            {
+                return Status.FAILED;
+            }
+        }
+
         public static string GetShareableUrl(FinishedUploadResult result)
         {
             string url = null;

@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ImgurUploader"
     xmlns:common="using:ImgurUploader.Common"
-    xmlns:shareButtons="using:ImgurUploader.UploadResult.ButtonContent"
+    xmlns:quickButtons="using:ImgurUploader.QuickButtons"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:UI="using:Microsoft.Advertising.WinRT.UI"
@@ -34,85 +34,26 @@
 
         </Grid>
         
-        <Grid Grid.Row="2" Margin="24">
+        <Grid x:Name="ContentGrid" Grid.Row="2" Margin="24">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition x:Name="LinksColDef" Width="*"/>
                 <ColumnDefinition x:Name="EasyButtonsColDef" Width="300"/>
             </Grid.ColumnDefinitions>
             
             <Grid Grid.Column="0">
-                <Grid x:Name="ResultGrid" Margin="-10,0,10,0">
-                    <!-- URLs go in here programatically-->
-                </Grid>
+                <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" ZoomMode="Disabled">
+                    <Grid x:Name="ResultGrid" Margin="10,0,10,0">
+                        <!-- URLs go in here programatically-->
+                    </Grid>
+                </ScrollViewer>
             </Grid>
             
             <Grid Grid.Column="1">
                 <StackPanel Orientation="Vertical">
-
-                    <Button x:Name="CopyLinkButton" Click="CopyLinkButton_Click" Height="90" HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Grid Grid.Column="0">
-                                <Image Source="./ButtonContent/Assets/link.png" Stretch="None"/>
-                            </Grid>
-
-                            <Grid Grid.Column="1">
-                                <TextBlock Text="Copy Link" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                            </Grid>
-                        </Grid>
-                    </Button>
-                    <Button x:Name="OpenInBrowserButton" Height="90" Click="OpenInBrowserButton_Click"  HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Grid Grid.Column="0">
-                                <TextBlock Text="&#xE128;" FontFamily="Segoe UI Symbol" FontSize="48" HorizontalAlignment="Center"/>
-                            </Grid>
-
-                            <Grid Grid.Column="1">
-                                <TextBlock Text="Open in Browser" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                            </Grid>
-                        </Grid>
-                    </Button>
-                    <Button x:Name="ShareToRedditButton" Click="ShareToRedditButton_Click" Height="90"  HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Grid Grid.Column="0">
-                                <Image Source="./ButtonContent/Assets/reddit.png" Stretch="None"/>
-                            </Grid>
-
-                            <Grid Grid.Column="1">
-                                <TextBlock Text="Submit to Reddit" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                            </Grid>
-                        </Grid>
-                    </Button>
-                    <Button x:Name="DeleteButton" Height="90" Click="DeleteButton_Click"  HorizontalContentAlignment="Stretch" HorizontalAlignment="Stretch">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-
-                            <Grid Grid.Column="0">
-                                <TextBlock Text="&#xE106;" FontFamily="Segoe UI Symbol" FontSize="48" HorizontalAlignment="Center"/>
-                            </Grid>
-
-                            <Grid Grid.Column="1">
-                                <TextBlock Text="Delete" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
-                            </Grid>
-                        </Grid>
-                    </Button>
+                    <quickButtons:CopyLinkButton/>
+                    <quickButtons:OpenInBrowserButton/>
+                    <quickButtons:SubmitToRedditButton/>
+                    <quickButtons:DeleteButton/>
                 </StackPanel>
             </Grid>
             

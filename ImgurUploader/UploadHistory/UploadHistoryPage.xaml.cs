@@ -112,7 +112,7 @@ namespace ImgurUploader.UploadHistory
                 FinishedUploadResult result = list.SelectedItem as FinishedUploadResult;
                 if (result != null)
                 {
-                    UploadResults.Result = result;
+                    UploadResultsLinks.Result = result;
                 }
             }
         }
@@ -143,6 +143,23 @@ namespace ImgurUploader.UploadHistory
             {
                 await Launcher.LaunchUriAsync(new Uri(imageResult.Result.Data.Link));
             }
+        }
+
+        private bool _isShowingLinks = false;
+        private void ShowLinksButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (_isShowingLinks)
+            {
+                UploadResultsLinks.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                ShowLinksButton.Content = "Show links...";
+            }
+            else
+            {
+                UploadResultsLinks.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                ShowLinksButton.Content = "Hide links...";
+            }
+
+            _isShowingLinks = !_isShowingLinks;
         }
 
 

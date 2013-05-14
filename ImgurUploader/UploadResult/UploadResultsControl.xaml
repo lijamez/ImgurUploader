@@ -7,9 +7,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" ZoomMode="Disabled">
-        <StackPanel x:Name="CopyableLinksStackPanel" Orientation="Vertical">
+    <StackPanel x:Name="CopyableLinksStackPanel" Orientation="Vertical">
 
-        </StackPanel>
-    </ScrollViewer>
+    </StackPanel>
+
 </UserControl>

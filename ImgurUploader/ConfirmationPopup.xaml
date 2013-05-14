@@ -12,8 +12,8 @@
     <Grid Background="{StaticResource ContentBackgroundColor}">
         <Border BorderBrush="{StaticResource GreenAccentLight}" BorderThickness="2"/>
         <Grid Margin="16">
-            <TextBlock x:Name="MessageTextBox" Text="Are you sure you want to delete this?" TextWrapping="Wrap" Style="{StaticResource ItemTextStyle}" />
-            <Button x:Name="AffirmativeButton" Content="Delete" Style="{StaticResource FlatButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="AffirmativeButton_Click" Background="Gray"/>
+            <TextBlock x:Name="MessageTextBox" Text="Are you sure you want to do this?" TextWrapping="Wrap" Style="{StaticResource ItemTextStyle}" />
+            <Button x:Name="AffirmativeButton" Content="DO IT" Style="{StaticResource FlatButton}" HorizontalAlignment="Right" VerticalAlignment="Bottom" Click="AffirmativeButton_Click" Background="Gray"/>
         </Grid>
 
 

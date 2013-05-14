@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:ImgurUploader"
     xmlns:common="using:ImgurUploader.Common"
+    xmlns:quickButtons="using:ImgurUploader.QuickButtons"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
@@ -88,34 +89,46 @@
 
                 <Grid DataContext="{Binding Path=SelectedItem}" Margin="32">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <Grid.Resources>
                         <common:VisibleWhenAlbumCreationSucceeded x:Key="VisibleWhenAlbumCreationSucceeded"/>
                     </Grid.Resources>
 
-                    <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="0,0,0,16" >
-                        <StackPanel.Resources>
-                            <common:UploadStatusConverter x:Key="UploadStatusConverter"/>
-                            <common:UtcToLocalTimeConverter x:Key="UtcToLocalTimeConverter"/>
-                        </StackPanel.Resources>
-                        <StackPanel Orientation="Vertical" Margin="0,8,32,0">
-                            <TextBlock Text="Status" Style="{StaticResource ImageDetailsHeader}"/>
-                            <TextBlock Text="{Binding Converter={StaticResource UploadStatusConverter}}" Style="{StaticResource ImageDetailsText}"/>
+                    <ScrollViewer Grid.Row="0" VerticalScrollBarVisibility="Visible"  HorizontalScrollMode="Disabled" VerticalScrollMode="Auto" ZoomMode="Disabled">
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel.Resources>
+                                <common:VisibleWhenUploadSuccessConverter x:Key="VisibleWhenUploadSuccessConverter"/>
+                            </StackPanel.Resources>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,16" >
+                                <StackPanel.Resources>
+                                    <common:UploadStatusConverter x:Key="UploadStatusConverter"/>
+                                    <common:UtcToLocalTimeConverter x:Key="UtcToLocalTimeConverter"/>
+                                </StackPanel.Resources>
+                                <StackPanel Orientation="Vertical" Margin="0,8,32,0">
+                                    <TextBlock Text="Status" Style="{StaticResource ImageDetailsHeader}"/>
+                                    <TextBlock Text="{Binding Converter={StaticResource UploadStatusConverter}}" Style="{StaticResource ImageDetailsText}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="0,8,32,0">
+                                    <TextBlock Text="Started" Style="{StaticResource ImageDetailsHeader}"/>
+                                    <TextBlock Text="{Binding StartDate, Converter={StaticResource UtcToLocalTimeConverter}}" Style="{StaticResource ImageDetailsText}"/>
+                                </StackPanel>
+                                <StackPanel Orientation="Vertical" Margin="0,8,32,0">
+                                    <TextBlock Text="Completed" Style="{StaticResource ImageDetailsHeader}"/>
+                                    <TextBlock Text="{Binding FinishDate, Converter={StaticResource UtcToLocalTimeConverter}}" Style="{StaticResource ImageDetailsText}"/>
+                                </StackPanel>
+                            </StackPanel>
+                            <StackPanel Orientation="Vertical" Visibility="{Binding Converter={StaticResource VisibleWhenUploadSuccessConverter}}">
+                                <quickButtons:CopyLinkButton/>
+                                <quickButtons:OpenInBrowserButton/>
+                                <quickButtons:SubmitToRedditButton/>
+                                <quickButtons:DeleteButton/>
+                                <HyperlinkButton Content="Show links..." x:Name="ShowLinksButton" Click="ShowLinksButton_Click"/>
+                                <local:UploadResultsControl x:Name="UploadResultsLinks" Grid.Row="1" Background="Blue" VerticalAlignment="Top" Visibility="Collapsed"/>
+                            </StackPanel>
                         </StackPanel>
-                        <StackPanel Orientation="Vertical" Margin="0,8,32,0">
-                            <TextBlock Text="Started" Style="{StaticResource ImageDetailsHeader}"/>
-                            <TextBlock Text="{Binding StartDate, Converter={StaticResource UtcToLocalTimeConverter}}" Style="{StaticResource ImageDetailsText}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Vertical" Margin="0,8,32,0">
-                            <TextBlock Text="Completed" Style="{StaticResource ImageDetailsHeader}"/>
-                            <TextBlock Text="{Binding FinishDate, Converter={StaticResource UtcToLocalTimeConverter}}" Style="{StaticResource ImageDetailsText}"/>
-                        </StackPanel>
-                    </StackPanel>
-
-                    <local:UploadResultsControl x:Name="UploadResults" Grid.Row="1" Margin="0,16" Background="Blue" VerticalAlignment="Top" />
-<!--
+                    </ScrollViewer>
+                    <!--
                     <StackPanel Grid.Row="2" Margin="0,16" Visibility="{Binding AlbumCreateResults, Converter={StaticResource VisibleWhenAlbumCreationSucceeded}}" >
                         <TextBlock Text="Images" Style="{StaticResource ImageDetailsHeader}"/>
                         <ListView

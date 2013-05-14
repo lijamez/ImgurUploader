@@ -23,26 +23,17 @@ namespace ImgurUploader.Common
             {
                 FinishedUploadResult result = (FinishedUploadResult)value;
 
-                if (result.AlbumCreateResults == null || (result.AlbumCreateResults != null && result.AlbumCreateResults.Success))
+                switch (FinishedUploadResult.GetStatus(result))
                 {
-                    if (result.Images.FailedUploads.Count == 0)
-                    {
+                    case FinishedUploadResult.Status.SUCCESSFUL:
                         return "Successful";
-                    }
-                    else if (result.Images.SuccessfulUploads.Count == 0)
-                    {
-                        return "Failed";
-                    }
-                    else
-                    {
+                    case FinishedUploadResult.Status.PARTIAL:
                         return "Partial";
-                    }
+                    case FinishedUploadResult.Status.FAILED:
+                        return "Failed";
+                    default:
+                        return null;
                 }
-                else
-                {
-                    return "Failed";
-                }
-                
             }
             else
             {

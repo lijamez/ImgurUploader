@@ -84,7 +84,7 @@ namespace ImgurUploader
                 }
                 else
                 {
-                    UploadProgressTextBlock.Text = "Upload Complete";
+                    UploadProgressTextBlock.Text = "Almost there...";
                 }
             }
             else
