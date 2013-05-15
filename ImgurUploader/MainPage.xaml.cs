@@ -595,6 +595,9 @@ namespace ImgurUploader
 
             RemoveImageButton.IsEnabled = someImagesSelected;
             UploadBottomAppBar.IsOpen = someImagesSelected;
+
+            MoveImageDownButton.IsEnabled = exactlyOneImageSelected;
+            MoveImageUpButton.IsEnabled = exactlyOneImageSelected;
         }
 
         private void UpdateUploadListSwitcher()
