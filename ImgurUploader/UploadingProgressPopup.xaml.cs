@@ -19,7 +19,7 @@ namespace ImgurUploader
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class UploadingProgressPopup : Page
+    public sealed partial class UploadingProgressPopup : Page, UploadProgressListener
     {
         private int _totalFiles;
         public int TotalFiles
@@ -31,7 +31,6 @@ namespace ImgurUploader
             set
             {
                 _totalFiles = value;
-                updateProgressBar();
             }
         }
 
@@ -45,7 +44,6 @@ namespace ImgurUploader
             set
             {
                 _completedFiles = value;
-                updateProgressBar();
             }
         }
 
@@ -53,6 +51,8 @@ namespace ImgurUploader
         {
             this.InitializeComponent();
             TotalFiles = totalFiles;
+            updateProgressBar();
+
         }
 
         /// <summary>
@@ -100,5 +100,27 @@ namespace ImgurUploader
             get { return CancelButton; }
         }
 
+        public void NotifyProgression(int count)
+        {
+            if (count != 0)
+            {
+                CompletedFiles += count;
+                updateProgressBar();
+            }
+        }
+
+        public void SetMaxProgression(int max)
+        {
+            if (max > 0 && max != TotalFiles)
+            {
+                TotalFiles = max;
+                updateProgressBar();
+            }
+        }
+
+        public void NotifyProgressionMessage(string message)
+        {
+            //Do nothing
+        }
     }
 }

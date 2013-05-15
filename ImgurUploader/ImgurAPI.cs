@@ -16,7 +16,7 @@ namespace ImgurUploader
     /// <summary>
     /// https://api.imgur.com/endpoints
     /// </summary>
-    class ImgurAPI
+    public class ImgurAPI
     {
         public const string ALBUM_PRIVACY_PUBLIC = "public";
         public const string ALBUM_PRIVACY_HIDDEN = "hidden";

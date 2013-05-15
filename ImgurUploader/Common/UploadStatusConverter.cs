@@ -19,18 +19,20 @@ namespace ImgurUploader.Common
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is FinishedUploadResult)
+            if (value is BatchUploadResult)
             {
-                FinishedUploadResult result = (FinishedUploadResult)value;
+                BatchUploadResult result = (BatchUploadResult)value;
 
-                switch (FinishedUploadResult.GetStatus(result))
+                switch (BatchUploadResult.GetStatus(result))
                 {
-                    case FinishedUploadResult.Status.SUCCESSFUL:
+                    case BatchUploadResult.Status.SUCCESSFUL:
                         return "Successful";
-                    case FinishedUploadResult.Status.PARTIAL:
+                    case BatchUploadResult.Status.PARTIAL:
                         return "Partial";
-                    case FinishedUploadResult.Status.FAILED:
+                    case BatchUploadResult.Status.FAILED:
                         return "Failed";
+                    case BatchUploadResult.Status.INVALID:
+                        return "Invalid Data";
                     default:
                         return null;
                 }

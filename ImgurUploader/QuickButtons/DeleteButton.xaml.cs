@@ -32,7 +32,7 @@ namespace ImgurUploader.QuickButtons
 
         private void DelButton_Click(object sender, RoutedEventArgs e)
         {
-            FinishedUploadResult finishedUploadResult = this.DataContext as FinishedUploadResult;
+            BatchUploadResult finishedUploadResult = this.DataContext as BatchUploadResult;
 
             if (finishedUploadResult == null) return;
 

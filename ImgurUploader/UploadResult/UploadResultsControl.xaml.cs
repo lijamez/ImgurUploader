@@ -19,8 +19,8 @@ namespace ImgurUploader
 {
     public sealed partial class UploadResultsControl : UserControl
     {
-        private FinishedUploadResult _result;
-        public FinishedUploadResult Result
+        private BatchUploadResult _result;
+        public BatchUploadResult Result
         {
             get { return _result; }
             set
@@ -60,7 +60,7 @@ namespace ImgurUploader
             this.InitializeComponent();
         }
 
-        public UploadResultsControl(FinishedUploadResult r)
+        public UploadResultsControl(BatchUploadResult r)
         {
             this.InitializeComponent();
             Result = r;

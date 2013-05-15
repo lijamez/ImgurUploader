@@ -9,10 +9,10 @@ namespace ImgurUploader.Common
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            FinishedUploadResult r = value as FinishedUploadResult;
+            BatchUploadResult r = value as BatchUploadResult;
             if (r == null) return null;
 
-            return FinishedUploadResult.GetStatus(r) == FinishedUploadResult.Status.SUCCESSFUL ? Visibility.Visible : Visibility.Collapsed;
+            return BatchUploadResult.GetStatus(r) == BatchUploadResult.Status.SUCCESSFUL ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

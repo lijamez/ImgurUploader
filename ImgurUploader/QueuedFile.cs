@@ -69,16 +69,20 @@ namespace ImgurUploader
 
         private async void GenerateThumbnail()
         {
-            if (File != null)
+            try
             {
-                StorageItemThumbnail thumbnail = await File.GetThumbnailAsync(ThumbnailMode.ListView, 200);
-                if (thumbnail != null)
+                if (File != null)
                 {
-                    BitmapImage img = new BitmapImage();
-                    img.SetSource(thumbnail);
-                    Thumbnail = img;
+                    StorageItemThumbnail thumbnail = await File.GetThumbnailAsync(ThumbnailMode.ListView, 200);
+                    if (thumbnail != null)
+                    {
+                        BitmapImage img = new BitmapImage();
+                        img.SetSource(thumbnail);
+                        Thumbnail = img;
+                    }
                 }
             }
+            catch (Exception) { }
         }
     }
 }

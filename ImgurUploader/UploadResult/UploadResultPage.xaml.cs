@@ -30,7 +30,7 @@ namespace ImgurUploader
     /// </summary>
     public sealed partial class UploadResultPage : LayoutAwarePage
     {
-        FinishedUploadResult _finishedUploadResult;
+        BatchUploadResult _finishedUploadResult;
 
         public UploadResultPage()
         {
@@ -42,7 +42,7 @@ namespace ImgurUploader
 
         private void ShareTextHandler(DataTransferManager sender, DataRequestedEventArgs e)
         {
-            string shareableUrl = FinishedUploadResult.GetShareableUrl(_finishedUploadResult);
+            string shareableUrl = BatchUploadResult.GetShareableUrl(_finishedUploadResult);
 
             DataRequest request = e.Request;
 
@@ -72,15 +72,15 @@ namespace ImgurUploader
 
             UploadResultsControl resultsControl = null;
 
-            if (arg is FinishedUploadResult)
+            if (arg is BatchUploadResult)
             {
-                _finishedUploadResult = arg as FinishedUploadResult;
+                _finishedUploadResult = arg as BatchUploadResult;
                 resultsControl = new UploadResultsControl(_finishedUploadResult);
             }
             else if (arg is string)
             {
                 string id = arg as string;
-                foreach (FinishedUploadResult r in App.UploadHistoryMgr.UploadHistory)
+                foreach (BatchUploadResult r in App.UploadHistoryMgr.UploadHistory)
                 {
                     if (r != null && String.Equals(r.ID, id))
                     {

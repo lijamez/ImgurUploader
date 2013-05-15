@@ -23,8 +23,13 @@ namespace ImgurUploader.UploadResult
             set;
         }
 
-
         public Basic<UploadData> Result
+        {
+            get;
+            set;
+        }
+
+        public string ExceptionMessage
         {
             get;
             set;

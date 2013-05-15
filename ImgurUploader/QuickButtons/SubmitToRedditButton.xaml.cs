@@ -27,7 +27,7 @@ namespace ImgurUploader.QuickButtons
 
         private async void ShareToRedditButton_Click(object sender, RoutedEventArgs e)
         {
-            string url = FinishedUploadResult.GetShareableUrl(this.DataContext as FinishedUploadResult);
+            string url = BatchUploadResult.GetShareableUrl(this.DataContext as BatchUploadResult);
 
             if (url != null)
             {

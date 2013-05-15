@@ -416,101 +416,62 @@ namespace ImgurUploader
                 uploadPopup.SetValue(Canvas.TopProperty, 0);
                 uploadPopup.IsOpen = true;
 
-
-                System.Diagnostics.Debug.WriteLine(String.Format("Now uploading {0} items...", QueuedFiles.Count));
-
-                UploadResultCollection uploadedImageResults = new UploadResultCollection();
+                
                 Exception exception = null;
-
+                string message = "Upload Completed";
+                _uploadCancellationTokenSource = new CancellationTokenSource();
+                BatchUploadResult batchUploadResult = null;
                 try
                 {
-                    DateTime startTime = DateTime.UtcNow;
+                    UploadHelper helper = new UploadHelper(_api);
 
-                    _uploadCancellationTokenSource = new CancellationTokenSource();
-
-                    string message = "Upload Completed";
-
-                    foreach (QueuedFile queuedImage in QueuedFiles)
+                    if (QueuedFiles.Count == 1)
                     {
-                        if (_uploadCancellationTokenSource.IsCancellationRequested) { throw new TaskCanceledException("Cancelled"); }
-
-                        Basic<UploadData> uploadData = await _api.Upload(queuedImage.File, queuedImage.Title, queuedImage.Description, null, _uploadCancellationTokenSource.Token);
-                        UploadImageResult result = new UploadImageResult(queuedImage, uploadData);
-                        uploadedImageResults.UploadedImageResults.Add(result);
-
-                        mypane.CompletedFiles++;
+                        QueuedFile queuedFile = QueuedFiles[0];
+                        using (Stream imageStream = await WindowsRuntimeStorageExtensions.OpenStreamForReadAsync(queuedFile.File))
+                        {
+                            batchUploadResult = await helper.UploadSingle(imageStream, queuedFile.FileName, queuedFile.Title, queuedFile.Description, null, _uploadCancellationTokenSource.Token);
+                        }
+                    }
+                    else if (QueuedFiles.Count > 1)
+                    {
+                        batchUploadResult = await helper.UploadAlbum(QueuedFiles.ToArray(), AlbumPreferences, mypane, _uploadCancellationTokenSource.Token);
                     }
 
-                    if (QueuedFiles.Count >= 1 && uploadedImageResults.SuccessfulUploads.Count > 0)
+
+                    if (batchUploadResult != null)
                     {
-                        FinishedUploadResult finishedResult = null;
+                        BatchUploadResult.Status status = BatchUploadResult.GetStatus(batchUploadResult);
 
-                        if (QueuedFiles.Count == 1)
+                        //TODO: Only show toast when the app is in the background
+                        switch (status)
                         {
-                            finishedResult = new FinishedUploadResult(uploadedImageResults, null);
-                            finishedResult.StartDate = startTime;
-                            finishedResult.FinishDate = DateTime.UtcNow;
-                        }
-                        else
-                        {
-                            //Make an album
-                            List<string> uploadedImageIds = new List<string>();
-                            foreach (UploadImageResult r in uploadedImageResults.SuccessfulUploads)
-                            {
-                                uploadedImageIds.Add(r.Result.Data.ID);
-                            }
-
-                            if (_uploadCancellationTokenSource.IsCancellationRequested) { throw new TaskCanceledException("Cancelled"); }
-                            Basic<AlbumCreateData> createAlbumResult = await _api.CreateAlbum(uploadedImageIds.ToArray(), AlbumPreferences.Title, AlbumPreferences.Description, AlbumPreferences.Cover, _uploadCancellationTokenSource.Token);
-
-                            if (createAlbumResult.Success)
-                            {
-                                if (!String.Equals(AlbumPreferences.Privacy, AlbumPreferences.DEFAULT_PRIVACY) || !String.Equals(AlbumPreferences.Layout, AlbumPreferences.DEFAULT_LAYOUT))
-                                {
-                                    Basic<Boolean> albumUpdateResult = await _api.UpdateAlbum(createAlbumResult.Data.DeleteHash, null, null, null, AlbumPreferences.Privacy, AlbumPreferences.Layout, null, _uploadCancellationTokenSource.Token);
-                                }
-
-                                finishedResult = new FinishedUploadResult(uploadedImageResults, createAlbumResult);
-                                finishedResult.StartDate = startTime;
-                                finishedResult.FinishDate = DateTime.UtcNow;
-                            }
-                            else
-                            {
-                                message = "Unable to create album.";
-                                MessageDialog msg = new MessageDialog(message);
-                                await msg.ShowAsync();
-                            }
+                            case BatchUploadResult.Status.SUCCESSFUL:
+                                message = "Upload Completed";
+                                break;
+                            case BatchUploadResult.Status.FAILED:
+                                message = "Upload Failed";
+                                break;
+                            case BatchUploadResult.Status.PARTIAL:
+                                message = "Partially uploaded.";
+                                break;
+                            case BatchUploadResult.Status.INVALID:
+                            default:
+                                message = "An unknown error has occurred.";
+                                break;
                         }
 
-                        if (finishedResult != null)
-                        {
-                            App.UploadHistoryMgr.UploadHistory.Insert(0, finishedResult);
+                        ToastNotification toast = Toaster.MakeToast(message, "", null);
+                        ToastNotificationManager.CreateToastNotifier().Show(toast);
 
+                        if (status == BatchUploadResult.Status.SUCCESSFUL || status == BatchUploadResult.Status.PARTIAL)
+                        {
+                            App.UploadHistoryMgr.UploadHistory.Insert(0, batchUploadResult);
                             QueuedFiles.Clear();
-
-                            this.Frame.Navigate(typeof(UploadResultPage), finishedResult);
+                            this.Frame.Navigate(typeof(UploadResultPage), batchUploadResult);
                         }
-
-
                     }
-                    else
-                    {
-                        if (uploadedImageResults.FailedUploads.Count == 1)
-                        {
-                            message = uploadedImageResults.FailedUploads[0].Result.Data.Error;
-                        }
-                        else
-                        {
-                            message = "Unable to upload anything. Sorry!";
-                        }
-                        MessageDialog msg = new MessageDialog(message);
-                        await msg.ShowAsync();
-                    }
-
-
-                    //TODO: Only show toast when the app is in the background
-                    ToastNotification toast = Toaster.MakeToast(message, "", null);
-                    ToastNotificationManager.CreateToastNotifier().Show(toast);
+                    
                 }
                 catch (TaskCanceledException) { }
                 catch (Exception ex)
@@ -524,6 +485,7 @@ namespace ImgurUploader
 
                 if (exception != null)
                 {
+                    System.Diagnostics.Debug.WriteLine(exception.Message);
                     MessageDialog msg = new MessageDialog(exception.Message, "Something went wrong. Please try again.");
                     await msg.ShowAsync();
                 }

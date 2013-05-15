@@ -33,9 +33,9 @@ namespace ImgurUploader
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class SharePage : Page
+    public sealed partial class SharePage : Page, UploadProgressListener
     {
-        private List<FinishedUploadResult> _shareCharmUploadHistory;
+        private List<BatchUploadResult> _shareCharmUploadHistory;
         private ShareOperation _shareOperation;
         private string _title;
         private string _description;
@@ -43,7 +43,7 @@ namespace ImgurUploader
         private IReadOnlyList<IStorageItem> _sharedStorageItems;
         ImgurAPI _api = new ImgurAPI();
         CancellationTokenSource _cancellationTokenSource;
-        private FinishedUploadResult _finishedResults;
+        private BatchUploadResult _batchedUploadResult;
 
 
         public SharePage()
@@ -88,116 +88,65 @@ namespace ImgurUploader
 
             bool operationSuccess = false;
             string errorMsg = null;
-            UploadResultCollection uploadedItems = new UploadResultCollection();
 
-            DateTime startTime = DateTime.UtcNow;
+            UploadHelper helper = new UploadHelper(_api);
+            
+
 
             if (_sharedBitmapStreamRef != null)
             {
                 IRandomAccessStreamWithContentType stream = await _sharedBitmapStreamRef.OpenReadAsync();
                 Stream imageStream = stream.AsStreamForRead();
+                _batchedUploadResult = await helper.UploadSingle(imageStream, null, null, null, null, _cancellationTokenSource.Token);
 
-                UploadStatus.Text = "Uploading image...";
-
-                Basic<UploadData> uploadResult = await _api.Upload(imageStream, null, null, null, null, _cancellationTokenSource.Token);
-                UploadImageResult uploadImageResult = new UploadImageResult(new QueuedItem(), uploadResult);
-                uploadedItems.UploadedImageResults.Add(uploadImageResult);
-
-                _finishedResults = new FinishedUploadResult(uploadedItems, null);
-                _finishedResults.StartDate = startTime;
-                _finishedResults.FinishDate = DateTime.UtcNow;
-
-                if (uploadResult != null && uploadResult.Success)
+                if (BatchUploadResult.GetStatus(_batchedUploadResult) == BatchUploadResult.Status.SUCCESSFUL)
                 {
                     operationSuccess = true;
                 }
                 else
                 {
                     errorMsg = "Failed to upload image.";
-                }
-
-                        
+                }  
             }
             else if (_sharedStorageItems != null)
             {
-                if (_sharedStorageItems.Count > 1)
+                List<QueuedFile> queuedFiles = new List<QueuedFile>();
+
+                foreach (IStorageItem item in _sharedStorageItems)
                 {
-                    List<string> uploadedImageIDs = new List<string>();
-
-                    int currentImageCount = 0;
-                    foreach (IStorageItem item in _sharedStorageItems)
-                    {
-                        currentImageCount++;
-                        UploadStatus.Text = String.Format("Uploading image {0} of {1}...", currentImageCount, _sharedStorageItems.Count);
-
-                        if (item.IsOfType(StorageItemTypes.File))
-                        {
-                            StorageFile file = (StorageFile)item;
-                            Basic<UploadData> uploadResult = await _api.Upload(file, null, null, null, _cancellationTokenSource.Token);
-
-                            if (uploadResult != null && uploadResult.Success)
-                            {
-                                uploadedImageIDs.Add(uploadResult.Data.ID);
-                                uploadedItems.SuccessfulUploads.Add(new UploadImageResult(null, uploadResult));
-                            }
-                            else
-                            {
-                                uploadedItems.FailedUploads.Add(new UploadImageResult(null, uploadResult));
-                            }
-                        }
-                    }
-
-                    UploadStatus.Text = "Creating album...";
-                    Basic<AlbumCreateData> albumCreationResult = await _api.CreateAlbum(uploadedImageIDs.ToArray(), null, null, null, _cancellationTokenSource.Token);
-                    _finishedResults = new FinishedUploadResult(uploadedItems, albumCreationResult);
-                    _finishedResults.StartDate = startTime;
-                    _finishedResults.FinishDate = DateTime.UtcNow;
-
-                    if (albumCreationResult != null && albumCreationResult.Success)
-                    {
-                        operationSuccess = true;
-                    }
-                    else
-                    {
-                        errorMsg = "Failed to create album.";
-                    }
-                }
-                else if (_sharedStorageItems.Count == 1)
-                {
-                    IStorageItem item = _sharedStorageItems[0];
-
                     if (item.IsOfType(StorageItemTypes.File))
                     {
-                        UploadStatus.Text = "Uploading image...";
-
                         StorageFile file = (StorageFile)item;
-                        Basic<UploadData> uploadResult = await _api.Upload(file, null, null, null, _cancellationTokenSource.Token);
-                        UploadImageResult uploadImageResult = new UploadImageResult(new QueuedItem(), uploadResult);
-
-                        uploadedItems.UploadedImageResults.Add(uploadImageResult);
-                        _finishedResults = new FinishedUploadResult(uploadedItems, null);
-                        _finishedResults.StartDate = startTime;
-                        _finishedResults.FinishDate = DateTime.UtcNow;
-
-                        if (uploadResult != null && uploadResult.Success)
-                        {
-                            operationSuccess = true;
-                        }
-                        else
-                        {
-                            errorMsg = "Failed to upload image.";
-                        }
+                        queuedFiles.Add(new QueuedFile(file));
                     }
                 }
 
-                        
+                if (queuedFiles.Count > 1)
+                {
+                    _batchedUploadResult = await helper.UploadAlbum(queuedFiles.ToArray(), new AlbumPreferences(), this, _cancellationTokenSource.Token);
+                }
+                else if (queuedFiles.Count == 1)
+                {
+                    using (Stream imageStream = await WindowsRuntimeStorageExtensions.OpenStreamForReadAsync(queuedFiles[0].File))
+                    {
+                        _batchedUploadResult = await helper.UploadSingle(imageStream, null, null, null, null, _cancellationTokenSource.Token);
+                    }
+                }
+
+                BatchUploadResult.Status status = BatchUploadResult.GetStatus(_batchedUploadResult);
+                if (status == BatchUploadResult.Status.SUCCESSFUL || status == BatchUploadResult.Status.PARTIAL)
+                {
+                    operationSuccess = true;
+                }
+                else
+                {
+                    errorMsg = "An error has occurred.";
+                }  
             }
 
-            int uploadHistoryIndex = -1;
-            if (_finishedResults != null)
+            if (_batchedUploadResult != null)
             {
-                _shareCharmUploadHistory.Insert(0, _finishedResults);
-                uploadHistoryIndex = _shareCharmUploadHistory.IndexOf(_finishedResults);
+                _shareCharmUploadHistory.Insert(0, _batchedUploadResult);
             }
 
             UploadProgressRing.IsActive = false;
@@ -209,7 +158,7 @@ namespace ImgurUploader
 
             if (operationSuccess)
             {
-                toastLaunch = String.Format("ShowLatestResults,{0}", _finishedResults.ID);
+                toastLaunch = String.Format("ShowLatestResults,{0}", _batchedUploadResult.ID);
 
                 toastTitle = "Upload Complete";
                 toastBody = "Click or tap to get links.";
@@ -239,9 +188,9 @@ namespace ImgurUploader
                 StorageFile uploadHistoryFile = await ApplicationData.Current.RoamingFolder.GetFileAsync(UploadHistoryManager.SHARE_CHARM_UPLOAD_HISTORY_FILE_NAME);
                 if (uploadHistoryFile != null)
                 {
-                    XmlSerializer serializer = new XmlSerializer(typeof(List<FinishedUploadResult>));
+                    XmlSerializer serializer = new XmlSerializer(typeof(List<BatchUploadResult>));
                     Stream fileStream = await uploadHistoryFile.OpenStreamForReadAsync();
-                    _shareCharmUploadHistory = (List<FinishedUploadResult>)serializer.Deserialize(fileStream);
+                    _shareCharmUploadHistory = (List<BatchUploadResult>)serializer.Deserialize(fileStream);
 
                     System.Diagnostics.Debug.WriteLine(String.Format("Successfully read {0} entries from upload history from {1}", _shareCharmUploadHistory.Count, uploadHistoryFile.Path));
                 }
@@ -253,7 +202,7 @@ namespace ImgurUploader
 
             if (_shareCharmUploadHistory == null)
             {
-                _shareCharmUploadHistory = new List<FinishedUploadResult>();
+                _shareCharmUploadHistory = new List<BatchUploadResult>();
             }
         }
 
@@ -263,7 +212,7 @@ namespace ImgurUploader
             {
                 StorageFile uploadHistoryFile = await ApplicationData.Current.RoamingFolder.CreateFileAsync(UploadHistoryManager.SHARE_CHARM_UPLOAD_HISTORY_FILE_NAME, CreationCollisionOption.ReplaceExisting);
 
-                XmlSerializer serializer = new XmlSerializer(typeof(List<FinishedUploadResult>));
+                XmlSerializer serializer = new XmlSerializer(typeof(List<BatchUploadResult>));
                 using (Stream fileStream = await uploadHistoryFile.OpenStreamForWriteAsync())
                 {
                     serializer.Serialize(fileStream, _shareCharmUploadHistory);
@@ -281,6 +230,13 @@ namespace ImgurUploader
             IXmlNode toastNode = (toastXml.GetElementsByTagName("toast"))[0];
             XmlAttribute launchAttr = (XmlAttribute) toastNode.Attributes.GetNamedItem("launch");
             System.Diagnostics.Debug.WriteLine(launchAttr.Value);
+        }
+
+        public void NotifyProgression(int count) { }
+        public void SetMaxProgression(int max) { }
+        public void NotifyProgressionMessage(string message)
+        {
+            UploadStatus.Text = message;
         }
     }
 }

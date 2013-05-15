@@ -28,7 +28,7 @@ namespace ImgurUploader.UploadHistory
     /// </summary>
     public sealed partial class UploadHistoryPage : LayoutAwarePage
     {
-        ObservableCollection<FinishedUploadResult> _dataSource;
+        ObservableCollection<BatchUploadResult> _dataSource;
 
         public UploadHistoryPage()
         {
@@ -48,8 +48,8 @@ namespace ImgurUploader.UploadHistory
             string failMessage = null;
             if (HistoryListView.SelectedItem != null)
             {
-                FinishedUploadResult result = HistoryListView.SelectedItem as FinishedUploadResult;
-                string url = FinishedUploadResult.GetShareableUrl(result);
+                BatchUploadResult result = HistoryListView.SelectedItem as BatchUploadResult;
+                string url = BatchUploadResult.GetShareableUrl(result);
 
                 if (!String.IsNullOrEmpty(url))
                 {
@@ -109,7 +109,7 @@ namespace ImgurUploader.UploadHistory
             ListView list = sender as ListView;
             if (list != null)
             {
-                FinishedUploadResult result = list.SelectedItem as FinishedUploadResult;
+                BatchUploadResult result = list.SelectedItem as BatchUploadResult;
                 if (result != null)
                 {
                     UploadResultsLinks.Result = result;
@@ -133,7 +133,7 @@ namespace ImgurUploader.UploadHistory
 
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
-            _dataSource.Remove(HistoryListView.SelectedItem as FinishedUploadResult);
+            _dataSource.Remove(HistoryListView.SelectedItem as BatchUploadResult);
         }
 
         private async void BatchListView_ItemClicked(object sender, ItemClickEventArgs e)

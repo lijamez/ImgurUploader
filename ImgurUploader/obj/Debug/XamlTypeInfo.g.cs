@@ -150,7 +150,7 @@ namespace ImgurUploader.imgup_XamlTypeInfo
 
         private object Activate_19_UploadResultsControl() { return new global::ImgurUploader.UploadResultsControl(); }
 
-        private object Activate_20_FinishedUploadResult() { return new global::ImgurUploader.UploadResult.FinishedUploadResult(); }
+        private object Activate_20_BatchUploadResult() { return new global::ImgurUploader.UploadResult.BatchUploadResult(); }
 
         private object Activate_21_UploadStatusConverter() { return new global::ImgurUploader.Common.UploadStatusConverter(); }
 
@@ -367,9 +367,9 @@ namespace ImgurUploader.imgup_XamlTypeInfo
                 xamlType = userType;
                 break;
 
-            case "ImgurUploader.UploadResult.FinishedUploadResult":
-                userType = new global::ImgurUploader.imgup_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.UploadResult.FinishedUploadResult), GetXamlTypeByName("Object"));
-                userType.Activator = Activate_20_FinishedUploadResult;
+            case "ImgurUploader.UploadResult.BatchUploadResult":
+                userType = new global::ImgurUploader.imgup_XamlTypeInfo.XamlUserType(this, typeName, typeof(global::ImgurUploader.UploadResult.BatchUploadResult), GetXamlTypeByName("Object"));
+                userType.Activator = Activate_20_BatchUploadResult;
                 xamlType = userType;
                 break;
 
@@ -552,7 +552,7 @@ namespace ImgurUploader.imgup_XamlTypeInfo
         private void set_1_UploadResultsControl_Result(object instance, object Value)
         {
             var that = (global::ImgurUploader.UploadResultsControl)instance;
-            that.Result = (global::ImgurUploader.UploadResult.FinishedUploadResult)Value;
+            that.Result = (global::ImgurUploader.UploadResult.BatchUploadResult)Value;
         }
         private object get_2_CopyableLinkControl_Title(object instance)
         {
@@ -685,7 +685,7 @@ namespace ImgurUploader.imgup_XamlTypeInfo
                 break;
             case "ImgurUploader.UploadResultsControl.Result":
                 userType = (global::ImgurUploader.imgup_XamlTypeInfo.XamlUserType)GetXamlTypeByName("ImgurUploader.UploadResultsControl");
-                xamlMember = new global::ImgurUploader.imgup_XamlTypeInfo.XamlMember(this, "Result", "ImgurUploader.UploadResult.FinishedUploadResult");
+                xamlMember = new global::ImgurUploader.imgup_XamlTypeInfo.XamlMember(this, "Result", "ImgurUploader.UploadResult.BatchUploadResult");
                 xamlMember.Getter = get_1_UploadResultsControl_Result;
                 xamlMember.Setter = set_1_UploadResultsControl_Result;
                 break;

@@ -7,18 +7,24 @@ using System.Threading.Tasks;
 
 namespace ImgurUploader.UploadResult
 {
-    public class FinishedUploadResult
+    public class BatchUploadResult
     {
-        public FinishedUploadResult()
+        public BatchUploadResult()
         {
-            
+            ID = Guid.NewGuid().ToString();
         }
 
-        public FinishedUploadResult(UploadResultCollection images, Basic<AlbumCreateData> albumCreateResults)
+        public BatchUploadResult(UploadResultCollection images, Basic<AlbumCreateData> albumCreateResults)
         {
             Images = images;
             AlbumCreateResults = albumCreateResults;
             ID = Guid.NewGuid().ToString();
+        }
+
+        public bool IntendedAsAlbum
+        {
+            get;
+            set;
         }
 
         public string ID
@@ -53,18 +59,31 @@ namespace ImgurUploader.UploadResult
 
         public enum Status
         {
-            SUCCESSFUL, PARTIAL, FAILED
+            SUCCESSFUL, PARTIAL, FAILED, INVALID
         }
 
-        public static Status GetStatus(FinishedUploadResult result)
+        public static Status GetStatus(BatchUploadResult result)
         {
-            if (result.AlbumCreateResults == null || (result.AlbumCreateResults != null && result.AlbumCreateResults.Success))
+            if (result == null || result.Images == null)
+                return Status.INVALID;
+
+            List<UploadImageResult> Fails = result.Images.FailedUploads;
+            List<UploadImageResult> Successes = result.Images.SuccessfulUploads;
+
+            if (result.IntendedAsAlbum)
             {
-                if (result.Images.FailedUploads.Count == 0)
+                if (result.AlbumCreateResults == null)
+                    return Status.FAILED;
+
+                if (Fails.Count <= 0 && Successes.Count <= 0)
+                {
+                    return Status.INVALID;
+                }
+                else if (Fails.Count == 0)
                 {
                     return Status.SUCCESSFUL;
                 }
-                else if (result.Images.SuccessfulUploads.Count == 0)
+                else if (Successes.Count == 0)
                 {
                     return Status.FAILED;
                 }
@@ -75,11 +94,23 @@ namespace ImgurUploader.UploadResult
             }
             else
             {
-                return Status.FAILED;
+                if (Fails.Count + Successes.Count != 1)
+                {
+                    return Status.INVALID;
+                }
+                else if (Successes.Count == 1)
+                {
+                    return Status.SUCCESSFUL;
+                }
+                else
+                {
+                    return Status.FAILED;
+                }
             }
+
         }
 
-        public static string GetShareableUrl(FinishedUploadResult result)
+        public static string GetShareableUrl(BatchUploadResult result)
         {
             string url = null;
             if (result != null)

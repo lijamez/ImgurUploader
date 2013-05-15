@@ -15,13 +15,13 @@ namespace ImgurUploader.UploadHistory
     {
         public UploadHistoryManager()
         {
-            _uploadHistory = new ObservableCollection<FinishedUploadResult>();
+            _uploadHistory = new ObservableCollection<BatchUploadResult>();
         }
 
         public const string UPLOAD_HISTORY_FILE_NAME = "UploadHistory.xml";
         public const string SHARE_CHARM_UPLOAD_HISTORY_FILE_NAME = "ShareCharmUploadHistory.xml";
-        private ObservableCollection<FinishedUploadResult> _uploadHistory;
-        public ObservableCollection<FinishedUploadResult> UploadHistory
+        private ObservableCollection<BatchUploadResult> _uploadHistory;
+        public ObservableCollection<BatchUploadResult> UploadHistory
         {
             get { return _uploadHistory; }
         }
@@ -54,15 +54,15 @@ namespace ImgurUploader.UploadHistory
             {
                 StorageFile uploadHistoryFile = await ApplicationData.Current.RoamingFolder.GetFileAsync(UPLOAD_HISTORY_FILE_NAME);
 
-                XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<FinishedUploadResult>));
-                ObservableCollection<FinishedUploadResult> readUploadHistory = null;
+                XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<BatchUploadResult>));
+                ObservableCollection<BatchUploadResult> readUploadHistory = null;
                 using (Stream fileStream = await uploadHistoryFile.OpenStreamForReadAsync())
                 {
-                    readUploadHistory = (ObservableCollection<FinishedUploadResult>)serializer.Deserialize(fileStream);
+                    readUploadHistory = (ObservableCollection<BatchUploadResult>)serializer.Deserialize(fileStream);
                 }
 
                 _uploadHistory.Clear();
-                foreach (FinishedUploadResult r in readUploadHistory)
+                foreach (BatchUploadResult r in readUploadHistory)
                 {
                     _uploadHistory.Insert(0, r);
                 }
@@ -86,16 +86,16 @@ namespace ImgurUploader.UploadHistory
             {
                 StorageFile uploadHistoryFile = await ApplicationData.Current.RoamingFolder.GetFileAsync(SHARE_CHARM_UPLOAD_HISTORY_FILE_NAME);
 
-                XmlSerializer serializer = new XmlSerializer(typeof(List<FinishedUploadResult>));
-                List<FinishedUploadResult> shareCharmUploadHistory = null;
+                XmlSerializer serializer = new XmlSerializer(typeof(List<BatchUploadResult>));
+                List<BatchUploadResult> shareCharmUploadHistory = null;
                 using (Stream fileStream = await uploadHistoryFile.OpenStreamForReadAsync())
                 {
-                    shareCharmUploadHistory = (List<FinishedUploadResult>)serializer.Deserialize(fileStream);
+                    shareCharmUploadHistory = (List<BatchUploadResult>)serializer.Deserialize(fileStream);
                 }
 
                 System.Diagnostics.Debug.WriteLine(String.Format("Successfully read {0} entries from upload history from {1}", _uploadHistory.Count, uploadHistoryFile.Path));
 
-                foreach (FinishedUploadResult r in shareCharmUploadHistory)
+                foreach (BatchUploadResult r in shareCharmUploadHistory)
                 {
                     _uploadHistory.Insert(0, r);
                 }
@@ -119,7 +119,7 @@ namespace ImgurUploader.UploadHistory
             {
                 StorageFile uploadHistoryFile = await ApplicationData.Current.RoamingFolder.CreateFileAsync(UPLOAD_HISTORY_FILE_NAME, CreationCollisionOption.ReplaceExisting);
 
-                XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<FinishedUploadResult>));
+                XmlSerializer serializer = new XmlSerializer(typeof(ObservableCollection<BatchUploadResult>));
                 using (Stream fileStream = await uploadHistoryFile.OpenStreamForWriteAsync())
                 {
                     serializer.Serialize(fileStream, _uploadHistory);

@@ -166,10 +166,12 @@
     <Compile Include="Toaster.cs" />
     <Compile Include="Common\PluralityConverter.cs" />
     <Compile Include="Common\VisibleWhenAlbumCreationSucceeded.cs" />
+    <Compile Include="UploadHelper.cs" />
     <Compile Include="UploadHistory\UploadHistoryManager.cs" />
     <Compile Include="UploadHistory\UploadHistoryPage.xaml.cs">
       <DependentUpon>UploadHistoryPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="UploadProgressListener.cs" />
     <Compile Include="UploadResult\CopyableLinkControl.xaml.cs">
       <DependentUpon>CopyableLinkControl.xaml</DependentUpon>
     </Compile>
@@ -199,7 +201,7 @@
     <Compile Include="UploadResult\UploadResultPage.xaml.cs">
       <DependentUpon>UploadResultPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UploadResult\FinishedUploadResult.cs" />
+    <Compile Include="UploadResult\BatchUploadResult.cs" />
     <Compile Include="UploadResult\UploadImageResult.cs" />
     <Compile Include="UploadResult\UploadResultCollection.cs" />
   </ItemGroup>

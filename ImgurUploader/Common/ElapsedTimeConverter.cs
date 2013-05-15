@@ -9,7 +9,7 @@ namespace ImgurUploader.Common
     {
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            FinishedUploadResult result = value as FinishedUploadResult;
+            BatchUploadResult result = value as BatchUploadResult;
             if (result != null)
             {
                 if (result.FinishDate < result.StartDate || result.FinishDate == default(DateTime) || result.StartDate == default(DateTime))
