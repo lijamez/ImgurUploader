@@ -148,6 +148,9 @@
     <Compile Include="PrivacyPolicy.xaml.cs">
       <DependentUpon>PrivacyPolicy.xaml</DependentUpon>
     </Compile>
+    <Compile Include="QuickButtons\ShareLinkButton.xaml.cs">
+      <DependentUpon>ShareLinkButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="QuickButtons\OpenInBrowserButton.xaml.cs">
       <DependentUpon>OpenInBrowserButton.xaml</DependentUpon>
     </Compile>
@@ -271,6 +274,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="PrivacyPolicy.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="QuickButtons\ShareLinkButton.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

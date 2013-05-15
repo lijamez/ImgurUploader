@@ -51,6 +51,7 @@
             <Grid Grid.Column="1">
                 <StackPanel Orientation="Vertical">
                     <quickButtons:CopyLinkButton/>
+                    <quickButtons:ShareLinkButton/>
                     <quickButtons:OpenInBrowserButton/>
                     <quickButtons:SubmitToRedditButton/>
                     <quickButtons:DeleteButton/>
@@ -96,12 +97,6 @@
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="PageTitle" Storyboard.TargetProperty="Text">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="Results" />
                         </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainAd" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
-                        </ObjectAnimationUsingKeyFrames>
-                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SnappedAd" Storyboard.TargetProperty="Visibility">
-                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
-                        </ObjectAnimationUsingKeyFrames>
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ResultGrid" Storyboard.TargetProperty="Visibility">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
                         </ObjectAnimationUsingKeyFrames>
@@ -111,6 +106,14 @@
                         <ObjectAnimationUsingKeyFrames Storyboard.TargetName="LinksColDef" Storyboard.TargetProperty="Width">
                             <DiscreteObjectKeyFrame KeyTime="0" Value="Auto" />
                         </ObjectAnimationUsingKeyFrames>
+                        <!--
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="MainAd" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Collapsed" />
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="SnappedAd" Storyboard.TargetProperty="Visibility">
+                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+                        </ObjectAnimationUsingKeyFrames>
+                        -->
                     </Storyboard>
                 </VisualState>
             </VisualStateGroup>

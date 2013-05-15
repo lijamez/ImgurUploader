@@ -22,7 +22,7 @@
                 </Grid>
 
                 <Grid Grid.Column="1">
-                    <TextBlock Text="Delete" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                    <TextBlock Text="Delete from Imgur" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap"/>
                 </Grid>
             </Grid>
         </Button>
